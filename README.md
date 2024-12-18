@@ -138,8 +138,8 @@ sudo apt-get install -y python3-pip python3-venv libssl-dev libffi-dev python3-d
 
 2. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/arista-gnmi-assistant.git
-cd arista-gnmi-assistant
+git clone https://github.com/admatt01/Arista-AI_Assistant.git
+cd Arista-AI_Assistant
 ```
 
 3. Create and activate a virtual environment:
