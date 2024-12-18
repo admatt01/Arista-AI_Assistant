@@ -369,8 +369,6 @@ The application automatically converts timestamps to Australian Eastern Daylight
     └── all_paths.txt   # YANG path reference file
 ```
 
-Note: The /examples folder is excluded from version control.
-
 ## Error Handling
 
 The application provides comprehensive error handling:
