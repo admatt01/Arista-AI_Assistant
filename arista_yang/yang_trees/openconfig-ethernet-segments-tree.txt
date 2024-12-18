@@ -1,0 +1,29 @@
+module: openconfig-ethernet-segments
+  +---u evpn-ethernet-segment-top
+
+  grouping evpn-ethernet-segment-df-config:
+    +-- df-election-method?   enumeration
+    +-- preference?           uint16
+    +-- revertive?            boolean
+    +-- election-wait-time?   uint32
+  grouping evpn-ethernet-segment-df-top:
+    +-- df-election
+       +-- config
+       |  +---u evpn-ethernet-segment-df-config
+       +--ro state
+          +---u evpn-ethernet-segment-df-config
+  grouping evpn-ethernet-segment-config:
+    +-- name?                         string
+    +-- esi-type?                     oc-evpn-types:esi-type
+    +-- esi?                          union
+    +-- redundancy-mode?              identityref
+    +---u oc-if:interface-ref-common
+  grouping evpn-ethernet-segment-top:
+    +-- ethernet-segments
+       +-- ethernet-segment* [name]
+          +-- name?                           -> ../config/name
+          +-- config
+          |  +---u evpn-ethernet-segment-config
+          +--ro state
+          |  +---u evpn-ethernet-segment-config
+          +---u evpn-ethernet-segment-df-top

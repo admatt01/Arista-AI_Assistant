@@ -1,0 +1,211 @@
+module: openconfig-routing-policy
+  +---u routing-policy-top
+
+  grouping prefix-set-config:
+    +-- name?   string
+    +-- mode?   enumeration
+  grouping prefix-set-state:
+  grouping prefix-set-top:
+    +-- prefix-sets
+       +-- prefix-set* [name]
+          +-- name?         -> ../config/name
+          +-- config
+          |  +---u prefix-set-config
+          +--ro state
+          |  +---u prefix-set-config
+          +---u prefix-top
+  grouping prefix-config:
+    +-- ip-prefix           oc-inet:ip-prefix
+    +-- masklength-range?   string
+  grouping prefix-state:
+  grouping prefix-top:
+    +-- prefixes
+       +-- prefix* [ip-prefix masklength-range]
+          +-- ip-prefix?          -> ../config/ip-prefix
+          +-- masklength-range?   -> ../config/masklength-range
+          +-- config
+          |  +---u prefix-config
+          +--ro state
+             +---u prefix-config
+  grouping neighbor-set-config:
+    +-- name?      string
+    +-- address*   oc-inet:ip-address
+  grouping neighbor-set-state:
+  grouping neighbor-set-top:
+    +-- neighbor-sets
+       +-- neighbor-set* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u neighbor-set-config
+          +--ro state
+             +---u neighbor-set-config
+  grouping tag-set-config:
+    +-- name?        string
+    +-- tag-value*   oc-pol-types:tag-type
+  grouping tag-set-state:
+  grouping tag-set-top:
+    +-- tag-sets
+       +-- tag-set* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u tag-set-config
+          +--ro state
+             +---u tag-set-config
+  grouping generic-defined-sets:
+    +---u prefix-set-top
+    +---u neighbor-set-top
+    +---u tag-set-top
+  grouping match-set-options-group:
+    +-- match-set-options?   oc-pol-types:match-set-options-type
+  grouping match-set-options-restricted-group:
+    +-- match-set-options?   oc-pol-types:match-set-options-restricted-type
+  grouping match-interface-condition-config:
+    +---u oc-if:interface-ref-common
+  grouping match-interface-condition-state:
+  grouping match-interface-condition-top:
+    +-- match-interface
+       +-- config
+       |  +---u match-interface-condition-config
+       +--ro state
+          +---u match-interface-condition-config
+  grouping prefix-set-condition-config:
+    +-- prefix-set?                           -> ../../../../../../../../defined-sets/prefix-sets/prefix-set/config/name
+    +---u match-set-options-restricted-group
+  grouping prefix-set-condition-state:
+  grouping prefix-set-condition-top:
+    +-- match-prefix-set
+       +-- config
+       |  +---u prefix-set-condition-config
+       +--ro state
+          +---u prefix-set-condition-config
+  grouping neighbor-set-condition-config:
+    +-- neighbor-set?                         -> ../../../../../../../../defined-sets/neighbor-sets/neighbor-set/name
+    +---u match-set-options-restricted-group
+  grouping neighbor-set-condition-state:
+  grouping neighbor-set-condition-top:
+    +-- match-neighbor-set
+       +-- config
+       |  +---u neighbor-set-condition-config
+       +--ro state
+          +---u neighbor-set-condition-config
+  grouping tag-set-condition-config:
+    +-- tag-set?                              -> ../../../../../../../../defined-sets/tag-sets/tag-set/name
+    +---u match-set-options-restricted-group
+  grouping tag-set-condition-state:
+  grouping tag-set-condition-top:
+    +-- match-tag-set
+       +-- config
+       |  +---u tag-set-condition-config
+       +--ro state
+          +---u tag-set-condition-config
+  grouping generic-conditions:
+    +---u match-interface-condition-top
+    +---u prefix-set-condition-top
+    +---u neighbor-set-condition-top
+    +---u tag-set-condition-top
+  grouping generic-actions:
+    +-- policy-result?   policy-result-type
+  grouping policy-conditions-config:
+    +-- call-policy?           -> ../../../../../../../policy-definitions/policy-definition/name
+    +-- install-protocol-eq?   identityref
+  grouping policy-conditions-state:
+  grouping policy-conditions-top:
+    +-- conditions
+       +-- config
+       |  +---u policy-conditions-config
+       +--ro state
+       |  +---u policy-conditions-config
+       +---u generic-conditions
+  grouping policy-statements-config:
+    +-- name?   string
+  grouping policy-statements-state:
+  grouping policy-actions-config:
+    +---u generic-actions
+  grouping policy-actions-state:
+  grouping policy-actions-tag-set:
+    +-- set-tag
+       +-- config
+       |  +---u action-tag-set-config
+       +--ro state
+       |  +---u action-tag-set-config
+       +-- inline
+       |  +-- config
+       |  |  +---u action-tag-set-inline-config
+       |  +--ro state
+       |     +---u action-tag-set-inline-config
+       +-- reference
+          +-- config
+          |  +---u action-tag-set-reference-config
+          +--ro state
+             +---u action-tag-set-reference-config
+  grouping action-tag-set-config:
+    +-- mode?   enumeration
+  grouping action-tag-set-inline-config:
+    +-- tag*   oc-pol-types:tag-type
+  grouping action-tag-set-reference-config:
+    +-- tag-set?   -> ../../../../../../../../../defined-sets/tag-sets/tag-set/config/name
+  grouping policy-actions-top:
+    +-- actions
+       +-- config
+       |  +---u policy-actions-config
+       +--ro state
+       |  +---u policy-actions-config
+       +---u policy-actions-tag-set
+  grouping policy-statements-top:
+    +-- statements
+       +-- statement* [name]
+          +-- name?                    -> ../config/name
+          +-- config
+          |  +---u policy-statements-config
+          +--ro state
+          |  +---u policy-statements-config
+          +---u policy-conditions-top
+          +---u policy-actions-top
+  grouping defined-sets-top:
+    +-- defined-sets
+       +---u generic-defined-sets
+  grouping policy-definitions-config:
+    +-- name?   string
+  grouping policy-definitions-state:
+  grouping policy-definitions-top:
+    +-- policy-definitions
+       +-- policy-definition* [name]
+          +-- name?                    -> ../config/name
+          +-- config
+          |  +---u policy-definitions-config
+          +--ro state
+          |  +---u policy-definitions-config
+          +---u policy-statements-top
+  grouping routing-policy-top:
+    +-- routing-policy
+       +---u defined-sets-top
+       +---u policy-definitions-top
+  grouping apply-policy-import-config:
+    +-- import-policy*   -> /routing-policy/policy-definitions/policy-definition/name
+  grouping default-policy-import-config:
+    +-- default-import-policy?   default-policy-type
+  grouping apply-policy-export-config:
+    +-- export-policy*   -> /routing-policy/policy-definitions/policy-definition/name
+  grouping default-policy-export-config:
+    +-- default-export-policy?   default-policy-type
+  grouping apply-policy-config:
+    +---u apply-policy-import-config
+    +---u apply-policy-export-config
+    +---u default-policy-config
+  grouping default-policy-config:
+    +---u default-policy-import-config
+    +---u default-policy-export-config
+  grouping apply-policy-state:
+  grouping default-policy-state:
+  grouping apply-policy-group:
+    +-- apply-policy
+       +-- config
+       |  +---u apply-policy-config
+       +--ro state
+          +---u apply-policy-config
+  grouping default-policy-group:
+    +-- apply-policy
+       +-- config
+       |  +---u default-policy-config
+       +--ro state
+          +---u default-policy-config

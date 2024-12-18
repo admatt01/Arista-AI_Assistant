@@ -1,0 +1,42 @@
+module: openconfig-system-grpc
+
+  augment /oc-sys:system:
+    +---u grpc-service-structural
+
+  grouping grpc-service-structural:
+    +-- grpc-servers
+       +-- grpc-server* [name]
+          +-- name?              -> ../config/name
+          +-- config
+          |  +---u grpc-server-config
+          +--ro state
+          |  +---u grpc-server-config
+          +---u connections-top
+  grouping grpc-server-config:
+    +-- name?                      string
+    +-- services*                  identityref
+    +-- enable?                    boolean
+    +-- port?                      oc-inet:port-number
+    +-- transport-security?        boolean
+    +-- certificate-id?            string
+    +-- metadata-authentication?   boolean
+    +-- listen-addresses*          union
+    +-- network-instance?          oc-ni:network-instance-ref
+  grouping grpc-counters:
+    +-- counters
+       +---u grpc-counters-top
+  grouping grpc-counters-top:
+    +-- bytes-sent?        oc-yang:counter64
+    +-- packets-sent?      oc-yang:counter64
+    +-- data-send-error?   oc-yang:counter64
+  grouping grpc-server-connections-state:
+    +-- address?   oc-inet:ip-address
+    +-- port?      oc-inet:port-number
+  grouping connections-top:
+    +--ro connections
+       +--ro connection* [address port]
+          +--ro address?   -> ../state/address
+          +--ro port?      -> ../state/port
+          +--ro state
+             +---u grpc-server-connections-state
+             +---u grpc-counters

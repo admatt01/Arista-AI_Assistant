@@ -1,0 +1,17 @@
+module: openconfig-platform-linecard
+
+  augment /oc-platform:components/oc-platform:component:
+    +---u linecard-top
+
+  grouping linecard-config:
+    +---u oc-platform:component-power-management
+  grouping linecard-state:
+    x-- slot-id?   string
+  grouping linecard-top:
+    +-- linecard
+       +-- config
+       |  +---u linecard-config
+       +--ro state
+       |  +---u linecard-config
+       |  +---u linecard-state
+       +---u oc-platform:platform-resource-utilization-top

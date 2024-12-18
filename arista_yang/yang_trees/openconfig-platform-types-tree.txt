@@ -1,0 +1,22 @@
+module: openconfig-platform-types
+
+  grouping avg-min-max-instant-stats-precision1-celsius:
+    +-- instant?                        decimal64
+    +-- avg?                            decimal64
+    +-- min?                            decimal64
+    +-- max?                            decimal64
+    +---u oc-types:stat-interval-state
+    +---u oc-types:min-max-time
+  grouping avg-min-max-instant-stats-precision2-volts:
+    +-- instant?                        decimal64
+    +-- avg?                            decimal64
+    +-- min?                            decimal64
+    +-- max?                            decimal64
+    +---u oc-types:stat-interval-state
+    +---u oc-types:min-max-time
+  grouping component-last-poweroff-reason:
+    +-- trigger?   component-last-poweroff-reason-trigger
+    +-- details?   string
+  grouping component-redundant-role-switchover-reason:
+    +-- trigger?   component-redundant-role-switchover-reason-trigger
+    +-- details?   string

@@ -1,0 +1,18 @@
+module: openconfig-procmon
+
+  grouping procmon-processes-top:
+    +-- processes
+       +--ro process* [pid]
+          +--ro pid?     -> ../state/pid
+          +--ro state
+             +---u procmon-process-attributes-state
+  grouping procmon-process-attributes-state:
+    +-- pid?                  uint64
+    +-- name?                 string
+    +-- args*                 string
+    +-- start-time?           oc-types:timeticks64
+    +-- cpu-usage-user?       oc-yang:counter64
+    +-- cpu-usage-system?     oc-yang:counter64
+    +-- cpu-utilization?      oc-types:percentage
+    +-- memory-usage?         uint64
+    +-- memory-utilization?   oc-types:percentage

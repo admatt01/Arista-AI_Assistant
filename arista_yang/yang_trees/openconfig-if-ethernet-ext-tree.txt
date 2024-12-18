@@ -1,0 +1,13 @@
+module: openconfig-if-ethernet-ext
+
+  augment /oc-if:interfaces/oc-if:interface/oc-eth:ethernet/oc-eth:state/oc-eth:counters:
+    +---u ethernet-in-frames-size-dist
+
+  grouping ethernet-in-frames-size-dist:
+    +-- in-distribution
+       +-- in-frames-64-octets?          oc-yang:counter64
+       +-- in-frames-65-127-octets?      oc-yang:counter64
+       +-- in-frames-128-255-octets?     oc-yang:counter64
+       +-- in-frames-256-511-octets?     oc-yang:counter64
+       +-- in-frames-512-1023-octets?    oc-yang:counter64
+       +-- in-frames-1024-1518-octets?   oc-yang:counter64

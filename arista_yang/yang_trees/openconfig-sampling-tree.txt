@@ -1,0 +1,5 @@
+module: openconfig-sampling
+  +---u sampling-top
+
+  grouping sampling-top:
+    +-- sampling

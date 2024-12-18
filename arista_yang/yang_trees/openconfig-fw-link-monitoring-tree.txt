@@ -1,0 +1,21 @@
+module: openconfig-fw-link-monitoring
+
+  grouping interface-group-config:
+    +-- id?                     union
+    +-- monitored-interfaces*   oc-if:base-interface-ref
+    +-- group-policy?           enumeration
+  grouping interface-group-state:
+    +-- group-status?   enumeration
+  grouping global-health-config:
+    +-- global-health-policy?   enumeration
+  grouping global-health-state:
+    +-- global-health-status?   enumeration
+  grouping interface-group-top:
+    +-- interface-groups
+       +-- interface-group* [id]
+          +-- id?       -> ../config/id
+          +-- config
+          |  +---u interface-group-config
+          +--ro state
+             +---u interface-group-config
+             +---u interface-group-state

@@ -1,0 +1,221 @@
+module: openconfig-terminal-device
+  +---u terminal-device-top
+
+  augment /oc-platform:components/oc-platform:component:
+    +---u terminal-optical-channel-top
+
+  grouping terminal-input-optical-power:
+    +-- input-power?   decimal64
+  grouping terminal-ethernet-protocol-config:
+    +-- client-als?   enumeration
+    +-- als-delay?    uint32
+  grouping terminal-ethernet-protocol-state:
+    +---u oc-eth:ethernet-interface-state-counters
+    +---u terminal-ethernet-protocol-state-counters
+    +---u terminal-phy-protocol-stats
+  grouping terminal-ethernet-protocol-state-counters:
+    +-- in-pcs-bip-errors?                 oc-yang:counter64
+    +-- in-pcs-errored-seconds?            oc-yang:counter64
+    +-- in-pcs-severely-errored-seconds?   oc-yang:counter64
+    +-- in-pcs-unavailable-seconds?        oc-yang:counter64
+    +-- out-pcs-bip-errors?                oc-yang:counter64
+    +-- out-crc-errors?                    oc-yang:counter64
+    +-- out-block-errors?                  oc-yang:counter64
+  grouping terminal-ethernet-protocol-top:
+    +-- ethernet
+       +-- config
+       |  +---u terminal-ethernet-protocol-config
+       +--ro state
+       |  +---u terminal-ethernet-protocol-config
+       |  +---u terminal-ethernet-protocol-state
+       +---u lldp-logical-channel-top
+  grouping lldp-logical-channel-top:
+    +-- lldp
+       +-- config
+       |  +---u lldp-logical-channel-config
+       +--ro state
+       |  +---u lldp-logical-channel-config
+       |  +---u oc-lldp:lldp-interface-state
+       +---u lldp-logical-channel-neighbor-top
+  grouping lldp-logical-channel-config:
+    +-- enabled?    boolean
+    +-- snooping?   boolean
+  grouping lldp-logical-channel-neighbor-top:
+    +--ro neighbors
+       +--ro neighbor* [id]
+          +--ro id?                            -> ../state/id
+          +--ro config
+          +--ro state
+          |  +---u oc-lldp:lldp-system-info-config
+          |  +---u oc-lldp:lldp-neighbor-state
+          +---u oc-lldp:lldp-custom-tlv-top
+  grouping lldp-logical-channel-neighbor-config:
+  grouping terminal-otn-protocol-config:
+    +-- tti-msg-transmit?             string
+    +-- tti-msg-expected?             string
+    +-- tti-msg-auto?                 boolean
+    +-- tributary-slot-granularity?   identityref
+  grouping terminal-otn-protocol-counter-stats:
+    +-- errored-seconds?            yang:counter64
+    +-- severely-errored-seconds?   yang:counter64
+    +-- unavailable-seconds?        yang:counter64
+    +-- code-violations?            yang:counter64
+    +-- errored-blocks?             yang:counter64
+    +-- fec-uncorrectable-words?    yang:counter64
+    +-- fec-corrected-bytes?        yang:counter64
+    +-- fec-corrected-bits?         yang:counter64
+    +-- background-block-errors?    yang:counter64
+  grouping terminal-phy-protocol-stats:
+    +-- fec-uncorrectable-blocks?   yang:counter64
+    +-- pre-fec-ber
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision18-ber
+    +-- post-fec-ber
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision18-ber
+    +-- q-value
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dB
+    +-- esnr
+       +---u oc-types:avg-min-max-instant-stats-precision2-dB
+  grouping terminal-otn-protocol-state:
+    +-- tti-msg-recv?                          string
+    +-- rdi-msg?                               string
+    +---u terminal-otn-protocol-counter-stats
+    +---u terminal-phy-protocol-stats
+  grouping terminal-otn-protocol-top:
+    +-- otn
+       +-- config
+       |  +---u terminal-otn-protocol-config
+       +--ro state
+          +---u terminal-otn-protocol-config
+          +---u terminal-otn-protocol-state
+  grouping terminal-client-port-assignment-config:
+    +-- index?             uint32
+    +-- description?       string
+    +-- logical-channel?   -> /terminal-device/logical-channels/channel/index
+    +-- allocation?        decimal64
+  grouping terminal-client-port-assignment-state:
+  grouping terminal-client-port-assignment-top:
+    +-- logical-channel-assignments
+       +-- assignment* [index]
+          +-- index?    -> ../config/index
+          +-- config
+          |  +---u terminal-client-port-assignment-config
+          +--ro state
+             +---u terminal-client-port-assignment-config
+  grouping terminal-logical-chan-assignment-config:
+    +-- index?                  uint32
+    +-- description?            string
+    +-- assignment-type?        enumeration
+    +-- logical-channel?        -> /terminal-device/logical-channels/channel/index
+    +-- optical-channel?        -> /oc-platform:components/component/name
+    +-- allocation?             decimal64
+    +-- tributary-slot-index?   int32
+    +-- mapping?                identityref
+  grouping terminal-logical-chan-assignment-state:
+  grouping terminal-logical-chan-assignment-top:
+    +-- logical-channel-assignments
+       +-- assignment* [index]
+          +-- index?    -> ../config/index
+          +-- config
+          |  +---u terminal-logical-chan-assignment-config
+          +--ro state
+             +---u terminal-logical-chan-assignment-config
+  grouping terminal-logical-channel-ingress-config:
+    +-- transceiver?        -> /oc-platform:components/component/name
+    +-- physical-channel*   -> /oc-platform:components/component/oc-transceiver:transceiver/physical-channels/channel/index
+    +-- interface?          oc-if:base-interface-ref
+  grouping terminal-logical-channel-ingress-state:
+  grouping terminal-logical-channel-ingress-top:
+    +-- ingress
+       +-- config
+       |  +---u terminal-logical-channel-ingress-config
+       +--ro state
+          +---u terminal-logical-channel-ingress-config
+  grouping terminal-logical-channel-config:
+    +-- index?                  uint32
+    +-- description?            string
+    +-- admin-state?            oc-opt-types:admin-state-type
+    +-- rate-class?             identityref
+    +-- trib-protocol?          identityref
+    +-- logical-channel-type?   identityref
+    +-- loopback-mode?          oc-opt-types:loopback-mode-type
+    +-- test-signal?            boolean
+    +-- client-mapping-mode?    identityref
+  grouping terminal-logical-channel-state:
+    +-- link-state?   enumeration
+  grouping terminal-logical-channel-top:
+    +-- logical-channels
+       +-- channel* [index]
+          +-- index?                                  -> ../config/index
+          +-- config
+          |  +---u terminal-logical-channel-config
+          +--ro state
+          |  +---u terminal-logical-channel-config
+          |  +---u terminal-logical-channel-state
+          +---u terminal-otn-protocol-top
+          +---u terminal-ethernet-protocol-top
+          +---u terminal-logical-channel-ingress-top
+          +---u terminal-logical-chan-assignment-top
+  grouping terminal-optical-channel-config:
+    +-- frequency?             oc-opt-types:frequency-type
+    +-- target-output-power?   decimal64
+    +-- operational-mode?      uint16
+    +-- line-port?             -> /oc-platform:components/component/name
+  grouping terminal-optical-channel-state:
+    +-- group-id?                                    uint32
+    +---u oc-transceiver:optical-power-state
+    +-- chromatic-dispersion
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision2-ps-nm
+    +-- polarization-mode-dispersion
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision2-ps
+    +-- second-order-polarization-mode-dispersion
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision2-ps2
+    +-- polarization-dependent-loss
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dB
+    +-- modulator-bias-xi
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision2-pct
+    +-- modulator-bias-xq
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision2-pct
+    +-- modulator-bias-yi
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision2-pct
+    +-- modulator-bias-yq
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision2-pct
+    +-- modulator-bias-x-phase
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision2-pct
+    +-- modulator-bias-y-phase
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision2-pct
+    +-- osnr
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dB
+    +-- carrier-frequency-offset
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision1-mhz
+    +-- sop-roc
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision1-krads
+    +-- modulation-error-ratio
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dB
+    +---u terminal-phy-protocol-stats
+  grouping terminal-optical-channel-top:
+    +-- optical-channel
+       +-- config
+       |  +---u terminal-optical-channel-config
+       +--ro state
+          +---u terminal-optical-channel-config
+          +---u terminal-optical-channel-state
+  grouping terminal-operational-mode-config:
+  grouping terminal-operational-mode-state:
+    +-- mode-id?       uint16
+    +-- description?   string
+    +-- vendor-id?     string
+  grouping terminal-operational-mode-top:
+    +-- operational-modes
+       +--ro mode* [mode-id]
+          +--ro mode-id?   -> ../state/mode-id
+          +--ro config
+          +--ro state
+             +---u terminal-operational-mode-state
+  grouping terminal-device-config:
+  grouping terminal-device-state:
+  grouping terminal-device-top:
+    +-- terminal-device
+       +-- config
+       +--ro state
+       +---u terminal-logical-channel-top
+       +---u terminal-operational-mode-top

@@ -1,0 +1,9 @@
+module: openconfig-platform-cpu
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:cpu:
+    +---u component-cpu-utilization
+
+  grouping component-cpu-utilization:
+    +-- utilization
+       +--ro state
+          +---u oc-types:avg-min-max-instant-stats-pct

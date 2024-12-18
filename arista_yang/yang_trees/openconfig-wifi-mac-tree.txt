@@ -1,0 +1,258 @@
+module: openconfig-wifi-mac
+  +---u ssid-top
+
+  grouping ssid-common-config:
+    +-- name?                      string
+    +-- enabled?                   boolean
+    +-- hidden?                    boolean
+    +-- default-vlan?              oc-vlan-types:vlan-id
+    +-- vlan-list*                 oc-vlan-types:vlan-id
+    +-- operating-frequency?       identityref
+    +-- basic-data-rates-2g*       identityref
+    +-- supported-data-rates-2g*   identityref
+    +-- basic-data-rates-5g*       identityref
+    +-- supported-data-rates-5g*   identityref
+    +-- basic-data-rates-6g*       identityref
+    +-- supported-data-rates-6g*   identityref
+    +-- broadcast-filter?          boolean
+    +-- multicast-filter?          boolean
+    +-- ipv6-ndp-filter?           boolean
+    +-- ipv6-ndp-filter-timer?     uint16
+    +-- station-isolation?         boolean
+    +-- opmode?                    enumeration
+    +-- wpa2-psk?                  string
+    +-- wpa3-psk?                  string
+    +-- server-group?              string
+    +-- dva?                       boolean
+    +-- dhcp-required?             boolean
+    +-- qbss-load?                 boolean
+    +-- advertise-apname?          boolean
+    +-- csa?                       boolean
+    +-- ptk-timeout?               uint16
+    +-- gtk-timeout?               uint16
+    +-- dot11k?                    boolean
+    +-- okc?                       boolean
+    +-- mfp                        boolean
+  grouping dot11v-config:
+    +-- dot11v-dms?               boolean
+    +-- dot11v-bssidle?           boolean
+    +-- dot11v-bssidle-timeout?   uint16
+    +-- dot11v-bsstransition?     boolean
+  grouping dot11r-config:
+    +-- dot11r?                 boolean
+    +-- dot11r-domainid?        uint16
+    +-- dot11r-method?          enumeration
+    +-- dot11r-r1key-timeout?   uint16
+  grouping dot1x-timers-config:
+    +-- max-auth-failures?   uint8
+    +-- blacklist-time?      uint16
+  grouping wmm-config:
+    +-- trust-dscp?      boolean
+    +-- wmm-vo-remark*   uint8
+    +-- wmm-vi-remark*   uint8
+    +-- wmm-be-remark*   uint8
+    +-- wmm-bk-remark*   uint8
+  grouping band-steering-config:
+    +-- band-steering?   boolean
+    +-- steering-rssi?   int8
+  grouping bssid-common-state:
+    +-- bssids
+       +--ro bssid* [radio-id bssid]
+          +--ro bssid?      -> ../state/bssid
+          +--ro radio-id?   -> ../state/radio-id
+          +--ro state
+             +---u bss-common-state
+             +---u bssid-counters-state
+  grouping bss-common-state:
+    +-- bssid?                    oc-yang:mac-address
+    +-- radio-id?                 uint8
+    +-- num-associated-clients?   uint8
+  grouping bssid-counters-state:
+    +--ro counters
+       +--ro rx-bss-dot11-channel-utilization?   oc-types:percentage
+       +--ro rx-mgmt?                            oc-yang:counter64
+       +--ro rx-control?                         oc-yang:counter64
+       +--ro rx-data-dist
+       |  +--ro rx-0-64?             oc-yang:counter64
+       |  +--ro rx-65-128?           oc-yang:counter64
+       |  +--ro rx-129-256?          oc-yang:counter64
+       |  +--ro rx-257-512?          oc-yang:counter64
+       |  +--ro rx-513-1024?         oc-yang:counter64
+       |  +--ro rx-1025-2048?        oc-yang:counter64
+       |  +--ro rx-2049-4096?        oc-yang:counter64
+       |  +--ro rx-4097-8192?        oc-yang:counter64
+       |  +--ro rx-8193-16384?       oc-yang:counter64
+       |  +--ro rx-16385-32768?      oc-yang:counter64
+       |  +--ro rx-32769-65536?      oc-yang:counter64
+       |  +--ro rx-65537-131072?     oc-yang:counter64
+       |  +--ro rx-131073-262144?    oc-yang:counter64
+       |  +--ro rx-262145-524288?    oc-yang:counter64
+       |  +--ro rx-524289-1048576?   oc-yang:counter64
+       +--ro rx-data-wmm
+       |  +--ro vi?   oc-yang:counter64
+       |  +--ro vo?   oc-yang:counter64
+       |  +--ro be?   oc-yang:counter64
+       |  +--ro bk?   oc-yang:counter64
+       +--ro rx-mcs
+       |  +--ro mcs0?    oc-yang:counter64
+       |  +--ro mcs1?    oc-yang:counter64
+       |  +--ro mcs2?    oc-yang:counter64
+       |  +--ro mcs3?    oc-yang:counter64
+       |  +--ro mcs4?    oc-yang:counter64
+       |  +--ro mcs5?    oc-yang:counter64
+       |  +--ro mcs6?    oc-yang:counter64
+       |  +--ro mcs7?    oc-yang:counter64
+       |  +--ro mcs8?    oc-yang:counter64
+       |  +--ro mcs9?    oc-yang:counter64
+       |  +--ro mcs10?   oc-yang:counter64
+       |  +--ro mcs11?   oc-yang:counter64
+       +--ro rx-retries?                         oc-yang:counter64
+       +--ro rx-total-frames?                    oc-yang:counter64
+       +--ro rx-retries-data?                    oc-yang:counter64
+       +--ro rx-total-data?                      oc-yang:counter64
+       +--ro rx-retries-subframe?                oc-yang:counter64
+       +--ro rx-total-subframe?                  oc-yang:counter64
+       +--ro rx-bytes-data?                      oc-yang:counter64
+       +--ro tx-bss-dot11-channel-utilization?   oc-types:percentage
+       +--ro tx-mgmt?                            oc-yang:counter64
+       +--ro tx-control?                         oc-yang:counter64
+       +--ro tx-data-dist
+       |  +--ro tx-0-64?             oc-yang:counter64
+       |  +--ro tx-65-128?           oc-yang:counter64
+       |  +--ro tx-129-256?          oc-yang:counter64
+       |  +--ro tx-257-512?          oc-yang:counter64
+       |  +--ro tx-513-1024?         oc-yang:counter64
+       |  +--ro tx-1025-2048?        oc-yang:counter64
+       |  +--ro tx-2049-4096?        oc-yang:counter64
+       |  +--ro tx-4097-8192?        oc-yang:counter64
+       |  +--ro tx-8193-16384?       oc-yang:counter64
+       |  +--ro tx-16385-32768?      oc-yang:counter64
+       |  +--ro tx-32769-65536?      oc-yang:counter64
+       |  +--ro tx-65537-131072?     oc-yang:counter64
+       |  +--ro tx-131073-262144?    oc-yang:counter64
+       |  +--ro tx-262145-524288?    oc-yang:counter64
+       |  +--ro tx-524289-1048576?   oc-yang:counter64
+       +--ro tx-data-wmm
+       |  +--ro vi?   oc-yang:counter64
+       |  +--ro vo?   oc-yang:counter64
+       |  +--ro bk?   oc-yang:counter64
+       |  +--ro be?   oc-yang:counter64
+       +--ro tx-mcs
+       |  +--ro mcs0?    oc-yang:counter64
+       |  +--ro mcs1?    oc-yang:counter64
+       |  +--ro mcs2?    oc-yang:counter64
+       |  +--ro mcs3?    oc-yang:counter64
+       |  +--ro mcs4?    oc-yang:counter64
+       |  +--ro mcs5?    oc-yang:counter64
+       |  +--ro mcs6?    oc-yang:counter64
+       |  +--ro mcs7?    oc-yang:counter64
+       |  +--ro mcs8?    oc-yang:counter64
+       |  +--ro mcs9?    oc-yang:counter64
+       |  +--ro mcs10?   oc-yang:counter64
+       |  +--ro mcs11?   oc-yang:counter64
+       +--ro tx-retries?                         oc-yang:counter64
+       +--ro tx-total-frames?                    oc-yang:counter64
+       +--ro tx-retries-data?                    oc-yang:counter64
+       +--ro tx-total-data?                      oc-yang:counter64
+       +--ro tx-retries-subframe?                oc-yang:counter64
+       +--ro tx-total-subframe?                  oc-yang:counter64
+       +--ro tx-bytes-data?                      oc-yang:counter64
+       +--ro bss-channel-utilization?            oc-types:percentage
+  grouping clients-state:
+    +-- mac?        oc-yang:mac-address
+    +-- counters
+       +-- tx-bytes?     oc-yang:counter64
+       +-- rx-bytes?     oc-yang:counter64
+       +-- rx-retries?   oc-yang:counter64
+       +-- rx-total?     oc-yang:counter64
+       +-- tx-retries?   oc-yang:counter64
+       +-- tx-total?     oc-yang:counter64
+  grouping client-connect-state:
+    +-- state
+       +-- client-state?       identityref
+       +-- connection-time?    oc-types:timeticks64
+       +-- username?           string
+       +-- hostname?           string
+       +-- ipv4-address*       oc-inet:ipv4-address
+       +-- ipv6-addresses*     oc-inet:ipv6-address
+       +-- operating-system?   string
+  grouping dot11k-neighbors-state:
+    +-- state
+       +-- neighbor-bssid?        oc-yang:mac-address
+       +-- neighbor-channel?      uint8
+       +-- neighbor-rssi?         int8
+       +-- neighbor-antenna?      uint8
+       +-- channel-load-report?   uint8
+  grouping client-capabilities-state:
+    +-- state
+       +-- client-capabilities*   identityref
+       +-- channel-support*       uint8
+  grouping client-rf-state:
+    +-- state
+       +-- rssi?              int8
+       +-- snr?               uint8
+       +-- ss?                uint8
+       x-- phy-rate?          uint16
+       +-- rx-phy-rate?       uint16
+       +-- tx-phy-rate?       uint16
+       +-- connection-mode?   enumeration
+       +-- frequency?         uint8
+  grouping clients-top:
+    +-- clients
+       +--ro client* [mac]
+          +--ro mac?                   -> ../state/mac
+          +--ro state
+          |  +---u clients-state
+          +--ro client-rf
+          |  +---u client-rf-state
+          +--ro client-capabilities
+          |  +---u client-capabilities-state
+          +--ro dot11k-neighbors
+          |  +---u dot11k-neighbors-state
+          +--ro client-connection
+             +---u client-connect-state
+  grouping wmm-top:
+    +-- wmm
+       +-- config
+       |  +---u wmm-config
+       +--ro state
+          +---u wmm-config
+  grouping dot11r-top:
+    +-- dot11r
+       +-- config
+       |  +---u dot11r-config
+       +--ro state
+          +---u dot11r-config
+  grouping dot11v-top:
+    +-- dot11v
+       +-- config
+       |  +---u dot11v-config
+       +--ro state
+          +---u dot11v-config
+  grouping dot1x-timers-top:
+    +-- dot1x-timers
+       +-- config
+       |  +---u dot1x-timers-config
+       +--ro state
+          +---u dot1x-timers-config
+  grouping band-steering-top:
+    +-- band-steering
+       +-- config
+       |  +---u band-steering-config
+       +--ro state
+          +---u band-steering-config
+  grouping ssid-top:
+    +-- ssids
+       +-- ssid* [name]
+          +-- name?                 -> ../config/name
+          +-- config
+          |  +---u ssid-common-config
+          +--ro state
+          |  +---u ssid-common-config
+          +---u bssid-common-state
+          +---u wmm-top
+          +---u dot11r-top
+          +---u dot11v-top
+          +---u clients-top
+          +---u dot1x-timers-top
+          +---u band-steering-top

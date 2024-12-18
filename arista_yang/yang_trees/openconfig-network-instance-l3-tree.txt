@@ -1,0 +1,20 @@
+module: openconfig-network-instance-l3
+
+  grouping l3ni-instance:
+  grouping l3ni-route-limit-structural:
+    +-- route-limits
+       +-- route-limit* [afi]
+          +-- afi?      -> ../config/afi
+          +-- config
+          |  +---u l3ni-route-limit-config
+          +--ro state
+             +---u l3ni-route-limit-config
+             +---u l3ni-route-limit-state
+  grouping l3ni-route-limit-config:
+    +-- afi?               identityref
+    +-- maximum?           uint32
+    +-- warning-only?      boolean
+    +-- alarm-threshold?   uint32
+  grouping l3ni-route-limit-state:
+    +-- threshold-exceeded?   boolean
+    +-- installed-routes?     uint32

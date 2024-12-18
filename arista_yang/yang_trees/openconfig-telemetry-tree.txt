@@ -1,0 +1,123 @@
+module: openconfig-telemetry
+  +---u telemetry-top
+
+  grouping telemetry-top:
+    +-- telemetry-system
+       +-- sensor-groups
+       |  +-- sensor-group* [sensor-group-id]
+       |     +-- sensor-group-id?   -> ../config/sensor-group-id
+       |     +-- config
+       |     |  +---u telemetry-sensor-group-config
+       |     +--ro state
+       |     |  +---u telemetry-sensor-group-config
+       |     +-- sensor-paths
+       |        +-- sensor-path* [path]
+       |           +-- path?     -> ../config/path
+       |           +-- config
+       |           |  +---u telemetry-sensor-path-config
+       |           +--ro state
+       |              +---u telemetry-sensor-path-config
+       +-- destination-groups
+       |  +-- destination-group* [group-id]
+       |     +-- group-id?       -> ../config/group-id
+       |     +-- config
+       |     |  +-- group-id?   string
+       |     +--ro state
+       |     |  +--ro group-id?   string
+       |     +-- destinations
+       |        +-- destination* [destination-address destination-port]
+       |           +-- destination-address?   -> ../config/destination-address
+       |           +-- destination-port?      -> ../config/destination-port
+       |           +-- config
+       |           |  +---u telemetry-stream-destination-config
+       |           +--ro state
+       |              +---u telemetry-stream-destination-config
+       +-- subscriptions
+          +-- persistent-subscriptions
+          |  +-- persistent-subscription* [name]
+          |     +-- name?                 -> ../config/name
+          |     +-- config
+          |     |  +---u telemetry-subscription-name-config
+          |     |  +---u telemetry-local-source-address-config
+          |     |  +---u telemetry-qos-marking-config
+          |     |  +---u telemetry-stream-protocol-config
+          |     |  +---u telemetry-stream-encoding-config
+          |     +--ro state
+          |     |  +---u telemetry-subscription-name-config
+          |     |  +---u telemetry-subscription-config
+          |     |  +---u telemetry-local-source-address-config
+          |     |  +---u telemetry-qos-marking-config
+          |     |  +---u telemetry-stream-protocol-config
+          |     |  +---u telemetry-stream-encoding-config
+          |     +-- sensor-profiles
+          |     |  +-- sensor-profile* [sensor-group]
+          |     |     +-- sensor-group?   -> ../config/sensor-group
+          |     |     +-- config
+          |     |     |  +---u telemetry-sensor-profile-config
+          |     |     +--ro state
+          |     |        +---u telemetry-sensor-profile-config
+          |     +-- destination-groups
+          |        +-- destination-group* [group-id]
+          |           +-- group-id?   -> ../config/group-id
+          |           +-- config
+          |           |  +-- group-id?   -> ../../../../../../../destination-groups/destination-group/group-id
+          |           +--ro state
+          |              +--ro group-id?   -> ../../../../../../../destination-groups/destination-group/group-id
+          +-- dynamic-subscriptions
+             +--ro dynamic-subscription* [id]
+                +--ro id?             -> ../state/id
+                +--ro state
+                |  +---u telemetry-subscription-config
+                |  +---u telemetry-stream-destination-config
+                |  +---u telemetry-stream-frequency-config
+                |  +---u telemetry-heartbeat-config
+                |  +---u telemetry-suppress-redundant-config
+                |  +---u telemetry-qos-marking-config
+                |  +---u telemetry-stream-protocol-config
+                |  +---u telemetry-stream-encoding-config
+                +--ro sensor-paths
+                   +--ro sensor-path* [path]
+                      +--ro path?    -> ../state/path
+                      +--ro state
+                         +---u telemetry-sensor-path-config
+  grouping telemetry-sensor-path-config:
+    +-- path?             string
+    +-- exclude-filter?   string
+  grouping telemetry-heartbeat-config:
+    +-- heartbeat-interval?   uint64
+  grouping telemetry-suppress-redundant-config:
+    +-- suppress-redundant?   boolean
+  grouping telemetry-sensor-profile-config:
+    +-- sensor-group?                           -> ../../../../../../../sensor-groups/sensor-group/config/sensor-group-id
+    +---u telemetry-stream-subscription-config
+  grouping telemetry-stream-subscription-config:
+    +---u telemetry-stream-frequency-config
+    +---u telemetry-heartbeat-config
+    +---u telemetry-suppress-redundant-config
+  grouping telemetry-qos-marking-config:
+    +-- originated-qos-marking?   oc-inet:dscp
+  grouping telemetry-sensor-group-config:
+    +-- sensor-group-id?   string
+  grouping telemetry-subscription-config:
+    +-- id?   uint64
+  grouping telemetry-subscription-name-config:
+    +-- name?   string
+  grouping telemetry-subscription-state:
+  grouping telemetry-stream-protocol-config:
+    +-- protocol?   identityref
+  grouping telemetry-stream-encoding-config:
+    +-- encoding?   identityref
+  grouping telemetry-stream-destination-config:
+    +-- destination-address?   oc-inet:ip-address
+    +-- destination-port?      uint16
+  grouping telemetry-stream-frequency-config:
+    +-- sample-interval?   uint64
+  grouping telemetry-sensor-specification:
+    +-- telemetry-sensor-group* [telemetry-sensor-group-id]
+       +-- telemetry-sensor-group-id?   string
+       +---u telemetry-sensor-paths
+  grouping telemetry-sensor-paths:
+    +-- telemetry-sensor-paths* [telemetry-sensor-path]
+       +-- telemetry-sensor-path?   string
+  grouping telemetry-local-source-address-config:
+    +-- local-source-address?   oc-inet:ip-address

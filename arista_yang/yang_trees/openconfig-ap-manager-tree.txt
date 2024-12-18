@@ -1,0 +1,35 @@
+module: openconfig-ap-manager
+  +---u provision-ap-top
+  +---u joined-aps-top
+
+  grouping provision-aps-config:
+    +-- mac?            oc-yang:mac-address
+    +-- hostname?       oc-inet:domain-name
+    +-- country-code?   string
+  grouping controller-aps-system-state:
+    +-- mac?                oc-yang:mac-address
+    +-- hostname?           oc-inet:domain-name
+    +-- opstate?            identityref
+    +-- up-time?            oc-types:timeticks64
+    x-- uptime?             uint32
+    +-- enabled?            boolean
+    +-- serial?             string
+    +-- model?              string
+    +-- software-version?   string
+    +-- ipv4?               oc-inet:ipv4-address
+    +-- ipv6?               oc-inet:ipv6-address
+    +-- power-source?       enumeration
+  grouping provision-ap-top:
+    +-- provision-aps
+       +-- provision-ap* [mac]
+          +-- mac?      -> ../config/mac
+          +-- config
+          |  +---u provision-aps-config
+          +--ro state
+             +---u provision-aps-config
+  grouping joined-aps-top:
+    +-- joined-aps
+       +--ro joined-ap* [hostname]
+          +--ro hostname?   -> ../state/hostname
+          +--ro state
+             +---u controller-aps-system-state

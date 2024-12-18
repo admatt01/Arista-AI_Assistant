@@ -1,0 +1,47 @@
+module: openconfig-channel-monitor
+  +---u channel-monitor-top
+
+  grouping media-channel-port-config:
+    +-- port-name?   oc-if:base-interface-ref
+  grouping media-channel-port-state:
+  grouping media-channel-source-port-top:
+    +-- source
+       +-- config
+       |  +---u media-channel-port-config
+       +--ro state
+          +---u media-channel-port-config
+  grouping media-channel-dest-port-top:
+    +-- dest
+       +-- config
+       |  +---u media-channel-port-config
+       +--ro state
+          +---u media-channel-port-config
+  grouping media-channel-spectrum-power-state:
+    +-- lower-frequency?   oc-opt-types:frequency-type
+    +-- upper-frequency?   oc-opt-types:frequency-type
+    +-- power?             decimal64
+    +-- target-power?      decimal64
+  grouping media-channel-spectrum-power-top:
+    +-- channels
+       +--ro channel* [lower-frequency upper-frequency]
+          +--ro lower-frequency?   -> ../state/lower-frequency
+          +--ro upper-frequency?   -> ../state/upper-frequency
+          +--ro state
+             +---u media-channel-spectrum-power-state
+  grouping media-channel-config:
+    +-- index?             uint32
+    +-- lower-frequency?   oc-opt-types:frequency-type
+    +-- upper-frequency?   oc-opt-types:frequency-type
+  grouping channel-monitor-config:
+    +-- name?           -> /oc-platform:components/component/name
+    +-- monitor-port?   -> /oc-platform:components/component/name
+  grouping channel-monitor-state:
+  grouping channel-monitor-top:
+    +-- channel-monitors
+       +-- channel-monitor* [name]
+          +-- name?                               -> ../config/name
+          +-- config
+          |  +---u channel-monitor-config
+          +--ro state
+          |  +---u channel-monitor-config
+          +---u media-channel-spectrum-power-top

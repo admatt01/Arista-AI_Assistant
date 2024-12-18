@@ -1,0 +1,265 @@
+module: openconfig-network-instance
+  +---u network-instance-top
+
+  grouping network-instance-top:
+    +-- network-instances
+       +-- network-instance* [name]
+          +-- name?                                   -> ../config/name
+          +-- config
+          |  +---u network-instance-config
+          +--ro state
+          |  +---u network-instance-config
+          +---u l2ni-instance
+          +-- evpn
+          |  +---u oc-evpn:evpn-config-top
+          +-- encapsulation
+          |  +-- config
+          |  |  +---u encapsulation-config
+          |  |  +---u l2ni-encapsulation-config
+          |  +--ro state
+          |     +---u encapsulation-config
+          |     +---u l2ni-encapsulation-config
+          +-- inter-instance-policies
+          |  +---u oc-rpol:apply-policy-group
+          |  +---u oc-evpn:evpn-import-export-policy-top
+          +-- table-connections
+          |  +-- table-connection* [src-protocol dst-protocol address-family]
+          |     +-- src-protocol?     -> ../config/src-protocol
+          |     +-- dst-protocol?     -> ../config/dst-protocol
+          |     +-- address-family?   -> ../config/address-family
+          |     +-- config
+          |     |  +---u inter-table-policies-config
+          |     +--ro state
+          |        +---u inter-table-policies-config
+          +-- interfaces
+          |  +-- interface* [id]
+          |     +-- id?       -> ../config/id
+          |     +-- config
+          |     |  +---u instance-interfaces-config
+          |     +--ro state
+          |        +---u instance-interfaces-config
+          +---u oc-ni-l3:l3ni-route-limit-structural
+          +-- tables
+          |  +-- table* [protocol address-family]
+          |     +-- protocol?         -> ../config/protocol
+          |     +-- address-family?   -> ../config/address-family
+          |     +-- config
+          |     |  +---u table-config
+          |     +--ro state
+          |        +---u table-config
+          +-- connection-points
+          |  +-- connection-point* [connection-point-id]
+          |     +-- connection-point-id?   -> ../config/connection-point-id
+          |     +-- config
+          |     |  +---u instance-connection-point-config
+          |     +--ro state
+          |     |  +---u instance-connection-point-config
+          |     +-- endpoints
+          |        +-- endpoint* [endpoint-id]
+          |           +-- endpoint-id?   -> ../config/endpoint-id
+          |           +-- config
+          |           |  +---u instance-endpoint-config
+          |           +--ro state
+          |           |  +---u instance-endpoint-config
+          |           |  +---u instance-endpoint-state
+          |           +-- local
+          |           |  +-- config
+          |           |  |  +---u instance-endpoint-local-config
+          |           |  +--ro state
+          |           |     +---u instance-endpoint-local-config
+          |           +-- remote
+          |           |  +-- config
+          |           |  |  +---u instance-endpoint-remote-config
+          |           |  +--ro state
+          |           |     +---u instance-endpoint-remote-config
+          |           +-- vxlan
+          |              +---u oc-evpn:evpn-overlays-grp-top
+          +---u oc-mpls:mpls-top
+          +---u oc-sr:sr-top
+          +---u oc-vlan:vlan-top
+          +---u oc-pf:policy-forwarding-top
+          +---u oc-aft:aft-top
+          +-- protocols
+             +-- protocol* [identifier name]
+                +-- identifier?                      -> ../config/identifier
+                +-- name?                            -> ../config/name
+                +-- config
+                |  +---u protocols-config
+                +--ro state
+                |  +---u protocols-config
+                +---u oc-loc-rt:local-static-top
+                +---u oc-loc-rt:local-aggregate-top
+                +---u oc-bgp:bgp-top
+                +---u oc-ospfv2:ospfv2-top
+                +---u oc-isis:isis-top
+                +---u oc-pim:pim-top
+                +---u oc-igmp:igmp-top
+                +---u oc-pcep:pcep-top
+  grouping instance-endpoint-config:
+    +-- endpoint-id?   string
+    +-- precedence?    uint16
+    +-- type?          identityref
+  grouping instance-endpoint-local-config:
+    +---u oc-if:interface-ref-common
+    +-- site-id?                      uint16
+    +-- site-label-block-offset?      uint16
+    +-- site-label-block-size?        uint16
+  grouping instance-endpoint-remote-config:
+    +-- remote-system?                oc-inet:ip-address
+    +-- virtual-circuit-identifier?   uint32
+    +-- site-id?                      uint16
+  grouping instance-endpoint-state:
+    +-- active?   boolean
+  grouping instance-connection-point-config:
+    +-- connection-point-id?   string
+  grouping instance-connection-point-state:
+  grouping table-config:
+    +-- protocol?         -> ../../../../protocols/protocol/config/identifier
+    +-- address-family?   identityref
+  grouping instance-interfaces-config:
+    +-- id?                            oc-if:interface-id
+    +---u oc-if:interface-ref-common
+    +-- associated-address-families*   identityref
+    +-- mac-pinning?                   boolean
+    +-- irb-anycast-gateway?           enumeration
+  grouping instance-interfaces-state:
+  grouping inter-table-policies-config:
+    +-- src-protocol?                           -> ../../../../tables/table/config/protocol
+    +-- address-family?                         -> ../../../../tables/table[protocol=current()/../src-protocol]/config/address-family
+    +-- dst-protocol?                           -> ../../../../tables/table/config/protocol
+    +-- disable-metric-propagation?             boolean
+    +---u oc-rpol:apply-policy-import-config
+    +---u oc-rpol:default-policy-import-config
+  grouping network-instance-config:
+    +-- name?                        string
+    +-- type                         identityref
+    +-- description?                 string
+    +-- router-id?                   oc-yang:dotted-quad
+    +-- route-distinguisher?         oc-ni-types:route-distinguisher
+    +-- fallback-network-instance?   network-instance-ref
+  grouping network-instance-state:
+  grouping protocols-config:
+    +-- identifier?       identityref
+    +-- name?             string
+    +-- enabled?          boolean
+    +-- default-metric?   uint32
+  grouping protocols-state:
+  grouping instance-interface-association-config:
+    +-- network-instance?   -> /network-instances/network-instance/name
+  grouping encapsulation-config:
+    +-- encapsulation-type?      identityref
+    +-- label-allocation-mode?   identityref
+  grouping l2ni-instance:
+    +-- fdb
+       +-- config
+       |  +---u l2ni-fdb-mac-config
+       +--ro state
+       |  +---u l2ni-fdb-mac-config
+       +---u l2ni-mac-table-top
+       +---u oc-evpn:evpn-mac-mobility-top
+       +---u oc-evpn:evpn-arp-proxy-top
+       +---u oc-evpn:evpn-nd-proxy-top
+       +---u l2ni-l2rib-top
+  grouping l2ni-fdb-mac-config:
+    +-- mac-learning?                  boolean
+    +-- mac-aging-time?                uint16
+    +-- maximum-entries?               uint16
+    +---u oc-evpn:evpn-mac-vrf-config
+  grouping l2ni-encapsulation-config:
+    +-- control-word?   boolean
+  grouping l2ni-mac-table-config:
+    +-- mac-address?   oc-yang:mac-address
+    +-- vlan?          -> ../../../../../../vlans/vlan/config/vlan-id
+  grouping l2ni-mac-table-state:
+    +-- age?          uint64
+    +-- entry-type?   enumeration
+    +-- evi?          oc-evpn-types:vni-id
+  grouping l2ni-mac-table-top:
+    +-- mac-table
+       +-- entries
+          +-- entry* [mac-address vlan]
+             +-- mac-address?   -> ../config/mac-address
+             +-- vlan?          -> ../config/vlan
+             +-- config
+             |  +---u l2ni-mac-table-config
+             +--ro state
+             |  +---u l2ni-mac-table-config
+             |  +---u l2ni-mac-table-state
+             +-- interface
+                +---u oc-if:interface-ref
+  grouping l2ni-l2rib-top:
+    +--ro l2rib
+       +--ro mac-table
+       |  +--ro entries
+       |  |  +--ro entry* [mac-address]
+       |  |     +--ro mac-address?   -> ../state/mac-address
+       |  |     +--ro state
+       |  |     |  +---u l2ni-l2rib-mac-table-state
+       |  |     +--ro producers
+       |  |        +--ro producer* [producer]
+       |  |           +--ro producer?   -> ../state/producer
+       |  |           +--ro state
+       |  |              +---u l2ni-l2rib-common-producer-state
+       |  |              +---u l2ni-l2rib-mac-table-producer-state
+       |  +---u l2ni-l2rib-common-next-hop-group-state
+       |  +---u l2ni-l2rib-common-next-hop-state
+       +--ro mac-ip-table
+          +--ro entries
+          |  +--ro entry* [mac-address host-ip]
+          |     +--ro mac-address?   -> ../state/mac-address
+          |     +--ro host-ip?       -> ../state/host-ip
+          |     +--ro state
+          |     |  +---u l2ni-l2rib-mac-ip-table-state
+          |     +--ro producers
+          |        +--ro producer* [producer]
+          |           +--ro producer?   -> ../state/producer
+          |           +--ro state
+          |              +---u l2ni-l2rib-common-producer-state
+          +---u l2ni-l2rib-common-next-hop-group-state
+          +---u l2ni-l2rib-common-next-hop-state
+  grouping l2ni-l2rib-mac-table-state:
+    +---u l2ni-l2rib-common-state
+  grouping l2ni-l2rib-mac-ip-table-state:
+    +---u l2ni-l2rib-common-state
+    +-- host-ip?                   oc-inet:ip-address
+    +-- l3-vni?                    oc-evpn-types:evi-id
+  grouping l2ni-l2rib-common-state:
+    +-- mac-address?   oc-yang:mac-address
+    +-- vlan?          -> ../../../../../../../vlans/vlan/config/vlan-id
+    +-- evi?           oc-evpn-types:evi-id
+    +-- l2-vni?        oc-evpn-types:evi-id
+  grouping l2ni-l2rib-common-producer-state:
+    +-- producer?         enumeration
+    +-- seq-number?       uint32
+    +-- mobility-state?   enumeration
+    +-- esi?              oc-evpn-types:esi
+    +-- sticky?           boolean
+    x-- next-hop?         -> ../../../../../../next-hops/next-hop/index
+    +-- next-hop-group*   -> ../../../../../../next-hop-groups/next-hop-group/id
+  grouping l2ni-l2rib-common-next-hop-state:
+    +-- next-hops
+       +-- next-hop* [index]
+          +-- index?   -> ../state/index
+          +--ro state
+             +--ro index?                        uint64
+             +--ro peer-ip?                      oc-inet:ip-address
+             +--ro label?                        oc-evpn-types:evi-id
+             +--ro esi?                          oc-evpn-types:esi
+             +--ro resolved?                     boolean
+             +---u oc-if:interface-ref-common
+  grouping l2ni-l2rib-common-next-hop-group-state:
+    +-- next-hop-groups
+       +-- next-hop-group* [id]
+          +-- id?          -> ../state/id
+          +--ro state
+          |  +--ro id?     uint64
+          |  +--ro esi?    oc-evpn-types:esi
+          |  +--ro type?   enumeration
+          +-- next-hops
+             +-- next-hop* [index]
+                +-- index?   -> ../state/index
+                +--ro state
+                   +--ro index?   -> ../../../../../../next-hops/next-hop/index
+  grouping l2ni-l2rib-mac-table-producer-state:
+    +-- derived-from-mac-ip?   boolean
+    +-- directly-received?     boolean

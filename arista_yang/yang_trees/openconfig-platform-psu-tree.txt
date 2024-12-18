@@ -1,0 +1,17 @@
+module: openconfig-platform-psu
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:power-supply/oc-platform:config:
+    +---u psu-config
+  augment /oc-platform:components/oc-platform:component/oc-platform:power-supply/oc-platform:state:
+    +---u psu-config
+    +---u psu-state
+
+  grouping psu-config:
+    +-- enabled?   boolean
+  grouping psu-state:
+    +-- capacity?         oc-types:ieeefloat32
+    +-- input-current?    oc-types:ieeefloat32
+    +-- input-voltage?    oc-types:ieeefloat32
+    +-- output-current?   oc-types:ieeefloat32
+    +-- output-voltage?   oc-types:ieeefloat32
+    +-- output-power?     oc-types:ieeefloat32

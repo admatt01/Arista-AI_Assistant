@@ -1,0 +1,48 @@
+module: openconfig-keychain
+  +---u keychain-top
+
+  grouping valid-lifetime-config:
+    +-- start-time?   oc-types:timeticks64
+    +-- end-time?     oc-types:timeticks64
+  grouping lifetime-symmetry-config:
+    +-- send-and-receive?   boolean
+  grouping lifetime-base:
+    +-- send-lifetime
+    |  +-- config
+    |  |  +---u valid-lifetime-config
+    |  |  +---u lifetime-symmetry-config
+    |  +--ro state
+    |     +---u valid-lifetime-config
+    |     +---u lifetime-symmetry-config
+    +-- receive-lifetime
+       +-- config
+       |  +---u valid-lifetime-config
+       +--ro state
+          +---u valid-lifetime-config
+  grouping keychain-base-config:
+    +-- name?        string
+    +-- tolerance?   union
+  grouping keychain-key-config:
+    +-- key-id?             union
+    +-- secret-key?         string
+    +-- crypto-algorithm?   identityref
+  grouping keychain-key-base:
+    +-- keys
+       +-- key* [key-id]
+          +-- key-id?          -> ../config/key-id
+          +-- config
+          |  +---u keychain-key-config
+          +--ro state
+          |  +---u keychain-key-config
+          +---u lifetime-base
+  grouping keychain-common-base:
+    +-- config
+    |  +---u keychain-base-config
+    +--ro state
+       +---u keychain-base-config
+  grouping keychain-top:
+    +-- keychains
+       +-- keychain* [name]
+          +-- name?                   -> ../config/name
+          +---u keychain-common-base
+          +---u keychain-key-base

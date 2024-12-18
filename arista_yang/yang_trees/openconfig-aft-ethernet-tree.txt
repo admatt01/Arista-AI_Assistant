@@ -1,0 +1,101 @@
+submodule: openconfig-aft-ethernet (belongs-to openconfig-aft)
+
+  grouping aft-ethernet-structural:
+    +-- mac-entry* [mac-address]
+       +-- mac-address?   -> ../state/mac-address
+       +--ro state
+          +---u aft-ethernet-entry-state
+  grouping aft-ethernet-entry-state:
+    +-- mac-address?              oc-yang:mac-address
+    +---u aft-common-entry-state
+  grouping aft-nhop-structural:
+    +-- next-hops
+       +-- next-hop* [index]
+          +-- index?                       -> ../state/index
+          +--ro state
+          |  +---u aft-common-entry-nexthop-state
+          |  +---u aft-labeled-entry-state
+          |  +--ro counters
+          |  |  +---u aft-common-entry-counter-state
+          |  +---u aft-evpn-entry-state
+          +-- ip-in-ip
+          |  +--ro state
+          |     +---u aft-common-entry-nexthop-ipip-state
+          +-- gre
+          |  +--ro state
+          |     +---u aft-common-entry-nexthop-gre-state
+          +---u oc-if:interface-ref-state
+  grouping aft-common-entry-state:
+    +--ro counters
+    |  +---u aft-common-entry-counter-state
+    +-- entry-metadata?   binary
+  grouping aft-labeled-entry-state:
+    +-- lsp-name?   string
+  grouping aft-evpn-entry-state:
+    +-- vni-label?               oc-evpn-types:evi-id
+    +-- tunnel-src-ip-address?   oc-inet:ip-address
+  grouping aft-common-entry-nexthop-state:
+    +-- index?                         uint64
+    +-- programmed-index?              uint64
+    +-- ip-address?                    oc-inet:ip-address
+    +-- mac-address?                   oc-yang:mac-address
+    +-- pop-top-label?                 boolean
+    +-- pushed-mpls-label-stack*       oc-mplst:mpls-label
+    +-- encapsulate-header?            oc-aftt:encapsulation-header-type
+    +-- decapsulate-header?            oc-aftt:encapsulation-header-type
+    +---u aft-common-install-protocol
+  grouping aft-common-entry-nexthop-ipip-state:
+    +-- src-ip?   oc-inet:ip-address
+    +-- dst-ip?   oc-inet:ip-address
+  grouping aft-common-entry-nexthop-gre-state:
+    +-- src-ip?   oc-inet:ip-address
+    +-- dst-ip?   oc-inet:ip-address
+    +-- ttl?      uint8
+  grouping aft-common-install-protocol:
+    +-- origin-protocol?   identityref
+  grouping aft-common-ip-state:
+    +---u aft-common-install-protocol
+    +-- decapsulate-header?            oc-aftt:encapsulation-header-type
+  grouping aft-next-hop-groups-structural:
+    +-- next-hop-groups
+       +-- next-hop-group* [id]
+          +-- id?            -> ../state/id
+          +--ro state
+          |  +---u aft-nhg-state
+          +-- next-hops
+          |  +-- next-hop* [index]
+          |     +-- index?   -> ../state/index
+          |     +--ro state
+          |        +---u aft-nhg-nh-state
+          +-- conditional
+             +-- condition* [id]
+                +-- id?                 -> ../state/id
+                +--ro state
+                |  +---u aft-nhg-conditional-state
+                +-- input-interfaces
+                   +-- input-interface* [id]
+                      +-- id?      -> ../state/id
+                      +--ro state
+                         +---u aft-nhg-conditional-interface-state
+  grouping aft-nhg-state:
+    +-- id?                      uint64
+    +-- next-hop-group-name?     string
+    +-- programmed-id?           uint64
+    +-- color?                   uint64
+    +-- backup-next-hop-group?   -> ../../../next-hop-group/state/id
+  grouping aft-nhg-nh-state:
+    +-- index?    -> ../../../../../../next-hops/next-hop/state/index
+    +-- weight?   uint64
+  grouping aft-nhg-conditional-state:
+    +-- id?               uint64
+    +-- dscp*             oc-inet:dscp
+    +-- next-hop-group?   -> ../../../../../next-hop-group/state/id
+  grouping aft-nhg-conditional-interface-state:
+    +-- id?                           string
+    +---u oc-if:interface-ref-common
+  grouping aft-common-entry-counter-state:
+    +-- packets-forwarded?   oc-yang:counter64
+    +-- octets-forwarded?    oc-yang:counter64
+  grouping aft-common-backup-entry-counter-state:
+    +-- packets-forwarded-backup?   oc-yang:counter64
+    +-- octets-forwarded-backup?    oc-yang:counter64

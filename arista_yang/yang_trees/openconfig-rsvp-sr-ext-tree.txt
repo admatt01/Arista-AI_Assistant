@@ -1,0 +1,45 @@
+module: openconfig-rsvp-sr-ext
+
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:mpls/oc-ni:te-global-attributes:
+    +---u bandwidth-measurement-global-structural
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:mpls/oc-ni:signaling-protocols/oc-ni:rsvp-te/oc-ni:interface-attributes/oc-ni:interface/oc-ni:subscription/oc-ni:state:
+    +---u bandwidth-measurement-rsvp-te-adjusted-state
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:mpls/oc-ni:te-interface-attributes/oc-ni:interface:
+    +---u bandwidth-measurement-intf-structural
+
+  grouping bandwidth-measurement-global-state:
+    +-- effective-adjustment-interval?   uint32
+  grouping bandwidth-measurement-global-config:
+    +-- measure-sr-traffic?     enumeration
+    +-- collection-interval?    uint32
+    +-- adjustment-interval?    uint32
+    +-- bandwidth-multiplier?   decimal64
+  grouping bandwidth-measurement-update-config:
+    +-- update-trigger?                   enumeration
+    +-- adjusted-max-reservable-bw-pct?   oc-types:percentage
+    +-- sr-traffic-pct?                   oc-types:percentage
+  grouping bandwidth-measurement-global-structural:
+    +-- bandwidth-measurement
+       +-- config
+       |  +---u bandwidth-measurement-global-config
+       +--ro state
+       |  +---u bandwidth-measurement-global-config
+       |  +---u bandwidth-measurement-global-state
+       +-- update-trigger
+          +-- config
+          |  +---u bandwidth-measurement-update-config
+          +--ro state
+             +---u bandwidth-measurement-update-config
+  grouping bandwidth-measurement-rsvp-te-adjusted-state:
+    +-- adjusted-absolute-subscription-bw?   uint64
+  grouping bandwidth-measurement-intf-structural:
+    +-- bandwidth-measurement
+       +--ro state
+          +---u bandwidth-measurement-intf-state
+  grouping bandwidth-measurement-intf-state:
+    +-- last-sample-time?                 oc-types:timeticks64
+    +-- last-sample-measured-rsvp-util?   uint64
+    +-- last-sample-measured-sr-util?     uint64
+    +-- last-calculated-time?             oc-types:timeticks64
+    +-- last-calculated-sr-utilisation?   uint64
+    +-- last-flooded-time?                oc-types:timeticks64

@@ -1,0 +1,29 @@
+module: openconfig-optical-attenuator
+  +---u optical-attenuator-top
+
+  grouping optical-attenuator-config:
+    +-- name?                  string
+    +-- attenuation-mode?      identityref
+    +-- target-output-power?   decimal64
+    +-- attenuation?           decimal64
+    +-- enabled?               boolean
+  grouping optical-attenuator-state:
+    +-- component?             -> /oc-platform:components/component/name
+    +-- ingress-port?          -> /oc-platform:components/component/name
+    +-- egress-port?           -> /oc-platform:components/component/name
+    +-- actual-attenuation
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dB
+    +-- output-power-total
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- optical-return-loss
+       +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+  grouping optical-attenuator-top:
+    +-- optical-attenuator
+       +-- attenuators
+          +-- attenuator* [name]
+             +-- name?     -> ../config/name
+             +-- config
+             |  +---u optical-attenuator-config
+             +--ro state
+                +---u optical-attenuator-config
+                +---u optical-attenuator-state

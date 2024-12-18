@@ -1,0 +1,24 @@
+hostname {{ hostname }}
+interface Ethernet1
+  description Link to Leaf-1
+  ip address {{ eth1_ip }}/30
+  no switchport
+interface Ethernet2
+  description Link to Leaf-2
+  ip address {{ eth2_ip }}/30
+  no switchport
+interface Loopback0
+  ip address {{ loopback_ip }}/32
+ip routing
+router bgp {{ bgp_asn }}
+  neighbor {{ bgp_neighbor1 }} remote-as {{ remote_as1 }}
+  neighbor {{ bgp_neighbor2 }} remote-as {{ remote_as2 }}
+router multicast
+  ipv4
+    software-forwarding kernel
+service routing protocols model multi-agent
+spanning-tree mode mstp
+system l1
+  unsupported error-correction action error
+  unsupported speed action error
+transceiver qsfp default-mode 4x10G

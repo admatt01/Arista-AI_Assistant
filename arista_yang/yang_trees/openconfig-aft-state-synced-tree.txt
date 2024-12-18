@@ -1,0 +1,6 @@
+submodule: openconfig-aft-state-synced (belongs-to openconfig-aft)
+
+  grouping aft-state-synced-structural:
+    +--ro state
+       +--ro ipv4-unicast?   boolean
+       +--ro ipv6-unicast?   boolean

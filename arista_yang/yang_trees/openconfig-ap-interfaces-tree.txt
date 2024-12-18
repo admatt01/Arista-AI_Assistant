@@ -1,0 +1,17 @@
+module: openconfig-ap-interfaces
+
+  augment /oc-access-points:access-points/oc-access-points:access-point:
+    +---u ap-interfaces-top
+
+  grouping ap-interfaces-top:
+    +-- interfaces
+       +-- interface* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u oc-if:interface-phys-config
+          +--ro state
+             +---u oc-if:interface-phys-config
+             +---u oc-if:interface-common-state
+             +--ro counters
+                +---u oc-if:interface-common-counters-state
+                +---u oc-if:interface-counters-state

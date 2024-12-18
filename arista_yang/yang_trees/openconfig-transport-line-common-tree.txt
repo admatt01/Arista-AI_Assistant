@@ -1,0 +1,39 @@
+module: openconfig-transport-line-common
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:port:
+    +---u transport-line-common-port-top
+  augment /oc-if:interfaces/oc-if:interface:
+    +--rw sonet
+
+  grouping optical-osc-config:
+    +-- interface?   oc-if:base-interface-ref
+  grouping optical-osc-state:
+    +-- input-power
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- output-power
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- laser-bias-current
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-mA
+    +---u oc-transceiver:output-optical-frequency
+  grouping optical-osc-top:
+    +-- config
+    |  +---u optical-osc-config
+    +--ro state
+       +---u optical-osc-config
+       +---u optical-osc-state
+  grouping transport-line-common-port-config:
+    +-- admin-state?   oc-opt-types:admin-state-type
+  grouping transport-line-common-port-state:
+    +-- optical-port-type?   identityref
+    +-- tilt?                decimal64
+    +-- input-power
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- output-power
+       +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+  grouping transport-line-common-port-top:
+    +-- optical-port
+       +-- config
+       |  +---u transport-line-common-port-config
+       +--ro state
+          +---u transport-line-common-port-config
+          +---u transport-line-common-port-state

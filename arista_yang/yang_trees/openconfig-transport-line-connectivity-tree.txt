@@ -1,0 +1,17 @@
+module: openconfig-transport-line-connectivity
+  +---u line-connectivity-top
+
+  grouping connection-state:
+  grouping connection-config:
+    +-- index?        uint32
+    +-- source?       union
+    +-- dest?         union
+    +-- fiber-type?   identityref
+  grouping line-connectivity-top:
+    +-- connections
+       +-- connection* [index]
+          +-- index?    -> ../config/index
+          +-- config
+          |  +---u connection-config
+          +--ro state
+             +---u connection-config

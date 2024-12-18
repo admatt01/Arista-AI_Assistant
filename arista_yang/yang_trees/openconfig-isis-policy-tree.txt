@@ -1,0 +1,27 @@
+module: openconfig-isis-policy
+
+  augment /rpol:routing-policy/rpol:policy-definitions/rpol:policy-definition/rpol:statements/rpol:statement/rpol:actions:
+    +---u isis-actions
+  augment /rpol:routing-policy/rpol:policy-definitions/rpol:policy-definition/rpol:statements/rpol:statement/rpol:conditions:
+    +---u isis-match-conditions
+
+  grouping isis-match-conditions:
+    +-- isis-conditions
+       +-- config
+       |  +---u isis-match-conditions-config
+       +--ro state
+          +---u isis-match-conditions-config
+  grouping isis-match-conditions-config:
+    +-- level-eq?            isis-types:level-number
+    +-- match-metric-type?   isis-types:metric-type
+  grouping isis-actions:
+    +-- isis-actions
+       +-- config
+       |  +---u isis-actions-config
+       +--ro state
+          +---u isis-actions-config
+  grouping isis-actions-config:
+    +-- set-level?               isis-types:level-number
+    +-- set-metric-type?         isis-types:metric-type
+    +-- set-metric-style-type?   isis-types:metric-style
+    +-- set-metric?              isis-types:wide-metric

@@ -1,0 +1,87 @@
+module: openconfig-pim
+
+  grouping admin-config:
+    +-- enabled?   boolean
+  grouping pim-counters-state:
+    +-- hello-messages?        uint32
+    +-- join-prune-messages?   uint32
+    +-- bootstrap-messages?    uint32
+  grouping pim-interface-config:
+    +---u admin-config
+    +-- interface-id?          oc-if:interface-id
+    +-- mode?                  identityref
+    +-- bsr-border?            boolean
+    +-- border-router?         boolean
+    +-- dr-priority?           oc-pim-types:dr-priority-type
+    +-- join-prune-interval?   oc-pim-types:pim-interval-type
+    +-- hello-interval?        oc-pim-types:pim-interval-type
+    +-- dead-timer?            uint16
+    +-- maximum-groups?        uint32
+  grouping pim-neighbor-state:
+    +-- neighbor-address?       inet:ipv4-address
+    +-- dr-address?             inet:ipv4-address
+    +-- neighbor-established?   oc-types:timeticks64
+    +-- neighbor-expires?       oc-types:timeticks64
+    +-- mode?                   identityref
+  grouping pim-neighbors-top:
+    +--ro neighbors
+       +--ro neighbor* [neighbor-address]
+          +--ro neighbor-address?   -> ../state/neighbor-address
+          +--ro state
+             +---u pim-neighbor-state
+  grouping pim-interfaces-top:
+    +-- interfaces
+       +-- interface* [interface-id]
+          +-- interface-id?          -> ../config/interface-id
+          +-- config
+          |  +---u pim-interface-config
+          +--ro state
+          |  +---u pim-interface-config
+          |  +--ro counters
+          |     +---u pim-counters-state
+          +---u pim-neighbors-top
+          +---u oc-if:interface-ref
+          +---u oc-bfd:bfd-enable
+  grouping pim-global-config:
+    +-- maximum-groups?   uint32
+  grouping pim-global-state:
+    +-- neighbor-count?   uint8
+    +-- counters
+       +---u pim-counters-state
+  grouping pim-sources-joined-top:
+    +--ro sources-joined
+       +--ro source* [address]
+          +--ro address?   -> ../state/address
+          +--ro state
+             +--ro address?                 inet:ipv4-address
+             +--ro group?                   inet:ipv4-address
+             +--ro upstream-interface-id?   oc-if:interface-id
+  grouping pim-global-ssm-config:
+    +-- ssm-ranges?   -> /oc-acl:acl/acl-sets/acl-set/config/name
+  grouping pim-global-rp-addresses-config:
+    +-- address?            inet:ipv4-address
+    +-- multicast-groups?   string
+  grouping pim-global-top:
+    +-- config
+    |  +---u pim-global-config
+    +--ro state
+    |  +---u pim-global-config
+    |  +---u pim-global-state
+    +-- ssm
+    |  +-- config
+    |  |  +---u pim-global-ssm-config
+    |  +--ro state
+    |     +---u pim-global-ssm-config
+    +-- rendezvous-points
+    |  +-- rendezvous-point* [address]
+    |     +-- address?   -> ../config/address
+    |     +-- config
+    |     |  +---u pim-global-rp-addresses-config
+    |     +--ro state
+    |        +---u pim-global-rp-addresses-config
+    +---u pim-sources-joined-top
+  grouping pim-top:
+    +-- pim
+       +-- global
+       |  +---u pim-global-top
+       +---u pim-interfaces-top

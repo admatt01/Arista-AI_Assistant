@@ -1,0 +1,78 @@
+submodule: openconfig-pf-forwarding-policies (belongs-to openconfig-policy-forwarding)
+
+  grouping pf-forwarding-policy-structural:
+    +-- policies
+       +-- policy* [policy-id]
+          +-- policy-id?   -> ../config/policy-id
+          +-- config
+          |  +---u pf-forwarding-policy-config
+          +--ro state
+          |  +---u pf-forwarding-policy-config
+          +-- rules
+             +-- rule* [sequence-id]
+                +-- sequence-id?                          -> ../config/sequence-id
+                +-- config
+                |  +---u pf-forwarding-policy-rule-config
+                +--ro state
+                |  +---u pf-forwarding-policy-rule-config
+                |  +---u pf-forwarding-policy-rule-state
+                +---u oc-pmatch:ethernet-header-top
+                +---u oc-pmatch:ipv4-protocol-fields-top
+                +---u oc-pmatch:ipv6-protocol-fields-top
+                +---u oc-pmatch:transport-fields-top
+                +-- action
+                   +-- config
+                   |  +---u pf-forwarding-policy-action-config
+                   +--ro state
+                   |  +---u pf-forwarding-policy-action-config
+                   +---u pf-forwarding-policy-action-encapsulate-gre
+  grouping pf-forwarding-policy-config:
+    +-- policy-id?   string
+    +-- type?        enumeration
+  grouping pf-forwarding-policy-rule-config:
+    +-- sequence-id?   uint32
+  grouping pf-forwarding-policy-rule-state:
+    +-- matched-pkts?     oc-yang:counter64
+    +-- matched-octets?   oc-yang:counter64
+  grouping pf-forwarding-policy-action-config:
+    +-- discard?                           boolean
+    +-- decapsulate-gre?                   boolean
+    +-- decap-network-instance?            -> /network-instances/network-instance/config/name
+    +-- decap-fallback-network-instance?   -> /network-instances/network-instance/config/name
+    +-- post-decap-network-instance?       -> /network-instances/network-instance/config/name
+    +-- network-instance?                  -> /network-instances/network-instance/config/name
+    +-- path-selection-group?              -> ../../../../../../../path-selection-groups/path-selection-group/config/group-id
+    +-- next-hop?                          oc-inet:ip-address
+    +-- decapsulate-mpls-in-udp?           boolean
+    +-- decapsulate-gue?                   boolean
+  grouping pf-forwarding-policy-action-encapsulate-gre:
+    +-- encapsulate-gre
+       +-- config
+       |  +---u pf-forwarding-policy-action-gre-config
+       +--ro state
+       |  +---u pf-forwarding-policy-action-gre-config
+       +-- targets
+          +-- target* [id]
+             +-- id?       -> ../config/id
+             +-- config
+             |  +---u pf-forwarding-policy-action-gre-target-config
+             +--ro state
+                +---u pf-forwarding-policy-action-gre-target-config
+  grouping pf-forwarding-policy-action-gre-config:
+    +-- identifying-prefix?   oc-inet:ip-prefix
+  grouping pf-forwarding-policy-action-gre-target-config:
+    +-- id?            string
+    +-- source?        oc-inet:ip-address
+    +-- destination?   oc-inet:ip-prefix
+    +-- ip-ttl?        uint8
+  grouping pf-path-groups-structural:
+    +-- path-selection-groups
+       +-- path-selection-group* [group-id]
+          +-- group-id?   -> ../config/group-id
+          +-- config
+          |  +---u pf-path-selection-group-config
+          +--ro state
+             +---u pf-path-selection-group-config
+  grouping pf-path-selection-group-config:
+    +-- group-id?   string
+    +-- mpls-lsp*   -> ../../../../../mpls/lsps/constrained-path/tunnels/tunnel/config/name

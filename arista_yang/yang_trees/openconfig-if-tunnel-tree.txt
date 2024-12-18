@@ -1,0 +1,18 @@
+module: openconfig-if-tunnel
+
+  augment /oc-if:interfaces/oc-if:interface:
+    +---u tunnel-top
+
+  grouping tunnel-top:
+    +-- tunnel
+       +-- config
+       |  +---u tunnel-config
+       +--ro state
+       |  +---u tunnel-config
+       +---u oc-ip:ipv4-top
+       +---u oc-ip:ipv6-top
+  grouping tunnel-config:
+    +-- src?       oc-inet:ip-address
+    +-- dst?       oc-inet:ip-address
+    +-- ttl?       uint8
+    +-- gre-key?   uint32

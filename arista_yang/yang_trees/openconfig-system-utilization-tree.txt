@@ -1,0 +1,20 @@
+module: openconfig-system-utilization
+
+  augment /oc-sys:system:
+    +---u system-resource-utilization-top
+
+  grouping system-resource-utilization-config:
+    +-- name?                                                string
+    +---u oc-platform:resource-utilization-threshold-common
+  grouping system-resource-utilization-state:
+    +-- active-component-list*   -> /oc-platform:components/component/config/name
+  grouping system-resource-utilization-top:
+    +-- utilization
+       +-- resources
+          +-- resource* [name]
+             +-- name?     -> ../config/name
+             +-- config
+             |  +---u system-resource-utilization-config
+             +--ro state
+                +---u system-resource-utilization-config
+                +---u system-resource-utilization-state

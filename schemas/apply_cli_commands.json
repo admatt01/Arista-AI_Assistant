@@ -1,0 +1,57 @@
+{
+  "name": "apply_cli_commands",
+  "description": "Execute multiple CLI commands via gNMI on one or more Arista devices. You can specify devices using their hostnames from hosts.json (e.g., 'ceos-spine-1') or direct target addresses.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "target": {
+        "oneOf": [
+          {
+            "type": "string",
+            "description": "Single target device specified by hostname from hosts.json (e.g., 'ceos-spine-1') or direct address (e.g., '172.20.20.2:6030')"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of target devices specified by hostnames from hosts.json or direct addresses",
+            "examples": ["ceos-spine-1", "ceos-spine-2"]
+          }
+        ],
+        "description": "Target device(s) to configure. Can use hostnames from hosts.json or direct addresses."
+      },
+      "commands": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "List of CLI commands to execute. Supports configuration contexts (interface, router, etc.).",
+        "examples": [
+          [
+            "configure terminal",
+            "interface Ethernet1",
+            "description Test Interface",
+            "no shutdown",
+            "exit",
+            "router bgp 65001",
+            "neighbor 192.168.1.1 remote-as 65002",
+            "end"
+          ]
+        ]
+      },
+      "username": {
+        "type": "string",
+        "description": "Username for device authentication. If target is specified by hostname, this will be automatically populated from hosts.json."
+      },
+      "password": {
+        "type": "string",
+        "description": "Password for device authentication. If target is specified by hostname, this will be automatically populated from hosts.json."
+      }
+    },
+    "required": [
+      "target",
+      "commands"
+    ]
+  }
+}

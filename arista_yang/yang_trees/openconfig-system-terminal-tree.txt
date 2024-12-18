@@ -1,0 +1,34 @@
+module: openconfig-system-terminal
+
+  grouping system-terminal-common-config:
+    +-- timeout?         uint16
+    +-- rate-limit?      uint16
+    +-- session-limit?   uint16
+  grouping system-terminal-common-state:
+  grouping system-terminal-common-top:
+    +-- terminal-servers
+       +-- config
+       |  +---u system-terminal-common-config
+       +--ro state
+          +---u system-terminal-common-config
+  grouping system-ssh-server-config:
+    +-- enable?                          boolean
+    +-- protocol-version?                enumeration
+    +---u system-terminal-common-config
+  grouping system-ssh-server-state:
+  grouping system-ssh-server-top:
+    +-- ssh-server
+       +-- config
+       |  +---u system-ssh-server-config
+       +--ro state
+          +---u system-ssh-server-config
+  grouping system-telnet-server-config:
+    +-- enable?                          boolean
+    +---u system-terminal-common-config
+  grouping system-telnet-server-state:
+  grouping system-telnet-server-top:
+    +-- telnet-server
+       +-- config
+       |  +---u system-telnet-server-config
+       +--ro state
+          +---u system-telnet-server-config

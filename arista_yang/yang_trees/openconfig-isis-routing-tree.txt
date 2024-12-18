@@ -1,0 +1,74 @@
+submodule: openconfig-isis-routing (belongs-to openconfig-isis)
+
+  grouping rt-admin-config:
+    +-- enabled?   boolean
+  grouping isis-afi-safi-config:
+    +-- afi-name?    identityref
+    +-- safi-name?   identityref
+  grouping isis-shortcuts-afi-config:
+    +-- afi-name?   identityref
+    +-- nh-type*    identityref
+  grouping isis-shortcuts-config:
+    +-- config
+    |  +---u rt-admin-config
+    +--ro state
+       +---u rt-admin-config
+  grouping isis-mt-config:
+    +-- afi-name?    identityref
+    +-- safi-name?   identityref
+  grouping isis-metric-config:
+    +-- metric?   uint32
+  grouping isis-ecmp-config:
+    +-- max-ecmp-paths?   uint8
+  grouping isis-afi-safi-list:
+    +-- af* [afi-name safi-name]
+       +-- afi-name?       -> ../config/afi-name
+       +-- safi-name?      -> ../config/safi-name
+       +-- config
+       |  +---u isis-afi-safi-config
+       |  +---u isis-metric-config
+       |  +---u rt-admin-config
+       |  +---u isis-ecmp-config
+       +--ro state
+       |  +---u isis-afi-safi-config
+       |  +---u isis-metric-config
+       |  +---u rt-admin-config
+       |  +---u isis-ecmp-config
+       +---u isis-mt-list
+  grouping isis-if-afi-safi-list:
+    +-- af* [afi-name safi-name]
+       +-- afi-name?                     -> ../config/afi-name
+       +-- safi-name?                    -> ../config/safi-name
+       +-- config
+       |  +---u isis-afi-safi-config
+       |  +---u isis-metric-config
+       |  +---u rt-admin-config
+       +--ro state
+       |  +---u isis-afi-safi-config
+       |  +---u isis-metric-config
+       |  +---u rt-admin-config
+       +---u oc-sr:sr-igp-interface-top
+  grouping isis-if-global-afi-safi-list:
+    +-- af* [afi-name safi-name]
+       +-- afi-name?    -> ../config/afi-name
+       +-- safi-name?   -> ../config/safi-name
+       +-- config
+       |  +---u isis-afi-safi-config
+       |  +---u rt-admin-config
+       +--ro state
+          +---u isis-afi-safi-config
+          +---u rt-admin-config
+  grouping isis-shortcuts-afi-list:
+    +-- afi* [afi-name]
+       +-- afi-name?   -> ../config/afi-name
+       +-- config
+       |  +---u isis-shortcuts-afi-config
+       +--ro state
+          +---u isis-shortcuts-afi-config
+  grouping isis-mt-list:
+    +-- multi-topology
+       +-- config
+       |  +---u isis-mt-config
+       +--ro state
+          +---u isis-mt-config
+          +---u rt-admin-config

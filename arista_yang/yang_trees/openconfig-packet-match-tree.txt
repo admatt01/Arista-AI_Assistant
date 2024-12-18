@@ -1,0 +1,96 @@
+module: openconfig-packet-match
+
+  grouping ethernet-header-config:
+    +-- source-mac?             oc-yang:mac-address
+    +-- source-mac-mask?        oc-yang:mac-address
+    +-- destination-mac?        oc-yang:mac-address
+    +-- destination-mac-mask?   oc-yang:mac-address
+    +-- ethertype?              oc-pkt-match-types:ethertype-type
+  grouping ethernet-header-state:
+  grouping ethernet-header-top:
+    +-- l2
+       +-- config
+       |  +---u ethernet-header-config
+       +--ro state
+          +---u ethernet-header-config
+  grouping mpls-header-top:
+    +-- mpls
+       +-- config
+       |  +---u mpls-header-config
+       +--ro state
+          +---u mpls-header-config
+  grouping mpls-header-config:
+    +-- traffic-class?       oc-mpls:mpls-tc
+    +-- start-label-value?   oc-mpls:mpls-label
+    +-- end-label-value?     oc-mpls:mpls-label
+    +-- ttl-value?           uint8
+  grouping ip-protocol-fields-common-config:
+    +-- dscp?        oc-inet:dscp
+    +-- dscp-set*    oc-inet:dscp
+    +-- length?      uint16
+    +-- protocol?    oc-pkt-match-types:ip-protocol-type
+    +-- hop-limit?   uint8
+  grouping ipv4-protocol-fields-config:
+    +-- source-address?                     oc-inet:ipv4-prefix
+    +-- source-address-prefix-set?          -> /oc-sets:defined-sets/ipv4-prefix-sets/ipv4-prefix-set/name
+    +-- destination-address?                oc-inet:ipv4-prefix
+    +-- destination-address-prefix-set?     -> /oc-sets:defined-sets/ipv4-prefix-sets/ipv4-prefix-set/name
+    +---u ip-protocol-fields-common-config
+  grouping ipv4-protocol-fields-state:
+  grouping ipv4-protocol-fields-top:
+    +-- ipv4
+       +-- config
+       |  +---u ipv4-protocol-fields-config
+       +--ro state
+       |  +---u ipv4-protocol-fields-config
+       +---u ip-icmpv4-header-fields-top
+  grouping ipv6-protocol-fields-config:
+    +-- source-address?                     oc-inet:ipv6-prefix
+    +-- source-address-prefix-set?          -> /oc-sets:defined-sets/ipv6-prefix-sets/ipv6-prefix-set/name
+    +-- source-flow-label?                  oc-inet:ipv6-flow-label
+    +-- destination-address?                oc-inet:ipv6-prefix
+    +-- destination-address-prefix-set?     -> /oc-sets:defined-sets/ipv6-prefix-sets/ipv6-prefix-set/name
+    +-- destination-flow-label?             oc-inet:ipv6-flow-label
+    +---u ip-protocol-fields-common-config
+  grouping ipv6-protocol-fields-state:
+  grouping ipv6-protocol-fields-top:
+    +-- ipv6
+       +-- config
+       |  +---u ipv6-protocol-fields-config
+       +--ro state
+       |  +---u ipv6-protocol-fields-config
+       +---u ip-icmpv6-header-fields-top
+  grouping transport-fields-config:
+    +-- source-port?                  oc-pkt-match-types:port-num-range
+    +-- source-port-set?              -> /oc-sets:defined-sets/port-sets/port-set/name
+    +-- destination-port?             oc-pkt-match-types:port-num-range
+    +-- destination-port-set?         -> /oc-sets:defined-sets/port-sets/port-set/name
+    +-- detail-mode?                  enumeration
+    +-- explicit-detail-match-mode?   enumeration
+    +-- explicit-tcp-flags*           identityref
+    +-- builtin-detail?               enumeration
+  grouping transport-fields-state:
+  grouping transport-fields-top:
+    +-- transport
+       +-- config
+       |  +---u transport-fields-config
+       +--ro state
+          +---u transport-fields-config
+  grouping ip-icmpv4-header-fields-top:
+    +-- icmpv4
+       +-- config
+       |  +---u ip-icmpv4-header-fields-config
+       +--ro state
+          +---u ip-icmpv4-header-fields-config
+  grouping ip-icmpv6-header-fields-top:
+    +-- icmpv6
+       +-- config
+       |  +---u ip-icmpv6-header-fields-config
+       +--ro state
+          +---u ip-icmpv6-header-fields-config
+  grouping ip-icmpv4-header-fields-config:
+    +-- type?   identityref
+    +-- code?   identityref
+  grouping ip-icmpv6-header-fields-config:
+    +-- type?   identityref
+    +-- code?   identityref

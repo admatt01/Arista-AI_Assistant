@@ -1,0 +1,54 @@
+module: openconfig-optical-amplifier
+  +---u optical-amplifier-top
+
+  grouping optical-amplifier-config:
+    +-- name?                  string
+    +-- type?                  identityref
+    +-- target-gain?           decimal64
+    +-- min-gain?              decimal64
+    +-- max-gain?              decimal64
+    +-- target-gain-tilt?      decimal64
+    +-- gain-range?            identityref
+    +-- amp-mode?              identityref
+    +-- target-output-power?   decimal64
+    +-- max-output-power?      decimal64
+    +-- enabled?               boolean
+    +-- fiber-type-profile?    identityref
+  grouping optical-amplifier-state:
+    +-- component?             -> /oc-platform:components/component/name
+    +-- ingress-port?          -> /oc-platform:components/component/name
+    +-- egress-port?           -> /oc-platform:components/component/name
+    +-- actual-gain
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dB
+    +-- actual-gain-tilt
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dB
+    +-- input-power-total
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- input-power-c-band
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- input-power-l-band
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- output-power-total
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- output-power-c-band
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- output-power-l-band
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- laser-bias-current
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-mA
+    +-- optical-return-loss
+       +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+  grouping optical-amplifier-top:
+    +-- optical-amplifier
+       +-- amplifiers
+       |  +-- amplifier* [name]
+       |     +-- name?     -> ../config/name
+       |     +-- config
+       |     |  +---u optical-amplifier-config
+       |     +--ro state
+       |        +---u optical-amplifier-config
+       |        +---u optical-amplifier-state
+       +-- supervisory-channels
+          +-- supervisory-channel* [interface]
+             +-- interface?                     -> ../config/interface
+             +---u oc-line-com:optical-osc-top

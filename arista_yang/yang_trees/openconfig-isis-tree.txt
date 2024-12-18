@@ -1,0 +1,908 @@
+module: openconfig-isis
+
+  grouping isis-global-config:
+    x-- instance?                   string
+    +-- instance-id?                uint16
+    +-- net*                        oc-isis-types:net
+    +-- maximum-area-addresses?     uint8
+    +-- level-capability?           oc-isis-types:level-type
+    +-- max-ecmp-paths?             uint8
+    +-- weighted-ecmp?              boolean
+    +-- poi-tlv?                    boolean
+    +-- iid-tlv?                    boolean
+    +-- fast-flooding?              boolean
+    +-- csnp-enable-on-p2p-links?   boolean
+    +-- hello-padding?              oc-isis-types:hello-padding-type
+  grouping admin-config:
+    +-- enabled?   boolean
+  grouping admin-config-deprecated:
+    x-- enabled?   boolean
+  grouping isis-authentication-check-config:
+    +-- authentication-check?   boolean
+  grouping isis-authentication-type-config:
+    +-- auth-type?   identityref
+  grouping isis-simple-key-authentication-config:
+    +-- auth-mode?       identityref
+    +-- auth-password?   oc-types:routing-password
+  grouping isis-metric-style-config:
+    +-- metric-style?   oc-isis-types:metric-style
+  grouping isis-hello-authentication-config:
+    +-- enabled?    boolean
+    +-- keychain?   oc-keychain:keychain-ref
+  grouping isis-hello-authentication-group:
+    +-- config
+    |  +---u isis-hello-authentication-config
+    |  +---u isis-authentication-type-config
+    |  +---u isis-simple-key-authentication-config
+    +--ro state
+       +---u isis-hello-authentication-config
+       +---u isis-authentication-type-config
+       +---u isis-simple-key-authentication-config
+  grouping isis-ldp-igp-config:
+    +-- enabled?                 boolean
+    +-- post-session-up-delay?   uint16
+  grouping isis-te-config:
+    +-- ipv4-router-id?   oc-inet:ipv4-address
+    +-- ipv6-router-id?   oc-inet:ipv6-address
+  grouping isis-reference-bandwidth-config:
+    +-- reference-bandwidth?   uint32
+  grouping isis-overload-bit-set-config:
+    +-- set-bit?                 boolean
+    +-- set-bit-on-boot?         boolean
+    +-- advertise-high-metric?   boolean
+  grouping isis-overload-bit-reset-config:
+    +-- reset-trigger?   identityref
+    +-- delay?           uint16
+  grouping isis-attached-bit-config:
+    +-- ignore-bit?     boolean
+    +-- suppress-bit?   boolean
+  grouping overload-bit-group:
+    +-- config
+    |  +---u isis-overload-bit-set-config
+    +--ro state
+    |  +---u isis-overload-bit-set-config
+    +-- reset-triggers
+       +-- reset-trigger* [reset-trigger]
+          +-- reset-trigger?   -> ../config/reset-trigger
+          +-- config
+          |  +---u isis-overload-bit-reset-config
+          +--ro state
+             +---u isis-overload-bit-reset-config
+  grouping isis-base-level-config:
+    +-- level-number?   oc-isis-types:level-number
+  grouping isis-interface-level-config:
+    +-- level-number?   oc-isis-types:level-number
+    +-- passive?        boolean
+    +-- priority?       uint8
+  grouping isis-hello-timers-config:
+    +-- hello-interval?     uint32
+    +-- hello-multiplier?   uint8
+  grouping isis-interface-config:
+    +-- interface-id?    oc-if:interface-id
+    +-- passive?         boolean
+    +-- hello-padding?   oc-isis-types:hello-padding-type
+    +-- circuit-type?    oc-isis-types:circuit-type
+  grouping isis-adaptive-timers-state:
+    +-- adaptive-timer?   oc-isis-types:adaptive-timer-type
+  grouping isis-lsp-generation-timers-config:
+    +-- lsp-max-wait-interval?      uint64
+    +-- lsp-first-wait-interval?    uint64
+    +-- lsp-second-wait-interval?   uint64
+  grouping isis-lsp-timers-config:
+    +-- lsp-lifetime-interval?   uint16
+    +-- lsp-refresh-interval?    uint16
+  grouping isis-spf-timers-config:
+    +-- spf-hold-interval?     uint64
+    +-- spf-first-interval?    uint64
+    +-- spf-second-interval?   uint64
+  grouping isis-interface-timers-config:
+    +-- csnp-interval?         uint16
+    +-- lsp-pacing-interval?   uint64
+  grouping isis-interface-weighted-ecmp-config:
+    +-- load-balancing-weight?   union
+  grouping isis-transport-config:
+    +-- lsp-mtu-size?   uint16
+  grouping isis-graceful-restart-config:
+    +-- helper-only?        boolean
+    +-- non-planned-only?   boolean
+  grouping isis-graceful-restart-level-config:
+    +-- restart-time?   uint16
+  grouping isis-graceful-restart-interface-config:
+    +-- interface-timer?              uint16
+    +-- interface-time-expirations?   int64
+  grouping inter-level-propagation-policies-structural:
+    +-- inter-level-propagation-policies
+       +-- level1-to-level2
+       |  +-- config
+       |  |  +---u inter-level-propagation-policy-config
+       |  +--ro state
+       |     +---u inter-level-propagation-policy-config
+       +-- level2-to-level1
+          +-- config
+          |  +---u inter-level-propagation-policy-config
+          +--ro state
+             +---u inter-level-propagation-policy-config
+  grouping inter-level-propagation-policy-config:
+    +---u oc-rpol:apply-policy-import-config
+    +---u oc-rpol:default-policy-import-config
+  grouping isis-mpls-config:
+    +-- mpls
+       +-- igp-ldp-sync
+          +-- config
+          |  +---u isis-ldp-igp-config
+          +--ro state
+             +---u isis-ldp-igp-config
+  grouping isis-global-base:
+    +-- config
+    |  +---u isis-authentication-check-config
+    |  +---u isis-global-config
+    +--ro state
+    |  +---u isis-authentication-check-config
+    |  +---u isis-global-config
+    +-- lsp-bit
+    |  +-- overload-bit
+    |  |  +---u overload-bit-group
+    |  +-- attached-bit
+    |     +-- config
+    |     |  +---u isis-attached-bit-config
+    |     +--ro state
+    |        +---u isis-attached-bit-config
+    +-- reference-bandwidth
+    |  +-- config
+    |  |  +---u isis-reference-bandwidth-config
+    |  +--ro state
+    |     +---u isis-reference-bandwidth-config
+    +-- nsr
+    |  +-- config
+    |  |  +---u admin-config
+    |  +--ro state
+    |     +---u admin-config
+    +-- graceful-restart
+    |  +-- config
+    |  |  +---u admin-config
+    |  |  +---u isis-graceful-restart-config
+    |  |  +---u isis-graceful-restart-level-config
+    |  |  +---u isis-graceful-restart-interface-config
+    |  +--ro state
+    |     +---u admin-config
+    |     +---u isis-graceful-restart-config
+    |     +---u isis-graceful-restart-level-config
+    |     +---u isis-graceful-restart-interface-config
+    +-- timers
+    |  +-- config
+    |  |  +---u isis-lsp-timers-config
+    |  +--ro state
+    |  |  +---u isis-lsp-timers-config
+    |  +-- spf
+    |  |  +-- config
+    |  |  |  +---u isis-spf-timers-config
+    |  |  +--ro state
+    |  |     +---u isis-spf-timers-config
+    |  |     +---u isis-adaptive-timers-state
+    |  +-- lsp-generation
+    |     +-- config
+    |     |  +---u isis-lsp-generation-timers-config
+    |     +--ro state
+    |        +---u isis-lsp-generation-timers-config
+    |        +---u isis-adaptive-timers-state
+    +-- transport
+    |  +-- config
+    |  |  +---u isis-transport-config
+    |  +--ro state
+    |     +---u isis-transport-config
+    +---u isis-mpls-config
+    +-- igp-shortcuts
+    |  +---u isis-shortcuts-afi-list
+    +-- afi-safi
+    |  +---u isis-afi-safi-list
+    +---u oc-sr:sr-igp-top
+  grouping isis-route-preference-config:
+    +-- external-route-preference?   uint32
+    +-- internal-route-preference?   uint32
+  grouping isis-interfaces:
+    +-- interface* [interface-id]
+       +-- interface-id?           -> ../config/interface-id
+       +---u isis-interface-group
+       +---u isis-mpls-config
+       +---u oc-if:interface-ref
+  grouping isis-interface-group:
+    +-- config
+    |  +---u admin-config
+    |  +---u isis-interface-config
+    +--ro state
+    |  +---u admin-config
+    |  +---u isis-interface-config
+    +-- circuit-counters
+    |  +---u circuit-counters-structural
+    +-- authentication
+    |  +---u isis-hello-authentication-group
+    +-- afi-safi
+    |  +---u isis-if-global-afi-safi-list
+    +-- levels
+    |  +---u isis-interface-levels
+    +-- timers
+    |  +-- config
+    |  |  +---u isis-interface-timers-config
+    |  +--ro state
+    |     +---u isis-interface-timers-config
+    +-- weighted-ecmp
+    |  +-- config
+    |  |  +---u isis-interface-weighted-ecmp-config
+    |  +--ro state
+    |     +---u isis-interface-weighted-ecmp-config
+    +---u oc-bfd:bfd-enable
+    +-- bfd
+    |  +-- config
+    |  |  +---u isis-bfd-config
+    |  +--ro state
+    |     +---u isis-bfd-config
+    +-- graceful-restart
+       +-- config
+       |  +---u isis-graceful-restart-interface-config
+       +--ro state
+          +---u isis-graceful-restart-interface-config
+  grouping isis-bfd-config:
+    +-- bfd-tlv?   boolean
+  grouping isis-levels:
+    +-- level* [level-number]
+       +-- level-number?       -> ../config/level-number
+       +---u isis-level-group
+  grouping isis-interface-levels:
+    +-- level* [level-number]
+       +-- level-number?                 -> ../config/level-number
+       +---u isis-interface-level-group
+  grouping isis-level-group:
+    +-- config
+    |  +---u admin-config-deprecated
+    |  +---u isis-base-level-config
+    |  +---u isis-metric-style-config
+    |  +---u isis-authentication-check-config
+    +--ro state
+    |  +---u admin-config
+    |  +---u isis-base-level-config
+    |  +---u isis-metric-style-config
+    |  +---u isis-authentication-check-config
+    +-- graceful-restart
+    |  +-- config
+    |  |  +---u admin-config
+    |  |  +---u isis-graceful-restart-level-config
+    |  +--ro state
+    |     +---u admin-config
+    |     +---u isis-graceful-restart-level-config
+    +-- system-level-counters
+    |  +---u system-level-counters-structural
+    +--ro link-state-database
+    |  +--ro lsp* [lsp-id]
+    |     +---u lsp-state
+    +-- traffic-engineering
+    |  +-- config
+    |  |  +---u admin-config
+    |  |  +---u isis-te-config
+    |  +--ro state
+    |     +---u admin-config
+    |     +---u isis-te-config
+    +-- route-preference
+    |  +-- config
+    |  |  +---u isis-route-preference-config
+    |  +--ro state
+    |     +---u isis-route-preference-config
+    +-- authentication
+       +---u isis-level-authentication-group
+  grouping isis-level-authentication-group:
+    +-- config
+    |  +---u isis-level-authentication-config
+    |  +---u isis-authentication-type-config
+    |  +---u isis-simple-key-authentication-config
+    +--ro state
+       +---u isis-level-authentication-config
+       +---u isis-authentication-type-config
+       +---u isis-simple-key-authentication-config
+  grouping isis-level-authentication-config:
+    +-- enabled?        boolean
+    +-- disable-csnp?   boolean
+    +-- disable-psnp?   boolean
+    +-- disable-lsp?    boolean
+    +-- keychain?       oc-keychain:keychain-ref
+  grouping isis-interface-level-group:
+    +-- config
+    |  +---u isis-interface-level-config
+    |  +---u admin-config
+    +--ro state
+    |  +---u isis-interface-level-config
+    |  +---u admin-config
+    +-- packet-counters
+    |  +---u packet-counters-structural
+    +--ro adjacencies
+    |  +--ro adjacency* [system-id]
+    |     +--ro system-id?   -> ../state/system-id
+    |     +--ro state
+    |        +---u adjacency-state
+    +-- timers
+    |  +-- config
+    |  |  +---u isis-hello-timers-config
+    |  +--ro state
+    |     +---u isis-hello-timers-config
+    +-- afi-safi
+    |  +---u isis-if-afi-safi-list
+    +-- hello-authentication
+       +---u isis-hello-authentication-group
+  grouping isis-top:
+    +-- isis
+       +-- global
+       |  +---u isis-global-base
+       |  +---u inter-level-propagation-policies-structural
+       +-- levels
+       |  +---u isis-levels
+       +-- interfaces
+          +---u isis-interfaces
+  grouping adjacency-state:
+    +-- system-id?                      oc-isis-types:system-id
+    +-- neighbor-ipv4-address?          oc-inet:ipv4-address
+    +-- neighbor-ipv6-address?          oc-inet:ipv6-address
+    +-- neighbor-snpa?                  oc-isis-types:snpa
+    +-- local-extended-circuit-id?      oc-isis-types:extended-circuit-id
+    +-- neighbor-extended-circuit-id?   oc-isis-types:extended-circuit-id
+    +-- priority?                       uint8
+    +-- dis-system-id?                  oc-isis-types:system-id
+    +-- neighbor-circuit-type?          oc-isis-types:level-type
+    +-- adjacency-type?                 oc-isis-types:level-type
+    +-- adjacency-state?                oc-isis-types:isis-interface-adj-state
+    +-- up-timestamp?                   oc-types:timeticks64
+    +-- multi-topology?                 boolean
+    +-- topology*                       identityref
+    +-- restart-support?                boolean
+    +-- restart-suppress?               boolean
+    +-- restart-status?                 boolean
+    +-- area-address*                   oc-isis-types:area-address
+    +-- nlpid*                          enumeration
+  grouping packet-counters-generic-state:
+    +-- received?     oc-yang:counter32
+    +-- processed?    oc-yang:counter32
+    +-- dropped?      oc-yang:counter32
+    +-- sent?         oc-yang:counter32
+    +-- retransmit?   oc-yang:counter32
+  grouping packet-counters-structural:
+    +-- lsp
+    |  +--ro state
+    |     +---u packet-counters-generic-state
+    +-- iih
+    |  +--ro state
+    |     +---u packet-counters-generic-state
+    +-- ish
+    |  +--ro state
+    |     +---u packet-counters-generic-state
+    +-- esh
+    |  +--ro state
+    |     +---u packet-counters-generic-state
+    +-- psnp
+    |  +--ro state
+    |     +---u packet-counters-generic-state
+    +-- csnp
+    |  +--ro state
+    |     +---u packet-counters-generic-state
+    +-- unknown
+       +--ro state
+          +---u packet-counters-generic-state
+  grouping system-level-counters-state:
+    +-- total-lsps?                       oc-yang:counter32
+    +-- corrupted-lsps?                   oc-yang:counter32
+    +-- database-overloads?               oc-yang:counter32
+    +-- manual-address-drop-from-areas?   oc-yang:counter32
+    +-- exceed-max-seq-nums?              oc-yang:counter32
+    +-- seq-num-skips?                    oc-yang:counter32
+    +-- own-lsp-purges?                   oc-yang:counter32
+    +-- id-len-mismatch?                  oc-yang:counter32
+    +-- part-changes?                     oc-yang:counter32
+    +-- max-area-address-mismatches?      oc-yang:counter32
+    +-- auth-fails?                       oc-yang:counter32
+    +-- spf-runs?                         oc-yang:counter32
+    +-- auth-type-fails?                  oc-yang:counter32
+    +-- lsp-errors?                       oc-yang:counter32
+  grouping system-level-counters-structural:
+    +--ro state
+       +---u system-level-counters-state
+  grouping circuit-counters-state:
+    +-- adj-changes?                   oc-yang:counter32
+    +-- init-fails?                    oc-yang:counter32
+    +-- rejected-adj?                  oc-yang:counter32
+    +-- id-field-len-mismatches?       oc-yang:counter32
+    +-- max-area-address-mismatches?   oc-yang:counter32
+    +-- auth-type-fails?               oc-yang:counter32
+    +-- auth-fails?                    oc-yang:counter32
+    +-- lan-dis-changes?               oc-yang:counter32
+    +-- adj-number?                    uint32
+  grouping circuit-counters-structural:
+    +--ro state
+       +---u circuit-counters-state
+  grouping isis-lsdb-link-characteristics-a-bit:
+    +-- a-bit?   boolean
+  grouping isis-lsdb-tlv-nlpid-state:
+    +-- nlpid*   enumeration
+  grouping isis-lsdb-subtlv-type-state:
+    +-- type?   identityref
+  grouping isis-lsdb-tlv-type-state:
+    +-- type?   identityref
+  grouping is-reachability-neighbor-state:
+    +-- subtlvs
+    |  +-- subtlv* [type]
+    |     +-- type?                            -> ../state/type
+    |     +-- state
+    |     |  +---u isis-lsdb-subtlv-type-state
+    |     +-- admin-group
+    |     |  +-- state
+    |     |     +-- admin-group*   uint32
+    |     +-- link-id
+    |     |  +-- state
+    |     |     +-- local?    uint32
+    |     |     +-- remote?   uint32
+    |     +-- ipv4-interface-address
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv4-address
+    |     +-- ipv4-neighbor-address
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv4-address
+    |     +-- max-link-bandwidth
+    |     |  +-- state
+    |     |     +-- bandwidth?   oc-types:ieeefloat32
+    |     +-- max-reservable-link-bandwidth
+    |     |  +-- state
+    |     |     +-- bandwidth?   oc-types:ieeefloat32
+    |     +-- unreserved-bandwidth
+    |     |  +-- setup-priority* [priority]
+    |     |     +-- priority?   -> ../state/priority
+    |     |     +-- state
+    |     |        +-- priority?    uint8
+    |     |        +-- bandwidth?   oc-types:ieeefloat32
+    |     +-- ipv6-interface-address
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv6-address
+    |     +-- ipv6-neighbor-address
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv6-address
+    |     +-- extended-admin-group
+    |     |  +-- state
+    |     |     +-- extended-admin-group*   uint32
+    |     +-- te-default-metric
+    |     |  +-- state
+    |     |     +-- metric?   uint32
+    |     +-- link-attributes
+    |     |  +-- state
+    |     |     +-- local-protection*   enumeration
+    |     +-- link-protection-type
+    |     |  +-- state
+    |     |     +-- type*   enumeration
+    |     +-- bandwidth-constraints
+    |     |  +-- bandwidth-constraint* [model-id]
+    |     |     +-- model-id?      -> ../state/model-id
+    |     |     +-- state
+    |     |     |  +-- model-id?   uint8
+    |     |     +-- constraints
+    |     |        +-- constraint* [constraint-id]
+    |     |           +-- constraint-id?   -> ../state/constraint-id
+    |     |           +-- state
+    |     |              +-- constraint-id?   uint32
+    |     |              +-- bandwidth?       oc-types:ieeefloat32
+    |     +-- unconstrained-lsp
+    |     |  +-- state
+    |     |     +---u isis-lsdb-subtlv-type-state
+    |     |     +-- count?                         uint16
+    |     +-- adjacency-sids
+    |     |  +-- adjacency-sid* [value]
+    |     |     +-- value?   -> ../state/value
+    |     |     +-- state
+    |     |        +-- value?    uint32
+    |     |        +-- flags*    enumeration
+    |     |        +-- weight?   uint8
+    |     +-- lan-adjacency-sids
+    |     |  +-- lan-adjacency-sid* [value]
+    |     |     +-- value?   -> ../state/value
+    |     |     +-- state
+    |     |        +-- value?         uint32
+    |     |        +-- flags*         enumeration
+    |     |        +-- weight?        uint8
+    |     |        +-- neighbor-id?   oc-isis-types:system-id
+    |     +-- link-delay
+    |     |  +-- state
+    |     |     +---u isis-lsdb-link-characteristics-a-bit
+    |     |     +-- delay?                                  uint32
+    |     +-- min-max-link-delay
+    |     |  +-- state
+    |     |     +---u isis-lsdb-link-characteristics-a-bit
+    |     |     +-- min-delay?                              uint32
+    |     |     +-- max-delay?                              uint32
+    |     +-- link-delay-variation
+    |     |  +-- state
+    |     |     +-- delay?   uint32
+    |     +-- link-loss
+    |     |  +-- state
+    |     |     +---u isis-lsdb-link-characteristics-a-bit
+    |     |     +-- link-loss?                              uint32
+    |     +-- residual-bandwidth
+    |     |  +-- state
+    |     |     +-- bandwidth?   oc-types:ieeefloat32
+    |     +-- available-bandwidth
+    |     |  +-- state
+    |     |     +---u isis-lsdb-subtlv-type-state
+    |     |     +-- bandwidth?                     oc-types:ieeefloat32
+    |     +-- utilized-bandwidth
+    |        +-- state
+    |           +---u isis-lsdb-subtlv-type-state
+    |           +-- bandwidth?                     oc-types:ieeefloat32
+    +---u isis-lsdb-undefined-subtlv
+  grouping isis-lsdb-undefined-tlv:
+    +-- undefined-tlvs
+       +-- undefined-tlv* [type]
+          +-- type?    -> ../state/type
+          +-- state
+             +---u undefined-tlv-state
+  grouping isis-lsdb-undefined-subtlv:
+    +-- undefined-subtlvs
+       +-- undefined-subtlv* [type]
+          +-- type?    -> ../state/type
+          +-- state
+             +---u undefined-subtlv-state
+  grouping isis-lsdb-prefix-state:
+    +-- subtlvs
+    |  +-- subtlv* [type]
+    |     +-- type?                         -> ../state/type
+    |     +-- state
+    |     |  +---u isis-lsdb-subtlv-type-state
+    |     +-- tag
+    |     |  +-- state
+    |     |     +-- tag32*   uint32
+    |     +-- tag64
+    |     |  +-- state
+    |     |     +-- tag64*   uint64
+    |     +-- flags
+    |     |  +-- state
+    |     |     +---u isis-lsdb-subtlv-type-state
+    |     |     +-- flags*                         enumeration
+    |     +-- ipv4-source-router-id
+    |     |  +-- state
+    |     |     +---u isis-lsdb-subtlv-type-state
+    |     |     +-- router-id?                     inet:ipv4-address
+    |     +-- ipv6-source-router-id
+    |     |  +-- state
+    |     |     +---u isis-lsdb-subtlv-type-state
+    |     |     +-- router-id?                     inet:ipv6-address
+    |     +---u isis-lsdb-prefix-sid-state
+    +---u isis-lsdb-undefined-subtlv
+  grouping isis-lsdb-prefix-sid-state:
+    +-- prefix-sids
+       +-- prefix-sid* [value]
+          +-- value?   -> ../state/value
+          +-- state
+             +-- value?       uint32
+             +-- flags*       enumeration
+             +-- algorithm?   uint8
+  grouping isis-lsdb-common-metric-specification:
+    +-- default-metric
+    |  +-- state
+    |     +-- flags?    enumeration
+    |     +-- metric?   oc-isis-types:narrow-metric
+    +-- delay-metric
+    |  +-- state
+    |     +-- metric?   oc-isis-types:narrow-metric
+    |     +-- flags*    isis-metric-flags
+    +-- expense-metric
+    |  +-- state
+    |     +-- metric?   oc-isis-types:narrow-metric
+    |     +-- flags*    isis-metric-flags
+    +-- error-metric
+       +-- state
+          +-- metric?   oc-isis-types:narrow-metric
+          +-- flags*    isis-metric-flags
+  grouping isis-lsdb-neighbor:
+    +-- state
+    |  +-- system-id?   oc-isis-types:system-id
+    +---u isis-lsdb-common-metric-specification
+  grouping ipv4-prefix-attributes-state:
+    +-- state
+    |  +-- up-down?   boolean
+    |  +-- prefix?    inet:ipv4-prefix
+    +---u isis-lsdb-common-metric-specification
+  grouping isis-lsdb-common-mt-id:
+    +-- mt-id?   uint16
+  grouping ipv4-prefix-extended-state:
+    +-- state
+    |  +---u ipv4-prefix-extended-params-state
+    +---u isis-lsdb-prefix-state
+  grouping ipv4-mt-prefix-extended-state:
+    +-- state
+    |  +---u ipv4-prefix-extended-params-state
+    |  +---u isis-lsdb-common-mt-id
+    +---u isis-lsdb-prefix-state
+  grouping ipv4-prefix-extended-params-state:
+    +-- up-down?   boolean
+    +-- s-bit?     boolean
+    +-- prefix?    inet:ipv4-prefix
+    +-- metric?    oc-isis-types:wide-metric
+  grouping ipv6-prefix-extended-state:
+    +-- state
+    |  +---u ipv6-prefix-extended-params-state
+    +---u isis-lsdb-prefix-state
+  grouping ipv6-mt-prefix-extended-state:
+    +-- state
+    |  +---u ipv6-prefix-extended-params-state
+    |  +---u isis-lsdb-common-mt-id
+    +---u isis-lsdb-prefix-state
+  grouping ipv6-prefix-extended-params-state:
+    +-- up-down?   boolean
+    +-- x-bit?     boolean
+    +-- s-bit?     boolean
+    +-- prefix?    inet:ipv6-prefix
+    +-- metric?    oc-isis-types:wide-metric
+  grouping isis-lsdb-common-extisreach-neighbors:
+    +-- neighbors
+       +-- neighbor* [system-id]
+          +-- system-id?   -> ../state/system-id
+          +-- state
+          |  +-- system-id?   oc-isis-types:system-id
+          +-- instances
+             +-- instance* [id]
+                +-- id?                               -> ../state/id
+                +-- state
+                |  +-- id?       uint64
+                |  +-- metric?   oc-isis-types:wide-metric
+                +---u is-reachability-neighbor-state
+  grouping isis-lsdb-mtis-common:
+    +-- neighbors
+       +-- neighbor* [mt-id system-id]
+          +-- mt-id?       -> ../state/mt-id
+          +-- system-id?   -> ../state/system-id
+          +-- state
+          |  +---u mt-isis-neighbor-state
+          +-- instances
+             +-- instance* [id]
+                +-- id?                          -> ../state/id
+                +---u mt-isis-neighbor-instance
+  grouping mt-isis-neighbor-state:
+    +-- mt-id?       uint16
+    +-- system-id?   oc-isis-types:system-id
+  grouping mt-isis-neighbor-instance:
+    +-- state
+    |  +-- metric?   oc-isis-types:wide-metric
+    |  +-- id?       uint64
+    +---u is-reachability-neighbor-state
+  grouping isis-lsdb-generic-tlv:
+    +-- type?     uint8
+    +-- length?   uint8
+    +-- value?    binary
+  grouping undefined-tlv-state:
+    +---u isis-lsdb-generic-tlv
+  grouping undefined-subtlv-state:
+    +---u isis-lsdb-generic-tlv
+  grouping lsp-state:
+    +-- lsp-id?                    -> ../state/lsp-id
+    +-- state
+    |  +-- lsp-id?                   oc-isis-types:lsp-id
+    |  +-- maximum-area-addresses?   uint8
+    |  +-- version?                  uint8
+    |  +-- version2?                 uint8
+    |  +-- id-length?                uint8
+    |  +-- pdu-type?                 enumeration
+    |  +-- remaining-lifetime?       uint16
+    |  +-- sequence-number?          uint32
+    |  +-- checksum?                 uint16
+    |  +-- pdu-length?               uint16
+    |  +-- flags*                    enumeration
+    |  +-- is-type?                  oc-isis-types:level-number
+    +-- tlvs
+    |  +-- tlv* [type]
+    |     +-- type?                         -> ../state/type
+    |     +--ro state
+    |     |  +---u isis-lsdb-tlv-type-state
+    |     +-- area-address
+    |     |  +-- state
+    |     |     +-- address*   oc-isis-types:area-address
+    |     +-- lsp-buffer-size
+    |     |  +-- state
+    |     |     +-- size?   uint16
+    |     +-- nlpid
+    |     |  +-- state
+    |     |     +---u isis-lsdb-tlv-nlpid-state
+    |     +-- hostname
+    |     |  +-- state
+    |     |     +-- hostname*   string
+    |     +-- ipv4-interface-addresses
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv4-address
+    |     +-- ipv6-interface-addresses
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv6-address
+    |     +-- ipv4-te-router-id
+    |     |  +-- state
+    |     |     +-- router-id*   inet:ipv4-address
+    |     +-- ipv6-te-router-id
+    |     |  +-- state
+    |     |     +-- router-id*   inet:ipv6-address
+    |     +-- instance-ids
+    |     |  +-- instance-id* [instance-id]
+    |     |     +-- instance-id?   -> ../state/instance-id
+    |     |     +-- state
+    |     |        +-- instance-id?   uint16
+    |     |        +-- topology-id*   uint16
+    |     +-- ipv4-srlgs
+    |     |  +-- ipv4-srlg* [instance-number]
+    |     |     +-- instance-number?   -> ../state/instance-number
+    |     |     +-- state
+    |     |        +-- instance-number?          uint32
+    |     |        +-- system-id?                oc-isis-types:system-id
+    |     |        +-- psn-number?               uint8
+    |     |        +-- flags*                    enumeration
+    |     |        +-- ipv4-interface-address?   inet:ipv4-address
+    |     |        +-- ipv4-neighbor-address?    inet:ipv4-address
+    |     |        +-- srlg-value*               uint32
+    |     +-- ipv6-srlgs
+    |     |  +-- ipv6-srlg* [instance-number]
+    |     |     +-- instance-number?   -> ../state/instance-number
+    |     |     +-- state
+    |     |        +-- instance-number?          uint32
+    |     |        +-- system-id?                oc-isis-types:system-id
+    |     |        +-- psn-number?               uint8
+    |     |        +-- flags*                    enumeration
+    |     |        +-- ipv6-interface-address?   inet:ipv6-address
+    |     |        +-- ipv6-neighbor-address?    inet:ipv6-address
+    |     |        +-- srlg-value*               uint32
+    |     +-- purge-oi
+    |     |  +-- state
+    |     |     +-- system-id-count?      uint8
+    |     |     +-- source-system-id?     oc-isis-types:system-id
+    |     |     +-- received-system-id?   oc-isis-types:system-id
+    |     +-- router-capabilities
+    |     |  +-- capability* [instance-number]
+    |     |     +-- instance-number?              -> ../state/instance-number
+    |     |     +-- state
+    |     |     |  +-- instance-number?   uint32
+    |     |     |  +-- router-id?         inet:ipv4-address
+    |     |     |  +-- flags*             enumeration
+    |     |     +-- subtlvs
+    |     |     |  +-- subtlv* [type]
+    |     |     |     +-- type?                         -> ../state/type
+    |     |     |     +-- state
+    |     |     |     |  +---u isis-lsdb-subtlv-type-state
+    |     |     |     +-- segment-routing-algorithms
+    |     |     |     |  +-- state
+    |     |     |     |     +-- algorithm*   enumeration
+    |     |     |     +-- segment-routing-capability
+    |     |     |        +-- state
+    |     |     |        |  +-- flags*   enumeration
+    |     |     |        +-- srgb-descriptors
+    |     |     |           +-- srgb-descriptor* [range]
+    |     |     |              +-- range?   -> ../state/range
+    |     |     |              +-- state
+    |     |     |                 +-- range?   uint32
+    |     |     |                 +-- label?   oc-mplst:mpls-label
+    |     |     +---u isis-lsdb-undefined-subtlv
+    |     +-- is-reachability
+    |     |  +-- neighbors
+    |     |     +-- neighbor* [system-id]
+    |     |        +-- system-id?            -> ../state/system-id
+    |     |        +---u isis-lsdb-neighbor
+    |     +-- ipv4-internal-reachability
+    |     |  +-- prefixes
+    |     |     +-- prefix* [prefix]
+    |     |        +-- prefix?                         -> ../state/prefix
+    |     |        +---u ipv4-prefix-attributes-state
+    |     +-- ipv4-external-reachability
+    |     |  +-- prefixes
+    |     |     +-- prefix* [prefix]
+    |     |        +-- prefix?                         -> ../state/prefix
+    |     |        +---u ipv4-prefix-attributes-state
+    |     +-- authentication
+    |     |  +-- state
+    |     |     +-- crypto-type?          enumeration
+    |     |     +-- authentication-key?   string
+    |     +-- extended-is-reachability
+    |     |  +---u isis-lsdb-common-extisreach-neighbors
+    |     +-- extended-ipv4-reachability
+    |     |  +-- prefixes
+    |     |     +-- prefix* [prefix]
+    |     |        +-- prefix?                       -> ../state/prefix
+    |     |        +---u ipv4-prefix-extended-state
+    |     +-- ipv6-reachability
+    |     |  +-- prefixes
+    |     |     +-- prefix* [prefix]
+    |     |        +-- prefix?                       -> ../state/prefix
+    |     |        +---u ipv6-prefix-extended-state
+    |     +-- multi-topology
+    |     |  +-- topologies
+    |     |     +-- topology* [mt-id]
+    |     |        +-- mt-id?   -> ../state/mt-id
+    |     |        +-- state
+    |     |           +-- mt-id?        uint16
+    |     |           +-- attributes?   enumeration
+    |     +-- isis-neighbor-attribute
+    |     |  +---u isis-lsdb-common-extisreach-neighbors
+    |     +-- is-alias-id
+    |     |  +--ro state
+    |     |     +--ro alias-id?   oc-isis-types:system-id
+    |     +-- mt-isn
+    |     |  +---u isis-lsdb-mtis-common
+    |     +-- mt-isis-neighbor-attribute
+    |     |  +---u isis-lsdb-mtis-common
+    |     +-- mt-ipv4-reachability
+    |     |  +-- prefixes
+    |     |     +-- prefix* [mt-id prefix]
+    |     |        +-- mt-id?                           -> ../state/mt-id
+    |     |        +-- prefix?                          -> ../state/prefix
+    |     |        +---u ipv4-mt-prefix-extended-state
+    |     +-- mt-ipv6-reachability
+    |        +-- prefixes
+    |           +-- prefix* [prefix mt-id]
+    |              +-- prefix?                          -> ../state/prefix
+    |              +-- mt-id?                           -> ../state/mt-id
+    |              +---u ipv6-mt-prefix-extended-state
+    +---u isis-lsdb-undefined-tlv
+  grouping rt-admin-config:
+    +-- enabled?   boolean
+  grouping isis-afi-safi-config:
+    +-- afi-name?    identityref
+    +-- safi-name?   identityref
+  grouping isis-shortcuts-afi-config:
+    +-- afi-name?   identityref
+    +-- nh-type*    identityref
+  grouping isis-shortcuts-config:
+    +-- config
+    |  +---u rt-admin-config
+    +--ro state
+       +---u rt-admin-config
+  grouping isis-mt-config:
+    +-- afi-name?    identityref
+    +-- safi-name?   identityref
+  grouping isis-metric-config:
+    +-- metric?   uint32
+  grouping isis-ecmp-config:
+    +-- max-ecmp-paths?   uint8
+  grouping isis-afi-safi-list:
+    +-- af* [afi-name safi-name]
+       +-- afi-name?       -> ../config/afi-name
+       +-- safi-name?      -> ../config/safi-name
+       +-- config
+       |  +---u isis-afi-safi-config
+       |  +---u isis-metric-config
+       |  +---u rt-admin-config
+       |  +---u isis-ecmp-config
+       +--ro state
+       |  +---u isis-afi-safi-config
+       |  +---u isis-metric-config
+       |  +---u rt-admin-config
+       |  +---u isis-ecmp-config
+       +---u isis-mt-list
+  grouping isis-if-afi-safi-list:
+    +-- af* [afi-name safi-name]
+       +-- afi-name?                     -> ../config/afi-name
+       +-- safi-name?                    -> ../config/safi-name
+       +-- config
+       |  +---u isis-afi-safi-config
+       |  +---u isis-metric-config
+       |  +---u rt-admin-config
+       +--ro state
+       |  +---u isis-afi-safi-config
+       |  +---u isis-metric-config
+       |  +---u rt-admin-config
+       +---u oc-sr:sr-igp-interface-top
+  grouping isis-if-global-afi-safi-list:
+    +-- af* [afi-name safi-name]
+       +-- afi-name?    -> ../config/afi-name
+       +-- safi-name?   -> ../config/safi-name
+       +-- config
+       |  +---u isis-afi-safi-config
+       |  +---u rt-admin-config
+       +--ro state
+          +---u isis-afi-safi-config
+          +---u rt-admin-config
+  grouping isis-shortcuts-afi-list:
+    +-- afi* [afi-name]
+       +-- afi-name?   -> ../config/afi-name
+       +-- config
+       |  +---u isis-shortcuts-afi-config
+       +--ro state
+          +---u isis-shortcuts-afi-config
+  grouping isis-mt-list:
+    +-- multi-topology
+       +-- config
+       |  +---u isis-mt-config
+       +--ro state
+          +---u isis-mt-config
+          +---u rt-admin-config

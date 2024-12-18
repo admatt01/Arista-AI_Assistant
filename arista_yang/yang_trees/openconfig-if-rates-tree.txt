@@ -1,0 +1,17 @@
+module: openconfig-if-rates
+
+  augment /oc-if:interfaces/oc-if:interface:
+    +--rw rates
+       +--rw config
+       |  +---u interface-rates-config
+       +--ro state
+          +---u interface-rates-state
+
+  grouping interface-rates-config:
+    +-- load-interval?   uint16
+  grouping interface-rates-state:
+    +-- load-interval?   uint16
+    +-- out-bits-rate?   uint64
+    +-- in-bits-rate?    uint64
+    +-- out-pkts-rate?   uint64
+    +-- in-pkts-rate?    uint64

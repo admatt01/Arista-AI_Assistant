@@ -1,0 +1,7 @@
+module: openconfig-platform-ext
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:state:
+    +---u platform-component-ext-state
+
+  grouping platform-component-ext-state:
+    +-- entity-id?   uint32

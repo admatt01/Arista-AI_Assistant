@@ -1,0 +1,9 @@
+module: openconfig-platform-controller-card
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:controller-card/oc-platform:config:
+    +---u controller-card-config
+  augment /oc-platform:components/oc-platform:component/oc-platform:controller-card/oc-platform:state:
+    +---u controller-card-config
+
+  grouping controller-card-config:
+    +---u oc-platform:component-power-management

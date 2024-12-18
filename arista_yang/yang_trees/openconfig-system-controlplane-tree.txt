@@ -1,0 +1,55 @@
+module: openconfig-system-controlplane
+
+  augment /oc-sys:system:
+    +---u system-controlplane-top
+
+  grouping system-controlplane-top:
+    +-- control-plane-traffic
+       +-- ingress
+       |  +---u system-controlplane-acl-common-top
+       |  +-- qos
+       |     +-- classifier
+       |     |  +-- config
+       |     |  |  +---u system-controlplane-qos-classifier-config
+       |     |  +--ro state
+       |     |  |  +---u system-controlplane-qos-classifier-config
+       |     |  +--ro terms
+       |     |     +--ro term* [id]
+       |     |        +--ro id?      -> ../state/id
+       |     |        +--ro state
+       |     |           +---u system-controlplane-qos-classifier-term-state
+       |     |           +---u oc-qos:qos-interface-classifier-match-counters-state
+       |     +-- scheduler-policy
+       |        +-- config
+       |        |  +---u system-controlplane-qos-scheduler-config
+       |        +--ro state
+       |        |  +---u system-controlplane-qos-scheduler-config
+       |        +--ro scheduler-statistics
+       |           +--ro scheduler* [sequence]
+       |              +--ro sequence?   -> ../state/sequence
+       |              +--ro state
+       |                 +---u system-controlplane-qos-scheduler-seq-state
+       +-- egress
+          +---u system-controlplane-acl-common-top
+  grouping system-controlplane-acl-common-top:
+    +-- acl
+       +-- acl-set* [set-name type]
+          +-- set-name?                           -> ../config/set-name
+          +-- type?                               -> ../config/type
+          +-- config
+          |  +---u system-controlplane-common-acl-config
+          +--ro state
+          |  +---u system-controlplane-common-acl-config
+          +---u oc-acl:interface-acl-entries-top
+  grouping system-controlplane-common-acl-config:
+    +-- set-name?   -> /oc-acl:acl/acl-sets/acl-set/config/name
+    +-- type?       -> /oc-acl:acl/acl-sets/acl-set[oc-acl:name=current()/../set-name]/config/type
+  grouping system-controlplane-qos-classifier-config:
+    +-- name?   -> /oc-qos:qos/classifiers/classifier/config/name
+  grouping system-controlplane-qos-classifier-term-state:
+    +-- id?   -> /oc-qos:qos/classifiers/classifier[oc-qos:name=current()/../../../../config/name]/terms/term/config/id
+  grouping system-controlplane-qos-scheduler-config:
+    +-- name?   -> /oc-qos:qos/scheduler-policies/scheduler-policy/config/name
+  grouping system-controlplane-qos-scheduler-seq-state:
+    +-- sequence?                            -> /oc-qos:qos/scheduler-policies/scheduler-policy[oc-qos:name=current()/../../../../config/name]/schedulers/scheduler/config/sequence
+    +---u oc-qos:qos-scheduler-common-state

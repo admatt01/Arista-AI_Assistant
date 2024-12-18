@@ -1,0 +1,92 @@
+module: openconfig-probes
+  +---u openconfig-probes-top
+
+  grouping test-target:
+    +-- target
+       +-- config
+       |  +---u test-target-base
+       +--ro state
+          +---u test-target-base
+  grouping test-target-base:
+    +-- address?   oc-inet:ip-address
+    +-- port?      oc-inet:port-number
+    +-- url?       oc-inet:url
+  grouping probe-test-config-base:
+    +-- test-type       oc-probes-types:test-type
+    +-- count?          yang:counter64
+    +-- interval?       yang:counter64
+    +-- source?         oc-inet:ip-address
+    +-- history-size?   yang:counter64
+    +-- source-port?    oc-inet:port-number
+    +-- dscp?           oc-inet:dscp
+  grouping probe-test-state-history-item-base:
+    +-- id?                yang:counter64
+    +-- timestamp?         oc-types:timeticks64
+    +-- start-timestamp?   oc-types:timeticks64
+    +-- end-timestamp?     oc-types:timeticks64
+    +-- test-duration?     yang:counter64
+    +-- failed?            boolean
+    +-- probes-sent?       yang:counter64
+    +-- probes-received?   yang:counter64
+    +-- loss-percentage?   oc-types:percentage
+    +-- jitter?            yang:counter64
+    +-- min-delay?         yang:counter64
+    +-- max-delay?         yang:counter64
+    +-- avg-delay?         yang:counter64
+    +-- stddev-delay?      yang:counter64
+  grouping probe-test-state-history-item:
+    +--ro state
+       +---u probe-test-state-history-item-base
+  grouping probe-test-state-history:
+    +-- items
+       +-- item* [id]
+          +-- id?                              -> ../state/id
+          +---u probe-test-state-history-item
+  grouping probe-test-state-results:
+    +-- timestamp?             oc-types:timeticks64
+    +-- start-timestamp?       oc-types:timeticks64
+    +-- last-test-timestamp?   oc-types:timeticks64
+    +-- test-duration?         yang:counter64
+    +-- failed?                boolean
+    +-- probes-sent?           yang:counter64
+    +-- probes-received?       yang:counter64
+    +-- loss-percentage?       oc-types:percentage
+    +-- jitter?                yang:counter64
+    +-- min-delay?             yang:counter64
+    +-- max-delay?             yang:counter64
+    +-- avg-delay?             yang:counter64
+    +-- stddev-delay?          yang:counter64
+  grouping probe-test-state:
+  grouping probe-test-config:
+    +-- name                      string
+    +-- enabled?                  boolean
+    +---u probe-test-config-base
+  grouping probe-tests-top:
+    +-- test* [name]
+       +-- name?          -> ../config/name
+       +-- config
+       |  +---u probe-test-config
+       +--ro state
+       |  +---u probe-test-config
+       +---u test-target
+       +-- results
+          +--ro state
+          |  +---u probe-test-state-results
+          +--ro history
+             +---u probe-test-state-history
+  grouping probe-config:
+    +-- name       string
+    +-- enabled?   boolean
+  grouping probe-state:
+  grouping probes-top:
+    +-- probe* [name]
+       +-- name?     -> ../config/name
+       +-- config
+       |  +---u probe-config
+       +--ro state
+       |  +---u probe-config
+       +-- tests
+          +---u probe-tests-top
+  grouping openconfig-probes-top:
+    +-- probes
+       +---u probes-top

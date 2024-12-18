@@ -1,0 +1,23 @@
+module: openconfig-gnsi-certz
+
+  augment /oc-sys:system/oc-sys-grpc:grpc-servers/oc-sys-grpc:grpc-server/oc-sys-grpc:state:
+    +---u grpc-server-credentials-state
+  augment /oc-sys:system/oc-sys-grpc:grpc-servers/oc-sys-grpc:grpc-server/oc-sys-grpc:state:
+    +---u grpc-server-certz-counters
+
+  grouping grpc-server-certz-counters:
+    +--ro counters
+       +--ro connection-rejects?       oc-yang:counter64
+       +--ro last-connection-reject?   oc-types:timeticks64
+       +--ro connection-accepts?       oc-yang:counter64
+       +--ro last-connection-accept?   oc-types:timeticks64
+  grouping grpc-server-credentials-state:
+    +-- certificate-version?                             version
+    +-- certificate-created-on?                          created-on
+    +-- ca-trust-bundle-version?                         version
+    +-- ca-trust-bundle-created-on?                      created-on
+    +-- certificate-revocation-list-bundle-version?      version
+    +-- certificate-revocation-list-bundle-created-on?   created-on
+    +-- authentication-policy-version?                   version
+    +-- authentication-policy-created-on?                created-on
+    +-- ssl-profile-id?                                  string

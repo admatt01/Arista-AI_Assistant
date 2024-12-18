@@ -1,0 +1,66 @@
+module: openconfig-lacp
+  +---u aggregation-lacp-top
+
+  grouping aggregation-lacp-members-config:
+    +-- interface?       oc-if:base-interface-ref
+    +-- port-priority?   uint16
+  grouping aggregation-lacp-members-state:
+    +-- activity?                lacp-activity-type
+    +-- timeout?                 lacp-timeout-type
+    +-- synchronization?         lacp-synchronization-type
+    +-- aggregatable?            boolean
+    +-- collecting?              boolean
+    +-- distributing?            boolean
+    +-- system-id?               oc-yang:mac-address
+    +-- oper-key?                uint16
+    +-- partner-id?              oc-yang:mac-address
+    +-- partner-key?             uint16
+    +-- port-num?                uint16
+    +-- partner-port-num?        uint16
+    +-- partner-port-priority?   uint16
+    +-- last-change?             oc-types:timeticks64
+  grouping aggregation-lacp-members-statistics:
+    +-- counters
+       +-- lacp-in-pkts?               oc-yang:counter64
+       +-- lacp-out-pkts?              oc-yang:counter64
+       +-- lacp-rx-errors?             oc-yang:counter64
+       +-- lacp-tx-errors?             oc-yang:counter64
+       +-- lacp-unknown-errors?        oc-yang:counter64
+       +-- lacp-errors?                oc-yang:counter64
+       +-- lacp-timeout-transitions?   oc-yang:counter64
+  grouping aggregation-lacp-members-top:
+    +-- members
+       +-- member* [interface]
+          +-- interface?   -> ../config/interface
+          +-- config
+          |  +---u aggregation-lacp-members-config
+          +--ro state
+             +---u aggregation-lacp-members-config
+             +---u aggregation-lacp-members-state
+             +---u aggregation-lacp-members-statistics
+  grouping lacp-interfaces-config:
+    +-- name?                             oc-if:base-interface-ref
+    +-- interval?                         lacp-period-type
+    +-- lacp-mode?                        lacp-activity-type
+    +-- system-id-mac?                    oc-yang:mac-address
+    +---u aggregation-lacp-global-config
+  grouping lacp-interfaces-state:
+  grouping lacp-interfaces-top:
+    +-- interfaces
+       +-- interface* [name]
+          +-- name?                           -> ../config/name
+          +-- config
+          |  +---u lacp-interfaces-config
+          +--ro state
+          |  +---u lacp-interfaces-config
+          +---u aggregation-lacp-members-top
+  grouping aggregation-lacp-global-config:
+    +-- system-priority?   uint16
+  grouping aggregation-lacp-global-state:
+  grouping aggregation-lacp-top:
+    +-- lacp
+       +-- config
+       |  +---u aggregation-lacp-global-config
+       +--ro state
+       |  +---u aggregation-lacp-global-config
+       +---u lacp-interfaces-top

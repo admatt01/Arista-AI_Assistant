@@ -1,0 +1,422 @@
+submodule: openconfig-isis-lsp (belongs-to openconfig-isis)
+
+  grouping isis-lsdb-link-characteristics-a-bit:
+    +-- a-bit?   boolean
+  grouping isis-lsdb-tlv-nlpid-state:
+    +-- nlpid*   enumeration
+  grouping isis-lsdb-subtlv-type-state:
+    +-- type?   identityref
+  grouping isis-lsdb-tlv-type-state:
+    +-- type?   identityref
+  grouping is-reachability-neighbor-state:
+    +-- subtlvs
+    |  +-- subtlv* [type]
+    |     +-- type?                            -> ../state/type
+    |     +-- state
+    |     |  +---u isis-lsdb-subtlv-type-state
+    |     +-- admin-group
+    |     |  +-- state
+    |     |     +-- admin-group*   uint32
+    |     +-- link-id
+    |     |  +-- state
+    |     |     +-- local?    uint32
+    |     |     +-- remote?   uint32
+    |     +-- ipv4-interface-address
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv4-address
+    |     +-- ipv4-neighbor-address
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv4-address
+    |     +-- max-link-bandwidth
+    |     |  +-- state
+    |     |     +-- bandwidth?   oc-types:ieeefloat32
+    |     +-- max-reservable-link-bandwidth
+    |     |  +-- state
+    |     |     +-- bandwidth?   oc-types:ieeefloat32
+    |     +-- unreserved-bandwidth
+    |     |  +-- setup-priority* [priority]
+    |     |     +-- priority?   -> ../state/priority
+    |     |     +-- state
+    |     |        +-- priority?    uint8
+    |     |        +-- bandwidth?   oc-types:ieeefloat32
+    |     +-- ipv6-interface-address
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv6-address
+    |     +-- ipv6-neighbor-address
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv6-address
+    |     +-- extended-admin-group
+    |     |  +-- state
+    |     |     +-- extended-admin-group*   uint32
+    |     +-- te-default-metric
+    |     |  +-- state
+    |     |     +-- metric?   uint32
+    |     +-- link-attributes
+    |     |  +-- state
+    |     |     +-- local-protection*   enumeration
+    |     +-- link-protection-type
+    |     |  +-- state
+    |     |     +-- type*   enumeration
+    |     +-- bandwidth-constraints
+    |     |  +-- bandwidth-constraint* [model-id]
+    |     |     +-- model-id?      -> ../state/model-id
+    |     |     +-- state
+    |     |     |  +-- model-id?   uint8
+    |     |     +-- constraints
+    |     |        +-- constraint* [constraint-id]
+    |     |           +-- constraint-id?   -> ../state/constraint-id
+    |     |           +-- state
+    |     |              +-- constraint-id?   uint32
+    |     |              +-- bandwidth?       oc-types:ieeefloat32
+    |     +-- unconstrained-lsp
+    |     |  +-- state
+    |     |     +---u isis-lsdb-subtlv-type-state
+    |     |     +-- count?                         uint16
+    |     +-- adjacency-sids
+    |     |  +-- adjacency-sid* [value]
+    |     |     +-- value?   -> ../state/value
+    |     |     +-- state
+    |     |        +-- value?    uint32
+    |     |        +-- flags*    enumeration
+    |     |        +-- weight?   uint8
+    |     +-- lan-adjacency-sids
+    |     |  +-- lan-adjacency-sid* [value]
+    |     |     +-- value?   -> ../state/value
+    |     |     +-- state
+    |     |        +-- value?         uint32
+    |     |        +-- flags*         enumeration
+    |     |        +-- weight?        uint8
+    |     |        +-- neighbor-id?   oc-isis-types:system-id
+    |     +-- link-delay
+    |     |  +-- state
+    |     |     +---u isis-lsdb-link-characteristics-a-bit
+    |     |     +-- delay?                                  uint32
+    |     +-- min-max-link-delay
+    |     |  +-- state
+    |     |     +---u isis-lsdb-link-characteristics-a-bit
+    |     |     +-- min-delay?                              uint32
+    |     |     +-- max-delay?                              uint32
+    |     +-- link-delay-variation
+    |     |  +-- state
+    |     |     +-- delay?   uint32
+    |     +-- link-loss
+    |     |  +-- state
+    |     |     +---u isis-lsdb-link-characteristics-a-bit
+    |     |     +-- link-loss?                              uint32
+    |     +-- residual-bandwidth
+    |     |  +-- state
+    |     |     +-- bandwidth?   oc-types:ieeefloat32
+    |     +-- available-bandwidth
+    |     |  +-- state
+    |     |     +---u isis-lsdb-subtlv-type-state
+    |     |     +-- bandwidth?                     oc-types:ieeefloat32
+    |     +-- utilized-bandwidth
+    |        +-- state
+    |           +---u isis-lsdb-subtlv-type-state
+    |           +-- bandwidth?                     oc-types:ieeefloat32
+    +---u isis-lsdb-undefined-subtlv
+  grouping isis-lsdb-undefined-tlv:
+    +-- undefined-tlvs
+       +-- undefined-tlv* [type]
+          +-- type?    -> ../state/type
+          +-- state
+             +---u undefined-tlv-state
+  grouping isis-lsdb-undefined-subtlv:
+    +-- undefined-subtlvs
+       +-- undefined-subtlv* [type]
+          +-- type?    -> ../state/type
+          +-- state
+             +---u undefined-subtlv-state
+  grouping isis-lsdb-prefix-state:
+    +-- subtlvs
+    |  +-- subtlv* [type]
+    |     +-- type?                         -> ../state/type
+    |     +-- state
+    |     |  +---u isis-lsdb-subtlv-type-state
+    |     +-- tag
+    |     |  +-- state
+    |     |     +-- tag32*   uint32
+    |     +-- tag64
+    |     |  +-- state
+    |     |     +-- tag64*   uint64
+    |     +-- flags
+    |     |  +-- state
+    |     |     +---u isis-lsdb-subtlv-type-state
+    |     |     +-- flags*                         enumeration
+    |     +-- ipv4-source-router-id
+    |     |  +-- state
+    |     |     +---u isis-lsdb-subtlv-type-state
+    |     |     +-- router-id?                     inet:ipv4-address
+    |     +-- ipv6-source-router-id
+    |     |  +-- state
+    |     |     +---u isis-lsdb-subtlv-type-state
+    |     |     +-- router-id?                     inet:ipv6-address
+    |     +---u isis-lsdb-prefix-sid-state
+    +---u isis-lsdb-undefined-subtlv
+  grouping isis-lsdb-prefix-sid-state:
+    +-- prefix-sids
+       +-- prefix-sid* [value]
+          +-- value?   -> ../state/value
+          +-- state
+             +-- value?       uint32
+             +-- flags*       enumeration
+             +-- algorithm?   uint8
+  grouping isis-lsdb-common-metric-specification:
+    +-- default-metric
+    |  +-- state
+    |     +-- flags?    enumeration
+    |     +-- metric?   oc-isis-types:narrow-metric
+    +-- delay-metric
+    |  +-- state
+    |     +-- metric?   oc-isis-types:narrow-metric
+    |     +-- flags*    isis-metric-flags
+    +-- expense-metric
+    |  +-- state
+    |     +-- metric?   oc-isis-types:narrow-metric
+    |     +-- flags*    isis-metric-flags
+    +-- error-metric
+       +-- state
+          +-- metric?   oc-isis-types:narrow-metric
+          +-- flags*    isis-metric-flags
+  grouping isis-lsdb-neighbor:
+    +-- state
+    |  +-- system-id?   oc-isis-types:system-id
+    +---u isis-lsdb-common-metric-specification
+  grouping ipv4-prefix-attributes-state:
+    +-- state
+    |  +-- up-down?   boolean
+    |  +-- prefix?    inet:ipv4-prefix
+    +---u isis-lsdb-common-metric-specification
+  grouping isis-lsdb-common-mt-id:
+    +-- mt-id?   uint16
+  grouping ipv4-prefix-extended-state:
+    +-- state
+    |  +---u ipv4-prefix-extended-params-state
+    +---u isis-lsdb-prefix-state
+  grouping ipv4-mt-prefix-extended-state:
+    +-- state
+    |  +---u ipv4-prefix-extended-params-state
+    |  +---u isis-lsdb-common-mt-id
+    +---u isis-lsdb-prefix-state
+  grouping ipv4-prefix-extended-params-state:
+    +-- up-down?   boolean
+    +-- s-bit?     boolean
+    +-- prefix?    inet:ipv4-prefix
+    +-- metric?    oc-isis-types:wide-metric
+  grouping ipv6-prefix-extended-state:
+    +-- state
+    |  +---u ipv6-prefix-extended-params-state
+    +---u isis-lsdb-prefix-state
+  grouping ipv6-mt-prefix-extended-state:
+    +-- state
+    |  +---u ipv6-prefix-extended-params-state
+    |  +---u isis-lsdb-common-mt-id
+    +---u isis-lsdb-prefix-state
+  grouping ipv6-prefix-extended-params-state:
+    +-- up-down?   boolean
+    +-- x-bit?     boolean
+    +-- s-bit?     boolean
+    +-- prefix?    inet:ipv6-prefix
+    +-- metric?    oc-isis-types:wide-metric
+  grouping isis-lsdb-common-extisreach-neighbors:
+    +-- neighbors
+       +-- neighbor* [system-id]
+          +-- system-id?   -> ../state/system-id
+          +-- state
+          |  +-- system-id?   oc-isis-types:system-id
+          +-- instances
+             +-- instance* [id]
+                +-- id?                               -> ../state/id
+                +-- state
+                |  +-- id?       uint64
+                |  +-- metric?   oc-isis-types:wide-metric
+                +---u is-reachability-neighbor-state
+  grouping isis-lsdb-mtis-common:
+    +-- neighbors
+       +-- neighbor* [mt-id system-id]
+          +-- mt-id?       -> ../state/mt-id
+          +-- system-id?   -> ../state/system-id
+          +-- state
+          |  +---u mt-isis-neighbor-state
+          +-- instances
+             +-- instance* [id]
+                +-- id?                          -> ../state/id
+                +---u mt-isis-neighbor-instance
+  grouping mt-isis-neighbor-state:
+    +-- mt-id?       uint16
+    +-- system-id?   oc-isis-types:system-id
+  grouping mt-isis-neighbor-instance:
+    +-- state
+    |  +-- metric?   oc-isis-types:wide-metric
+    |  +-- id?       uint64
+    +---u is-reachability-neighbor-state
+  grouping isis-lsdb-generic-tlv:
+    +-- type?     uint8
+    +-- length?   uint8
+    +-- value?    binary
+  grouping undefined-tlv-state:
+    +---u isis-lsdb-generic-tlv
+  grouping undefined-subtlv-state:
+    +---u isis-lsdb-generic-tlv
+  grouping lsp-state:
+    +-- lsp-id?                    -> ../state/lsp-id
+    +-- state
+    |  +-- lsp-id?                   oc-isis-types:lsp-id
+    |  +-- maximum-area-addresses?   uint8
+    |  +-- version?                  uint8
+    |  +-- version2?                 uint8
+    |  +-- id-length?                uint8
+    |  +-- pdu-type?                 enumeration
+    |  +-- remaining-lifetime?       uint16
+    |  +-- sequence-number?          uint32
+    |  +-- checksum?                 uint16
+    |  +-- pdu-length?               uint16
+    |  +-- flags*                    enumeration
+    |  +-- is-type?                  oc-isis-types:level-number
+    +-- tlvs
+    |  +-- tlv* [type]
+    |     +-- type?                         -> ../state/type
+    |     +--ro state
+    |     |  +---u isis-lsdb-tlv-type-state
+    |     +-- area-address
+    |     |  +-- state
+    |     |     +-- address*   oc-isis-types:area-address
+    |     +-- lsp-buffer-size
+    |     |  +-- state
+    |     |     +-- size?   uint16
+    |     +-- nlpid
+    |     |  +-- state
+    |     |     +---u isis-lsdb-tlv-nlpid-state
+    |     +-- hostname
+    |     |  +-- state
+    |     |     +-- hostname*   string
+    |     +-- ipv4-interface-addresses
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv4-address
+    |     +-- ipv6-interface-addresses
+    |     |  +-- state
+    |     |     +-- address*   inet:ipv6-address
+    |     +-- ipv4-te-router-id
+    |     |  +-- state
+    |     |     +-- router-id*   inet:ipv4-address
+    |     +-- ipv6-te-router-id
+    |     |  +-- state
+    |     |     +-- router-id*   inet:ipv6-address
+    |     +-- instance-ids
+    |     |  +-- instance-id* [instance-id]
+    |     |     +-- instance-id?   -> ../state/instance-id
+    |     |     +-- state
+    |     |        +-- instance-id?   uint16
+    |     |        +-- topology-id*   uint16
+    |     +-- ipv4-srlgs
+    |     |  +-- ipv4-srlg* [instance-number]
+    |     |     +-- instance-number?   -> ../state/instance-number
+    |     |     +-- state
+    |     |        +-- instance-number?          uint32
+    |     |        +-- system-id?                oc-isis-types:system-id
+    |     |        +-- psn-number?               uint8
+    |     |        +-- flags*                    enumeration
+    |     |        +-- ipv4-interface-address?   inet:ipv4-address
+    |     |        +-- ipv4-neighbor-address?    inet:ipv4-address
+    |     |        +-- srlg-value*               uint32
+    |     +-- ipv6-srlgs
+    |     |  +-- ipv6-srlg* [instance-number]
+    |     |     +-- instance-number?   -> ../state/instance-number
+    |     |     +-- state
+    |     |        +-- instance-number?          uint32
+    |     |        +-- system-id?                oc-isis-types:system-id
+    |     |        +-- psn-number?               uint8
+    |     |        +-- flags*                    enumeration
+    |     |        +-- ipv6-interface-address?   inet:ipv6-address
+    |     |        +-- ipv6-neighbor-address?    inet:ipv6-address
+    |     |        +-- srlg-value*               uint32
+    |     +-- purge-oi
+    |     |  +-- state
+    |     |     +-- system-id-count?      uint8
+    |     |     +-- source-system-id?     oc-isis-types:system-id
+    |     |     +-- received-system-id?   oc-isis-types:system-id
+    |     +-- router-capabilities
+    |     |  +-- capability* [instance-number]
+    |     |     +-- instance-number?              -> ../state/instance-number
+    |     |     +-- state
+    |     |     |  +-- instance-number?   uint32
+    |     |     |  +-- router-id?         inet:ipv4-address
+    |     |     |  +-- flags*             enumeration
+    |     |     +-- subtlvs
+    |     |     |  +-- subtlv* [type]
+    |     |     |     +-- type?                         -> ../state/type
+    |     |     |     +-- state
+    |     |     |     |  +---u isis-lsdb-subtlv-type-state
+    |     |     |     +-- segment-routing-algorithms
+    |     |     |     |  +-- state
+    |     |     |     |     +-- algorithm*   enumeration
+    |     |     |     +-- segment-routing-capability
+    |     |     |        +-- state
+    |     |     |        |  +-- flags*   enumeration
+    |     |     |        +-- srgb-descriptors
+    |     |     |           +-- srgb-descriptor* [range]
+    |     |     |              +-- range?   -> ../state/range
+    |     |     |              +-- state
+    |     |     |                 +-- range?   uint32
+    |     |     |                 +-- label?   oc-mplst:mpls-label
+    |     |     +---u isis-lsdb-undefined-subtlv
+    |     +-- is-reachability
+    |     |  +-- neighbors
+    |     |     +-- neighbor* [system-id]
+    |     |        +-- system-id?            -> ../state/system-id
+    |     |        +---u isis-lsdb-neighbor
+    |     +-- ipv4-internal-reachability
+    |     |  +-- prefixes
+    |     |     +-- prefix* [prefix]
+    |     |        +-- prefix?                         -> ../state/prefix
+    |     |        +---u ipv4-prefix-attributes-state
+    |     +-- ipv4-external-reachability
+    |     |  +-- prefixes
+    |     |     +-- prefix* [prefix]
+    |     |        +-- prefix?                         -> ../state/prefix
+    |     |        +---u ipv4-prefix-attributes-state
+    |     +-- authentication
+    |     |  +-- state
+    |     |     +-- crypto-type?          enumeration
+    |     |     +-- authentication-key?   string
+    |     +-- extended-is-reachability
+    |     |  +---u isis-lsdb-common-extisreach-neighbors
+    |     +-- extended-ipv4-reachability
+    |     |  +-- prefixes
+    |     |     +-- prefix* [prefix]
+    |     |        +-- prefix?                       -> ../state/prefix
+    |     |        +---u ipv4-prefix-extended-state
+    |     +-- ipv6-reachability
+    |     |  +-- prefixes
+    |     |     +-- prefix* [prefix]
+    |     |        +-- prefix?                       -> ../state/prefix
+    |     |        +---u ipv6-prefix-extended-state
+    |     +-- multi-topology
+    |     |  +-- topologies
+    |     |     +-- topology* [mt-id]
+    |     |        +-- mt-id?   -> ../state/mt-id
+    |     |        +-- state
+    |     |           +-- mt-id?        uint16
+    |     |           +-- attributes?   enumeration
+    |     +-- isis-neighbor-attribute
+    |     |  +---u isis-lsdb-common-extisreach-neighbors
+    |     +-- is-alias-id
+    |     |  +--ro state
+    |     |     +--ro alias-id?   oc-isis-types:system-id
+    |     +-- mt-isn
+    |     |  +---u isis-lsdb-mtis-common
+    |     +-- mt-isis-neighbor-attribute
+    |     |  +---u isis-lsdb-mtis-common
+    |     +-- mt-ipv4-reachability
+    |     |  +-- prefixes
+    |     |     +-- prefix* [mt-id prefix]
+    |     |        +-- mt-id?                           -> ../state/mt-id
+    |     |        +-- prefix?                          -> ../state/prefix
+    |     |        +---u ipv4-mt-prefix-extended-state
+    |     +-- mt-ipv6-reachability
+    |        +-- prefixes
+    |           +-- prefix* [prefix mt-id]
+    |              +-- prefix?                          -> ../state/prefix
+    |              +-- mt-id?                           -> ../state/mt-id
+    |              +---u ipv6-mt-prefix-extended-state
+    +---u isis-lsdb-undefined-tlv

@@ -1,0 +1,25 @@
+module: openconfig-rib-bgp-ext
+
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:protocols/oc-ni:protocol/oc-ni:bgp/oc-ni:rib/oc-ni:afi-safis/oc-ni:afi-safi/oc-ni:ipv4-unicast/oc-ni:loc-rib/oc-ni:routes/oc-ni:route/oc-ni:state:
+    +---u rib-ext-route-annotations
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:protocols/oc-ni:protocol/oc-ni:bgp/oc-ni:rib/oc-ni:afi-safis/oc-ni:afi-safi/oc-ni:ipv6-unicast/oc-ni:loc-rib/oc-ni:routes/oc-ni:route/oc-ni:state:
+    +---u rib-ext-route-annotations
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:protocols/oc-ni:protocol/oc-ni:bgp/oc-ni:rib/oc-ni:afi-safis/oc-ni:afi-safi/oc-ni:ipv4-unicast/oc-ni:neighbors/oc-ni:neighbor/oc-ni:adj-rib-in-pre/oc-ni:routes/oc-ni:route/oc-ni:state:
+    +---u rib-ext-route-annotations
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:protocols/oc-ni:protocol/oc-ni:bgp/oc-ni:rib/oc-ni:afi-safis/oc-ni:afi-safi/oc-ni:ipv4-unicast/oc-ni:neighbors/oc-ni:neighbor/oc-ni:adj-rib-in-post/oc-ni:routes/oc-ni:route/oc-ni:state:
+    +---u rib-ext-route-annotations
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:protocols/oc-ni:protocol/oc-ni:bgp/oc-ni:rib/oc-ni:afi-safis/oc-ni:afi-safi/oc-ni:ipv4-unicast/oc-ni:neighbors/oc-ni:neighbor/oc-ni:adj-rib-out-pre/oc-ni:routes/oc-ni:route/oc-ni:state:
+    +---u rib-ext-route-annotations
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:protocols/oc-ni:protocol/oc-ni:bgp/oc-ni:rib/oc-ni:afi-safis/oc-ni:afi-safi/oc-ni:ipv4-unicast/oc-ni:neighbors/oc-ni:neighbor/oc-ni:adj-rib-out-post/oc-ni:routes/oc-ni:route/oc-ni:state:
+    +---u rib-ext-route-annotations
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:protocols/oc-ni:protocol/oc-ni:bgp/oc-ni:rib/oc-ni:afi-safis/oc-ni:afi-safi/oc-ni:ipv6-unicast/oc-ni:neighbors/oc-ni:neighbor/oc-ni:adj-rib-in-pre/oc-ni:routes/oc-ni:route/oc-ni:state:
+    +---u rib-ext-route-annotations
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:protocols/oc-ni:protocol/oc-ni:bgp/oc-ni:rib/oc-ni:afi-safis/oc-ni:afi-safi/oc-ni:ipv6-unicast/oc-ni:neighbors/oc-ni:neighbor/oc-ni:adj-rib-in-post/oc-ni:routes/oc-ni:route/oc-ni:state:
+    +---u rib-ext-route-annotations
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:protocols/oc-ni:protocol/oc-ni:bgp/oc-ni:rib/oc-ni:afi-safis/oc-ni:afi-safi/oc-ni:ipv6-unicast/oc-ni:neighbors/oc-ni:neighbor/oc-ni:adj-rib-out-pre/oc-ni:routes/oc-ni:route/oc-ni:state:
+    +---u rib-ext-route-annotations
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:protocols/oc-ni:protocol/oc-ni:bgp/oc-ni:rib/oc-ni:afi-safis/oc-ni:afi-safi/oc-ni:ipv6-unicast/oc-ni:neighbors/oc-ni:neighbor/oc-ni:adj-rib-out-post/oc-ni:routes/oc-ni:route/oc-ni:state:
+    +---u rib-ext-route-annotations
+
+  grouping rib-ext-route-annotations:
+    +-- reject-reason?   union

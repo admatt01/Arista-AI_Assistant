@@ -1,0 +1,14 @@
+module: openconfig-system-bootz
+
+  augment /oc-sys:system:
+    +---u bootz-service-structural
+
+  grouping bootz-service-structural:
+    +-- bootz
+       +--ro state
+          +---u bootz-state
+  grouping bootz-state:
+    +-- checksum?            string
+    +-- error-count?         oc-yang:counter64
+    +-- status?              enumeration
+    +-- last-boot-attempt?   oc-types:timeticks64

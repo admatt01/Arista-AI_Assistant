@@ -1,0 +1,25 @@
+module: openconfig-gnsi-authz
+
+  augment /oc-sys:system/oc-sys:aaa/oc-sys:authorization/oc-sys:state:
+    +---u grpc-server-authz-policy-state
+  augment /oc-sys:system/oc-sys-grpc:grpc-servers/oc-sys-grpc:grpc-server:
+    +---u grpc-server-authz-policy-success-failure-counters
+
+  grouping counters:
+    +-- access-rejects?       oc-yang:counter64
+    +-- last-access-reject?   oc-types:timeticks64
+    +-- access-accepts?       oc-yang:counter64
+    +-- last-access-accept?   oc-types:timeticks64
+  grouping grpc-server-user-authz-policy-success-failure-counters:
+    +-- rpcs
+       +-- rpc* [name]
+          +-- name?    -> ../state/name
+          +-- state
+             +-- name?       string
+             +---u counters
+  grouping grpc-server-authz-policy-success-failure-counters:
+    +--ro authz-policy-counters
+       +---u grpc-server-user-authz-policy-success-failure-counters
+  grouping grpc-server-authz-policy-state:
+    +-- grpc-authz-policy-version?      version
+    +-- grpc-authz-policy-created-on?   created-on

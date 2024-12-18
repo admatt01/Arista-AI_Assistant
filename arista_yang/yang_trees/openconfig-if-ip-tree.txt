@@ -1,0 +1,181 @@
+module: openconfig-if-ip
+
+  augment /oc-if:interfaces/oc-if:interface/oc-if:subinterfaces/oc-if:subinterface:
+    +---u ipv4-top
+  augment /oc-if:interfaces/oc-if:interface/oc-if:subinterfaces/oc-if:subinterface:
+    +---u ipv6-top
+  augment /oc-if:interfaces/oc-if:interface/oc-vlan:routed-vlan:
+    +---u ipv4-top
+  augment /oc-if:interfaces/oc-if:interface/oc-vlan:routed-vlan:
+    +---u ipv6-top
+
+  grouping ip-common-global-config:
+    +-- dhcp-client?   boolean
+  grouping ip-common-counters-state:
+    +-- counters
+       +-- in-pkts?                oc-yang:counter64
+       +-- in-octets?              oc-yang:counter64
+       +-- in-multicast-pkts?      oc-yang:counter64
+       +-- in-multicast-octets?    oc-yang:counter64
+       +-- in-error-pkts?          oc-yang:counter64
+       +-- in-forwarded-pkts?      oc-yang:counter64
+       +-- in-forwarded-octets?    oc-yang:counter64
+       +-- in-discarded-pkts?      oc-yang:counter64
+       +-- out-pkts?               oc-yang:counter64
+       +-- out-octets?             oc-yang:counter64
+       +-- out-multicast-pkts?     oc-yang:counter64
+       +-- out-multicast-octets?   oc-yang:counter64
+       +-- out-error-pkts?         oc-yang:counter64
+       +-- out-forwarded-pkts?     oc-yang:counter64
+       +-- out-forwarded-octets?   oc-yang:counter64
+       +-- out-discarded-pkts?     oc-yang:counter64
+  grouping ipv4-global-config:
+    +-- enabled?                   boolean
+    +-- mtu?                       uint16
+    +---u ip-common-global-config
+  grouping ipv4-address-config:
+    +-- ip?              oc-inet:ipv4-address
+    +-- prefix-length?   uint8
+    +-- type?            ipv4-address-type
+  grouping ipv4-neighbor-config:
+    +-- ip?                   oc-inet:ipv4-address
+    +-- link-layer-address    oc-yang:phys-address
+  grouping ipv4-address-state:
+    +-- origin?   ip-address-origin
+  grouping ipv4-neighbor-state:
+    +-- origin?   neighbor-origin
+  grouping ipv6-global-config:
+    +-- enabled?                     boolean
+    +-- mtu?                         uint32
+    +-- dup-addr-detect-transmits?   uint32
+    +---u ip-common-global-config
+  grouping ipv6-address-config:
+    +-- ip?              oc-inet:ipv6-address
+    +-- prefix-length    uint8
+    +-- type?            oc-inet:ipv6-address-type
+  grouping ipv6-address-state:
+    +-- origin?   ip-address-origin
+    +-- status?   enumeration
+  grouping ipv6-neighbor-config:
+    +-- ip?                   oc-inet:ipv6-address
+    +-- link-layer-address    oc-yang:phys-address
+  grouping ipv6-neighbor-state:
+    +-- origin?           neighbor-origin
+    +-- is-router?        boolean
+    +-- neighbor-state?   enumeration
+  grouping ip-vrrp-ipv6-config:
+    +-- virtual-link-local?   oc-inet:ip-address
+  grouping ip-vrrp-ipv6-state:
+    +---u ip-vrrp-ipv6-config
+  grouping ip-vrrp-tracking-config:
+    +-- track-interface*      -> /oc-if:interfaces/interface/name
+    +-- priority-decrement?   uint8
+  grouping ip-vrrp-tracking-state:
+  grouping ip-vrrp-tracking-top:
+    +-- interface-tracking
+       +-- config
+       |  +---u ip-vrrp-tracking-config
+       +--ro state
+          +---u ip-vrrp-tracking-config
+  grouping ip-vrrp-config:
+    +-- virtual-router-id?        uint8
+    +-- virtual-address*          oc-inet:ip-address
+    +-- priority?                 uint8
+    +-- preempt?                  boolean
+    +-- preempt-delay?            uint16
+    +-- accept-mode?              boolean
+    +-- advertisement-interval?   uint16
+  grouping ip-vrrp-state:
+    +-- current-priority?   uint8
+  grouping ip-vrrp-top:
+    +-- vrrp
+       +-- vrrp-group* [virtual-router-id]
+          +-- virtual-router-id?      -> ../config/virtual-router-id
+          +-- config
+          |  +---u ip-vrrp-config
+          +--ro state
+          |  +---u ip-vrrp-config
+          |  +---u ip-vrrp-state
+          +---u ip-vrrp-tracking-top
+  grouping ipv6-ra-config:
+    +-- enable?         boolean
+    +-- interval?       uint32
+    +-- lifetime?       uint32
+    x-- suppress?       boolean
+    +-- mode?           enumeration
+    +-- managed?        boolean
+    +-- other-config?   boolean
+  grouping ipv6-ra-prefix-config:
+    +-- prefix?                      oc-inet:ipv6-prefix
+    +-- valid-lifetime?              uint32
+    +-- preferred-lifetime?          uint32
+    +-- disable-advertisement?       boolean
+    +-- disable-autoconfiguration?   boolean
+    +-- enable-onlink?               boolean
+  grouping ipv4-proxy-arp-config:
+    +-- mode?   enumeration
+  grouping ipv4-top:
+    +-- ipv4
+       +-- addresses
+       |  +-- address* [ip]
+       |     +-- ip?       -> ../config/ip
+       |     +-- config
+       |     |  +---u ipv4-address-config
+       |     +--ro state
+       |        +---u ipv4-address-config
+       |        +---u ipv4-address-state
+       +-- proxy-arp
+       |  +-- config
+       |  |  +---u ipv4-proxy-arp-config
+       |  +--ro state
+       |     +---u ipv4-proxy-arp-config
+       +-- neighbors
+       |  +-- neighbor* [ip]
+       |     +-- ip?       -> ../config/ip
+       |     +-- config
+       |     |  +---u ipv4-neighbor-config
+       |     +--ro state
+       |        +---u ipv4-neighbor-config
+       |        +---u ipv4-neighbor-state
+       +---u oc-if:sub-unnumbered-top
+       +-- config
+       |  +---u ipv4-global-config
+       +--ro state
+          +---u ipv4-global-config
+          +---u ip-common-counters-state
+  grouping ipv6-top:
+    +-- ipv6
+       +-- addresses
+       |  +-- address* [ip]
+       |     +-- ip?       -> ../config/ip
+       |     +-- config
+       |     |  +---u ipv6-address-config
+       |     +--ro state
+       |        +---u ipv6-address-config
+       |        +---u ipv6-address-state
+       +-- router-advertisement
+       |  +-- config
+       |  |  +---u ipv6-ra-config
+       |  +--ro state
+       |  |  +---u ipv6-ra-config
+       |  +-- prefixes
+       |     +-- prefix* [prefix]
+       |        +-- prefix?   -> ../config/prefix
+       |        +-- config
+       |        |  +---u ipv6-ra-prefix-config
+       |        +--ro state
+       |           +---u ipv6-ra-prefix-config
+       +-- neighbors
+       |  +-- neighbor* [ip]
+       |     +-- ip?       -> ../config/ip
+       |     +-- config
+       |     |  +---u ipv6-neighbor-config
+       |     +--ro state
+       |        +---u ipv6-neighbor-config
+       |        +---u ipv6-neighbor-state
+       +---u oc-if:sub-unnumbered-top
+       +-- config
+       |  +---u ipv6-global-config
+       +--ro state
+          +---u ipv6-global-config
+          +---u ip-common-counters-state

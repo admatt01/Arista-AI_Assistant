@@ -1,0 +1,423 @@
+module: openconfig-qos
+  +---u qos-top
+
+  grouping qos-config:
+  grouping qos-state:
+  grouping qos-top:
+    +-- qos
+       +-- config
+       +--ro state
+       +---u qos-interfaces-top
+       +---u qos-classifier-top
+       +---u qos-forwarding-group-top
+       +---u qos-queue-top
+       +---u qos-scheduler-top
+       +---u qos-buffer-profile-top
+       +---u qos-queue-mgmt-profile-top
+  grouping qos-interface-classifier-match-state:
+    +-- id?                                              -> ../../../../../../../../../classifiers/classifier[name=current()/../../../../config/name]/terms/term/config/id
+    +---u qos-interface-classifier-match-counters-state
+  grouping qos-interface-classifier-match-counters-state:
+    +-- matched-packets?   oc-yang:counter64
+    +-- matched-octets?    oc-yang:counter64
+  grouping qos-interface-classifier-match-top:
+    +-- terms
+       +--ro term* [id]
+          +--ro id?      -> ../state/id
+          +--ro state
+             +---u qos-interface-classifier-match-state
+  grouping qos-interface-classifier-top:
+    +-- classifiers
+       +-- classifier* [type]
+          +-- type?                                 -> ../config/type
+          +-- config
+          |  +---u qos-interface-classifiers-config
+          +--ro state
+          |  +---u qos-interface-classifiers-config
+          +---u qos-interface-classifier-match-top
+  grouping qos-interface-classifiers-config:
+    +-- name?   -> ../../../../../../../classifiers/classifier/config/name
+    +-- type?   enumeration
+  grouping qos-interface-queue-config:
+    +-- name?   string
+  grouping qos-interface-queue-root-config:
+    +-- queue-management-profile?   -> ../../../../../../../queue-management-profiles/queue-management-profile/config/name
+  grouping qos-interface-queue-state:
+    +-- max-queue-len?         oc-yang:counter64
+    +-- avg-queue-len?         oc-yang:counter64
+    +-- transmit-pkts?         oc-yang:counter64
+    +-- transmit-octets?       oc-yang:counter64
+    +-- dropped-pkts?          oc-yang:counter64
+    +-- dropped-octets?        oc-yang:counter64
+    +-- ecn-marked-pkts?       oc-yang:counter64
+    +-- ecn-marked-octets?     oc-yang:counter64
+    +-- ecn-selected-pkts?     oc-yang:counter64
+    +-- ecn-selected-octets?   oc-yang:counter64
+  grouping qos-interface-queue-top:
+    +-- queues
+       +-- queue* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u qos-interface-queue-config
+          +--ro state
+             +---u qos-interface-queue-config
+             +---u qos-interface-queue-state
+  grouping qos-interface-queue-root-top:
+    +-- queues
+       +-- queue* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u qos-interface-queue-config
+          |  +---u qos-interface-queue-root-config
+          +--ro state
+             +---u qos-interface-queue-config
+             +---u qos-interface-queue-root-config
+             +---u qos-interface-queue-state
+  grouping qos-interface-voqs-top:
+    +-- virtual-output-queues
+       +-- voq-interface* [name]
+          +-- name?                      -> ../config/name
+          +-- config
+          |  +---u qos-voqs-config
+          +--ro state
+          |  +---u qos-voqs-config
+          +---u qos-interface-queue-top
+  grouping qos-voqs-config:
+    +-- name?   string
+  grouping qos-interface-scheduler-policy-config:
+    +-- name?   -> ../../../../../../scheduler-policies/scheduler-policy/config/name
+  grouping qos-interface-scheduler-state:
+    +-- sequence?                     -> ../../../../../../../../scheduler-policies/scheduler-policy[name=current()/../../../../config/name]/schedulers/scheduler/config/sequence
+    +---u qos-scheduler-common-state
+  grouping qos-scheduler-common-state:
+    +-- conforming-pkts?     oc-yang:counter64
+    +-- conforming-octets?   oc-yang:counter64
+    +-- exceeding-pkts?      oc-yang:counter64
+    +-- exceeding-octets?    oc-yang:counter64
+    +-- violating-pkts?      oc-yang:counter64
+    +-- violating-octets?    oc-yang:counter64
+  grouping qos-interface-scheduler-top:
+    +-- scheduler-policy
+       +-- config
+       |  +---u qos-interface-scheduler-policy-config
+       +--ro state
+       |  +---u qos-interface-scheduler-policy-config
+       +--ro schedulers
+          +--ro scheduler* [sequence]
+             +--ro sequence?   -> ../state/sequence
+             +--ro state
+                +---u qos-interface-scheduler-state
+  grouping qos-interfaces-config:
+    +-- interface-id?   string
+  grouping qos-interfaces-state:
+  grouping qos-interface-input-config:
+    +-- buffer-allocation-profile?             -> ../../../../../buffer-allocation-profiles/buffer-allocation-profile/config/name
+    +-- multicast-buffer-allocation-profile?   -> ../../../../../buffer-allocation-profiles/buffer-allocation-profile/config/name
+    +-- unicast-buffer-allocation-profile?     -> ../../../../../buffer-allocation-profiles/buffer-allocation-profile/config/name
+  grouping qos-interface-input-state:
+  grouping qos-interface-input-top:
+    +-- input
+       +-- config
+       |  +---u qos-interface-input-config
+       +--ro state
+       |  +---u qos-interface-input-config
+       +---u qos-interface-classifier-top
+       +---u qos-interface-queue-root-top
+       +---u qos-interface-scheduler-top
+       +---u qos-interface-voqs-top
+  grouping qos-interface-output-config:
+    +-- buffer-allocation-profile?             -> ../../../../../buffer-allocation-profiles/buffer-allocation-profile/config/name
+    +-- multicast-buffer-allocation-profile?   -> ../../../../../buffer-allocation-profiles/buffer-allocation-profile/config/name
+    +-- unicast-buffer-allocation-profile?     -> ../../../../../buffer-allocation-profiles/buffer-allocation-profile/config/name
+  grouping qos-interface-output-state:
+  grouping qos-interface-output-top:
+    +-- output
+       +-- config
+       |  +---u qos-interface-output-config
+       +--ro state
+       |  +---u qos-interface-output-config
+       +---u qos-interface-classifier-top
+       +---u qos-interface-queue-root-top
+       +---u qos-interface-scheduler-top
+  grouping qos-interfaces-top:
+    +-- interfaces
+       +-- interface* [interface-id]
+          +-- interface-id?               -> ../config/interface-id
+          +-- config
+          |  +---u qos-interfaces-config
+          +--ro state
+          |  +---u qos-interfaces-config
+          +---u oc-if:interface-ref
+          +---u qos-interface-input-top
+          +---u qos-interface-output-top
+  grouping qos-classifier-term-config:
+    +-- id?   string
+  grouping qos-classifier-term-state:
+  grouping qos-classifier-term-action-config:
+    +-- target-group?   -> ../../../../../../../forwarding-groups/forwarding-group/config/name
+  grouping qos-classifier-terms-top:
+    +-- terms
+       +-- term* [id]
+          +-- id?           -> ../config/id
+          +-- config
+          |  +---u qos-classifier-term-config
+          +--ro state
+          |  +---u qos-classifier-term-config
+          +-- conditions
+          |  +---u oc-pkt-match:ethernet-header-top
+          |  +---u oc-pkt-match:ipv4-protocol-fields-top
+          |  +---u oc-pkt-match:ipv6-protocol-fields-top
+          |  +---u oc-pkt-match:transport-fields-top
+          |  +---u oc-pkt-match:mpls-header-top
+          +-- actions
+             +-- config
+             |  +---u qos-classifier-term-action-config
+             +--ro state
+             |  +---u qos-classifier-term-action-config
+             +-- remark
+                +---u qos-common-remark-actions
+  grouping qos-classifier-config:
+    +-- name?   string
+    +-- type?   enumeration
+  grouping qos-classifier-state:
+  grouping qos-classifier-top:
+    +-- classifiers
+       +-- classifier* [name]
+          +-- name?                       -> ../config/name
+          +-- config
+          |  +---u qos-classifier-config
+          +--ro state
+          |  +---u qos-classifier-config
+          +---u qos-classifier-terms-top
+  grouping qos-fabric-trace-config:
+    +-- source?   -> /oc-platform:components/component/config/name
+    +-- dest?     -> /oc-platform:components/component/config/name
+  grouping qos-forwarding-group-config:
+    +-- name?                     string
+    +-- fabric-priority?          uint8
+    +-- output-queue?             -> ../../../../queues/queue/config/name
+    +-- unicast-output-queue?     -> ../../../../queues/queue/config/name
+    +-- multicast-output-queue?   -> ../../../../queues/queue/config/name
+  grouping qos-forwarding-group-state:
+  grouping qos-forwarding-group-top:
+    +-- forwarding-groups
+       +-- forwarding-group* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u qos-forwarding-group-config
+          +--ro state
+             +---u qos-forwarding-group-config
+  grouping qos-queue-red-common-config:
+    +-- enable-ecn?   boolean
+  grouping qos-queue-red-common-state:
+  grouping qos-queue-wred-config:
+  grouping qos-queue-wred-state:
+  grouping qos-queue-wred-top:
+    +-- wred
+       +-- config
+       +--ro state
+  grouping qos-queue-red-config:
+    +-- minth?   uint64
+    +-- maxth?   uint64
+  grouping qos-queue-red-state:
+  grouping qos-queue-red-top:
+    +-- red
+       +-- config
+       |  +---u qos-queue-red-config
+       +--ro state
+          +---u qos-queue-red-config
+  grouping qos-queue-config:
+    +-- name?       string
+    +-- queue-id?   uint8
+  grouping qos-queue-state:
+  grouping qos-queue-top:
+    +-- queues
+       +-- queue* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u qos-queue-config
+          +--ro state
+             +---u qos-queue-config
+  grouping qos-scheduler-output-config:
+    +-- output-type?        enumeration
+    +-- child-scheduler?    -> ../../../../../../../scheduler-policies/scheduler-policy/config/name
+    +-- output-fwd-group?   -> ../../../../../../../forwarding-groups/forwarding-group/config/name
+  grouping qos-scheduler-output-state:
+  grouping qos-scheduler-output-top:
+    +-- output
+       +-- config
+       |  +---u qos-scheduler-output-config
+       +--ro state
+          +---u qos-scheduler-output-config
+  grouping qos-scheduler-inputs-config:
+    +-- id?           string
+    +-- input-type?   enumeration
+    +-- queue?        -> ../../../../../../../../queues/queue/name
+    +-- weight?       uint64
+  grouping qos-scheduler-inputs-state:
+  grouping qos-scheduler-inputs-top:
+    +-- inputs
+       +-- input* [id]
+          +-- id?       -> ../config/id
+          +-- config
+          |  +---u qos-scheduler-inputs-config
+          +--ro state
+             +---u qos-scheduler-inputs-config
+  grouping qos-scheduler-1r2c-config:
+    +-- cir?                       uint64
+    +-- cir-pct?                   oc-types:percentage
+    +-- cir-pct-remaining?         oc-types:percentage
+    +-- bc?                        uint32
+    +-- queuing-behavior?          oc-qos-types:queue-behavior
+    +-- max-queue-depth-bytes?     uint32
+    +-- max-queue-depth-packets?   uint32
+    +-- max-queue-depth-percent?   oc-types:percentage
+  grouping qos-scheduler-1r2c-top:
+    +-- one-rate-two-color
+       +-- config
+       |  +---u qos-scheduler-1r2c-config
+       +--ro state
+       |  +---u qos-scheduler-1r2c-config
+       +-- conform-action
+       |  +-- config
+       |  |  +---u qos-common-remark-actions-config
+       |  +--ro state
+       |     +---u qos-common-remark-actions-config
+       +-- exceed-action
+          +-- config
+          |  +---u qos-common-remark-actions-config
+          |  +---u qos-common-scheduler-actions-config
+          +--ro state
+             +---u qos-common-remark-actions-config
+             +---u qos-common-scheduler-actions-config
+  grouping qos-scheduler-2r3c-config:
+    +-- cir?                 uint64
+    +-- cir-pct?             oc-types:percentage
+    +-- cir-pct-remaining?   oc-types:percentage
+    +-- pir?                 uint64
+    +-- pir-pct?             oc-types:percentage
+    +-- pir-pct-remaining?   oc-types:percentage
+    +-- bc?                  uint32
+    +-- be?                  uint32
+  grouping qos-scheduler-2r3c-top:
+    +-- two-rate-three-color
+       +-- config
+       |  +---u qos-scheduler-2r3c-config
+       +--ro state
+       |  +---u qos-scheduler-2r3c-config
+       +-- conform-action
+       |  +-- config
+       |  |  +---u qos-common-remark-actions-config
+       |  +--ro state
+       |     +---u qos-common-remark-actions-config
+       +-- exceed-action
+       |  +-- config
+       |  |  +---u qos-common-remark-actions-config
+       |  |  +---u qos-common-scheduler-actions-config
+       |  +--ro state
+       |     +---u qos-common-remark-actions-config
+       |     +---u qos-common-scheduler-actions-config
+       +-- violate-action
+          +-- config
+          |  +---u qos-common-remark-actions-config
+          |  +---u qos-common-scheduler-actions-config
+          +--ro state
+             +---u qos-common-remark-actions-config
+             +---u qos-common-scheduler-actions-config
+  grouping qos-scheduler-config:
+    +-- sequence?   uint32
+    +-- type?       identityref
+    +-- priority?   enumeration
+  grouping qos-scheduler-state:
+  grouping qos-scheduler-policy-config:
+    +-- name?   string
+  grouping qos-scheduler-top:
+    +-- scheduler-policies
+       +-- scheduler-policy* [name]
+          +-- name?         -> ../config/name
+          +-- config
+          |  +---u qos-scheduler-policy-config
+          +--ro state
+          |  +---u qos-scheduler-policy-config
+          +-- schedulers
+             +-- scheduler* [sequence]
+                +-- sequence?                   -> ../config/sequence
+                +-- config
+                |  +---u qos-scheduler-config
+                +--ro state
+                |  +---u qos-scheduler-config
+                +---u qos-scheduler-inputs-top
+                +---u qos-scheduler-output-top
+                +---u qos-scheduler-1r2c-top
+                +---u qos-scheduler-2r3c-top
+  grouping qos-common-remark-actions:
+    +-- config
+    |  +---u qos-common-remark-actions-config
+    +--ro state
+       +---u qos-common-remark-actions-config
+  grouping qos-common-scheduler-actions-config:
+    +-- drop?   boolean
+  grouping qos-common-remark-actions-config:
+    +-- set-dscp?      uint8
+    +-- set-dot1p?     uint8
+    +-- set-mpls-tc?   uint8
+  grouping qos-buffer-profile-top:
+    +-- buffer-allocation-profiles
+       +-- buffer-allocation-profile* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u buffer-allocation-profile-config
+          +--ro state
+          |  +---u buffer-allocation-profile-config
+          +-- queues
+             +-- queue* [name]
+                +-- name?     -> ../config/name
+                +-- config
+                |  +---u buffer-allocation-profile-q-config
+                +--ro state
+                   +---u buffer-allocation-profile-q-config
+  grouping buffer-allocation-profile-config:
+    +-- name?   string
+  grouping buffer-allocation-profile-q-config:
+    +-- name?                                  -> ../../../../../../queues/queue/config/name
+    +-- dedicated-buffer?                      uint64
+    +-- dedicated-buffer-temporal?             uint64
+    +-- use-shared-buffer?                     boolean
+    +-- shared-buffer-limit-type?              identityref
+    +-- static-shared-buffer-limit?            uint32
+    +-- static-shared-buffer-limit-temporal?   uint32
+    +-- dynamic-limit-scaling-factor?          int32
+  grouping qos-queue-management-profile-config:
+    +-- name?   string
+  grouping qos-queue-management-profile-red-wred-common-config:
+    +-- min-threshold?           uint64
+    +-- max-threshold?           uint64
+    +-- min-threshold-percent?   uint64
+    +-- max-threshold-percent?   uint64
+    +-- enable-ecn?              boolean
+    +-- drop?                    boolean
+  grouping qos-queue-management-profile-wred-config:
+    +-- weight?                         uint32
+    +-- max-drop-probability-percent?   oc-types:percentage
+  grouping qos-queue-mgmt-profile-top:
+    +-- queue-management-profiles
+       +-- queue-management-profile* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u qos-queue-management-profile-config
+          +--ro state
+          |  +---u qos-queue-management-profile-config
+          +-- wred
+          |  +-- uniform
+          |     +-- config
+          |     |  +---u qos-queue-management-profile-red-wred-common-config
+          |     |  +---u qos-queue-management-profile-wred-config
+          |     +--ro state
+          |        +---u qos-queue-management-profile-red-wred-common-config
+          |        +---u qos-queue-management-profile-wred-config
+          +-- red
+             +-- uniform
+                +-- config
+                |  +---u qos-queue-management-profile-red-wred-common-config
+                +--ro state
+                   +---u qos-queue-management-profile-red-wred-common-config

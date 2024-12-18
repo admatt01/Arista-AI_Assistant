@@ -1,0 +1,140 @@
+module: openconfig-segment-routing
+
+  grouping srgb-config:
+    +-- local-id?            string
+    +-- dataplane-type?      oc-srt:sr-dataplane-type
+    +-- mpls-label-blocks*   -> ../../../../../mpls/global/reserved-label-blocks/reserved-label-block/config/local-id
+    +-- ipv6-prefixes*       inet:ipv6-prefix
+  grouping srgb-state:
+    +-- size?   uint32
+    +-- used?   uint32
+  grouping srlb-config:
+    +-- local-id?           string
+    +-- dataplane-type?     oc-srt:sr-dataplane-type
+    +-- mpls-label-block?   -> ../../../../../mpls/global/reserved-label-blocks/reserved-label-block/config/local-id
+    +-- ipv6-prefix?        inet:ipv6-prefix
+  grouping sr-structural:
+    +-- srgbs
+    |  +-- srgb* [local-id]
+    |     +-- local-id?   -> ../config/local-id
+    |     +-- config
+    |     |  +---u srgb-config
+    |     +--ro state
+    |        +---u srgb-config
+    |        +---u srgb-state
+    +-- srlbs
+       +-- srlb* [local-id]
+          +-- local-id?   -> ../config/local-id
+          +-- config
+          |  +---u srlb-config
+          +--ro state
+             +---u srlb-config
+  grouping sr-mpls-top:
+    +-- segment-routing
+       +-- aggregate-sid-counters
+       |  +--ro aggregate-sid-counter* [mpls-label]
+       |     +--ro mpls-label?   -> ../state/mpls-label
+       |     +--ro state
+       |        +---u sr-mpls-sid-counters-state
+       |        +---u sr-mpls-common-counters
+       +-- interfaces
+          +-- interface* [interface-id]
+             +-- interface-id?          -> ../config/interface-id
+             +-- config
+             |  +---u sr-mpls-interface-config
+             +--ro state
+             |  +---u sr-mpls-interface-config
+             |  +---u sr-mpls-interface-state
+             +-- sid-counters
+             |  +--ro sid-counter* [mpls-label]
+             |     +--ro mpls-label?           -> ../state/mpls-label
+             |     +--ro state
+             |     |  +---u sr-mpls-sid-counters-state
+             |     |  +---u sr-mpls-common-counters
+             |     +--ro forwarding-classes
+             |        +--ro forwarding-class* [exp]
+             |           +--ro exp?     -> ../state/exp
+             |           +--ro state
+             |              +---u sr-mpls-interface-sid-fc-state
+             |              +---u sr-mpls-common-counters
+             +---u oc-if:interface-ref
+  grouping sr-mpls-interface-config:
+    +-- interface-id?   oc-if:interface-id
+  grouping sr-mpls-interface-state:
+    +---u sr-mpls-common-counters
+  grouping sr-mpls-interface-sid-fc-state:
+    +-- exp?   uint8
+  grouping sr-mpls-sid-counters-state:
+    +-- mpls-label?   oc-mplst:mpls-label
+  grouping sr-mpls-common-counters:
+    +-- in-pkts?      yang:counter64
+    +-- in-octets?    yang:counter64
+    +-- out-pkts?     yang:counter64
+    +-- out-octets?   yang:counter64
+  grouping sr-igp-config:
+    +-- enabled?   boolean
+    +-- srgb?      -> ../../../../../../../segment-routing/srgbs/srgb/config/local-id
+    +-- srlb?      -> ../../../../../../../segment-routing/srlbs/srlb/config/local-id
+  grouping flex-algo-binding-attributes:
+    +-- flex-algo-id?   uint8
+    +-- isis-level?     oc-isis-types:level-type
+    +-- advertised?     boolean
+    +-- participate?    boolean
+  grouping sr-igp-top:
+    +-- segment-routing
+       +-- config
+       |  +---u sr-igp-config
+       +--ro state
+       |  +---u sr-igp-config
+       +-- flex-algorithm-bindings
+          +-- flex-algorithm-binding* [flex-algo-id]
+             +-- flex-algo-id?   -> ../config/flex-algo-id
+             +-- config
+             |  +---u flex-algo-binding-attributes
+             +--ro state
+                +---u flex-algo-binding-attributes
+  grouping sr-igp-interface-prefix-sid-config:
+    +-- prefix?          inet:ip-prefix
+    +-- sid-id?          oc-srt:sr-sid-type
+    +-- label-options?   enumeration
+  grouping sr-igp-interface-adjsid-config:
+    +-- sid-id?                union
+    +-- protection-eligible?   boolean
+    +-- group?                 boolean
+    +-- neighbor?              inet:ip-address
+  grouping sr-igp-interface-adjsid-state:
+    +-- allocated-dynamic-local?   oc-srt:sr-sid-type
+  grouping sr-igp-interface-flex-algo-prefix-sid-config:
+    +-- prefix?         inet:ip-prefix
+    +-- flex-algo-id?   uint8
+    +-- sid-id?         oc-srt:sr-sid-type
+  grouping sr-igp-interface-top:
+    +-- segment-routing
+       +-- prefix-sids
+       |  +-- prefix-sid* [prefix]
+       |     +-- prefix?   -> ../config/prefix
+       |     +-- config
+       |     |  +---u sr-igp-interface-prefix-sid-config
+       |     +--ro state
+       |        +---u sr-igp-interface-prefix-sid-config
+       +-- flex-algo-prefix-sids
+       |  +-- flex-algo-prefix-sid* [prefix flex-algo-id]
+       |     +-- prefix?         -> ../config/prefix
+       |     +-- flex-algo-id?   -> ../config/flex-algo-id
+       |     +-- config
+       |     |  +---u sr-igp-interface-flex-algo-prefix-sid-config
+       |     +--ro state
+       |        +---u sr-igp-interface-flex-algo-prefix-sid-config
+       +-- adjacency-sids
+          +-- adjacency-sid* [neighbor sid-id]
+             +-- sid-id?     -> ../config/sid-id
+             +-- neighbor?   -> ../config/neighbor
+             +-- config
+             |  +---u sr-igp-interface-adjsid-config
+             +--ro state
+                +---u sr-igp-interface-adjsid-config
+                +---u sr-igp-interface-adjsid-state
+  grouping sr-top:
+    +-- segment-routing
+       +---u sr-structural
+       +---u oc-srte:oc-srte-policy-top

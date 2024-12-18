@@ -1,0 +1,5277 @@
+[
+  {
+    "timestamp": 1732874656637467046,
+    "time": "2024-11-29T10:04:16.637467046Z",
+    "updates": [
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:global": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST",
+                    "config": {
+                      "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST"
+                    },
+                    "state": {
+                      "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST",
+                      "total-prefixes": 15
+                    }
+                  }
+                ]
+              },
+              "arista-bgp-augments:networks": {
+                "network": [
+                  {
+                    "config": {
+                      "network": "1.1.1.1/32"
+                    },
+                    "network": "1.1.1.1/32",
+                    "state": {
+                      "network": "1.1.1.1/32"
+                    }
+                  }
+                ]
+              },
+              "config": {
+                "as": 65001,
+                "router-id": "1.1.1.1"
+              },
+              "state": {
+                "as": 65001,
+                "router-id": "1.1.1.1"
+              }
+            },
+            "openconfig-network-instance:neighbors": {
+              "neighbor": [
+                {
+                  "afi-safis": {
+                    "afi-safi": [
+                      {
+                        "afi-safi-name": "arista-bgp-augments:IPV4_MULTICAST",
+                        "config": {
+                          "afi-safi-name": "arista-bgp-augments:IPV4_MULTICAST"
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "arista-bgp-augments:IPV4_MULTICAST"
+                        }
+                      },
+                      {
+                        "afi-safi-name": "arista-bgp-augments:IPV6_MULTICAST",
+                        "config": {
+                          "afi-safi-name": "arista-bgp-augments:IPV6_MULTICAST"
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "arista-bgp-augments:IPV6_MULTICAST"
+                        }
+                      },
+                      {
+                        "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST",
+                        "config": {
+                          "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST"
+                        },
+                        "graceful-restart": {
+                          "state": {
+                            "advertised": false,
+                            "received": false
+                          }
+                        },
+                        "ipv4-unicast": {
+                          "prefix-limit": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          },
+                          "prefix-limit-received": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          }
+                        },
+                        "state": {
+                          "active": true,
+                          "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST",
+                          "prefixes": {
+                            "arista-bgp-augments:best-ecmp-paths": 0,
+                            "arista-bgp-augments:best-paths": 1,
+                            "installed": 3,
+                            "received": 3,
+                            "received-pre-policy": 3,
+                            "sent": 3
+                          }
+                        }
+                      },
+                      {
+                        "afi-safi-name": "openconfig-bgp-types:IPV6_UNICAST",
+                        "config": {
+                          "afi-safi-name": "openconfig-bgp-types:IPV6_UNICAST"
+                        },
+                        "graceful-restart": {
+                          "state": {
+                            "advertised": false,
+                            "received": false
+                          }
+                        },
+                        "ipv6-unicast": {
+                          "prefix-limit": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          },
+                          "prefix-limit-received": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          }
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "openconfig-bgp-types:IPV6_UNICAST",
+                          "prefixes": {
+                            "arista-bgp-augments:best-ecmp-paths": 0,
+                            "arista-bgp-augments:best-paths": 0,
+                            "installed": 0,
+                            "received": 0,
+                            "received-pre-policy": 0,
+                            "sent": 0
+                          }
+                        }
+                      },
+                      {
+                        "afi-safi-name": "openconfig-bgp-types:L2VPN_EVPN",
+                        "config": {
+                          "afi-safi-name": "openconfig-bgp-types:L2VPN_EVPN"
+                        },
+                        "graceful-restart": {
+                          "state": {
+                            "advertised": false,
+                            "received": false
+                          }
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "openconfig-bgp-types:L2VPN_EVPN",
+                          "prefixes": {
+                            "arista-bgp-augments:best-ecmp-paths": 0,
+                            "arista-bgp-augments:best-paths": 0,
+                            "installed": 0,
+                            "received": 0,
+                            "received-pre-policy": 0,
+                            "sent": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "config": {
+                    "neighbor-address": "10.0.0.2",
+                    "peer-as": 65002
+                  },
+                  "ebgp-multihop": {
+                    "config": {
+                      "multihop-ttl": 0
+                    },
+                    "state": {
+                      "multihop-ttl": 0
+                    }
+                  },
+                  "graceful-restart": {
+                    "state": {
+                      "peer-restart-time": 300
+                    }
+                  },
+                  "neighbor-address": "10.0.0.2",
+                  "state": {
+                    "established-transitions": "2",
+                    "last-established": "1732756684319307327",
+                    "last-prefix-limit-exceeded": "0",
+                    "messages": {
+                      "received": {
+                        "NOTIFICATION": "0",
+                        "UPDATE": "10"
+                      },
+                      "sent": {
+                        "NOTIFICATION": "0",
+                        "UPDATE": "12"
+                      }
+                    },
+                    "neighbor-address": "10.0.0.2",
+                    "neighbor-port": 38579,
+                    "peer-as": 65002,
+                    "peer-type": "EXTERNAL",
+                    "queues": {
+                      "input": 0,
+                      "output": 0
+                    },
+                    "session-state": "ESTABLISHED",
+                    "supported-capabilities": [
+                      "openconfig-bgp-types:MPBGP",
+                      "openconfig-bgp-types:ROUTE_REFRESH",
+                      "openconfig-bgp-types:ASN32",
+                      "openconfig-bgp-types:GRACEFUL_RESTART",
+                      "openconfig-bgp-types:ADD_PATHS"
+                    ]
+                  },
+                  "timers": {
+                    "state": {
+                      "negotiated-hold-time": 180
+                    }
+                  },
+                  "transport": {
+                    "state": {
+                      "local-address": "10.0.0.1",
+                      "local-port": 179,
+                      "remote-address": "10.0.0.2",
+                      "remote-port": 38579
+                    }
+                  }
+                },
+                {
+                  "afi-safis": {
+                    "afi-safi": [
+                      {
+                        "afi-safi-name": "arista-bgp-augments:IPV4_MULTICAST",
+                        "config": {
+                          "afi-safi-name": "arista-bgp-augments:IPV4_MULTICAST"
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "arista-bgp-augments:IPV4_MULTICAST"
+                        }
+                      },
+                      {
+                        "afi-safi-name": "arista-bgp-augments:IPV6_MULTICAST",
+                        "config": {
+                          "afi-safi-name": "arista-bgp-augments:IPV6_MULTICAST"
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "arista-bgp-augments:IPV6_MULTICAST"
+                        }
+                      },
+                      {
+                        "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST",
+                        "config": {
+                          "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST"
+                        },
+                        "graceful-restart": {
+                          "state": {
+                            "advertised": false,
+                            "received": false
+                          }
+                        },
+                        "ipv4-unicast": {
+                          "prefix-limit": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          },
+                          "prefix-limit-received": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          }
+                        },
+                        "state": {
+                          "active": true,
+                          "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST",
+                          "prefixes": {
+                            "arista-bgp-augments:best-ecmp-paths": 0,
+                            "arista-bgp-augments:best-paths": 1,
+                            "installed": 3,
+                            "received": 3,
+                            "received-pre-policy": 3,
+                            "sent": 3
+                          }
+                        }
+                      },
+                      {
+                        "afi-safi-name": "openconfig-bgp-types:IPV6_UNICAST",
+                        "config": {
+                          "afi-safi-name": "openconfig-bgp-types:IPV6_UNICAST"
+                        },
+                        "graceful-restart": {
+                          "state": {
+                            "advertised": false,
+                            "received": false
+                          }
+                        },
+                        "ipv6-unicast": {
+                          "prefix-limit": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          },
+                          "prefix-limit-received": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          }
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "openconfig-bgp-types:IPV6_UNICAST",
+                          "prefixes": {
+                            "arista-bgp-augments:best-ecmp-paths": 0,
+                            "arista-bgp-augments:best-paths": 0,
+                            "installed": 0,
+                            "received": 0,
+                            "received-pre-policy": 0,
+                            "sent": 0
+                          }
+                        }
+                      },
+                      {
+                        "afi-safi-name": "openconfig-bgp-types:L2VPN_EVPN",
+                        "config": {
+                          "afi-safi-name": "openconfig-bgp-types:L2VPN_EVPN"
+                        },
+                        "graceful-restart": {
+                          "state": {
+                            "advertised": false,
+                            "received": false
+                          }
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "openconfig-bgp-types:L2VPN_EVPN",
+                          "prefixes": {
+                            "arista-bgp-augments:best-ecmp-paths": 0,
+                            "arista-bgp-augments:best-paths": 0,
+                            "installed": 0,
+                            "received": 0,
+                            "received-pre-policy": 0,
+                            "sent": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "config": {
+                    "neighbor-address": "10.0.0.6",
+                    "peer-as": 65003
+                  },
+                  "ebgp-multihop": {
+                    "config": {
+                      "multihop-ttl": 0
+                    },
+                    "state": {
+                      "multihop-ttl": 0
+                    }
+                  },
+                  "graceful-restart": {
+                    "state": {
+                      "peer-restart-time": 300
+                    }
+                  },
+                  "neighbor-address": "10.0.0.6",
+                  "state": {
+                    "established-transitions": "1",
+                    "last-established": "1732431094274396419",
+                    "last-prefix-limit-exceeded": "0",
+                    "messages": {
+                      "received": {
+                        "NOTIFICATION": "0",
+                        "UPDATE": "4"
+                      },
+                      "sent": {
+                        "NOTIFICATION": "0",
+                        "UPDATE": "8"
+                      }
+                    },
+                    "neighbor-address": "10.0.0.6",
+                    "neighbor-port": 45695,
+                    "peer-as": 65003,
+                    "peer-type": "EXTERNAL",
+                    "queues": {
+                      "input": 0,
+                      "output": 0
+                    },
+                    "session-state": "ESTABLISHED",
+                    "supported-capabilities": [
+                      "openconfig-bgp-types:GRACEFUL_RESTART",
+                      "openconfig-bgp-types:ADD_PATHS",
+                      "openconfig-bgp-types:MPBGP",
+                      "openconfig-bgp-types:ROUTE_REFRESH",
+                      "openconfig-bgp-types:ASN32"
+                    ]
+                  },
+                  "timers": {
+                    "state": {
+                      "negotiated-hold-time": 180
+                    }
+                  },
+                  "transport": {
+                    "state": {
+                      "local-address": "10.0.0.5",
+                      "local-port": 179,
+                      "remote-address": "10.0.0.6",
+                      "remote-port": 45695
+                    }
+                  }
+                },
+                {
+                  "afi-safis": {
+                    "afi-safi": [
+                      {
+                        "afi-safi-name": "arista-bgp-augments:IPV4_MULTICAST",
+                        "config": {
+                          "afi-safi-name": "arista-bgp-augments:IPV4_MULTICAST"
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "arista-bgp-augments:IPV4_MULTICAST"
+                        }
+                      },
+                      {
+                        "afi-safi-name": "arista-bgp-augments:IPV6_MULTICAST",
+                        "config": {
+                          "afi-safi-name": "arista-bgp-augments:IPV6_MULTICAST"
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "arista-bgp-augments:IPV6_MULTICAST"
+                        }
+                      },
+                      {
+                        "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST",
+                        "config": {
+                          "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST"
+                        },
+                        "graceful-restart": {
+                          "state": {
+                            "advertised": false,
+                            "received": false
+                          }
+                        },
+                        "ipv4-unicast": {
+                          "prefix-limit": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          },
+                          "prefix-limit-received": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          }
+                        },
+                        "state": {
+                          "active": true,
+                          "afi-safi-name": "openconfig-bgp-types:IPV4_UNICAST",
+                          "prefixes": {
+                            "arista-bgp-augments:best-ecmp-paths": 0,
+                            "arista-bgp-augments:best-paths": 1,
+                            "installed": 3,
+                            "received": 3,
+                            "received-pre-policy": 3,
+                            "sent": 3
+                          }
+                        }
+                      },
+                      {
+                        "afi-safi-name": "openconfig-bgp-types:IPV6_UNICAST",
+                        "config": {
+                          "afi-safi-name": "openconfig-bgp-types:IPV6_UNICAST"
+                        },
+                        "graceful-restart": {
+                          "state": {
+                            "advertised": false,
+                            "received": false
+                          }
+                        },
+                        "ipv6-unicast": {
+                          "prefix-limit": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          },
+                          "prefix-limit-received": {
+                            "state": {
+                              "prefix-limit-exceeded": false
+                            }
+                          }
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "openconfig-bgp-types:IPV6_UNICAST",
+                          "prefixes": {
+                            "arista-bgp-augments:best-ecmp-paths": 0,
+                            "arista-bgp-augments:best-paths": 0,
+                            "installed": 0,
+                            "received": 0,
+                            "received-pre-policy": 0,
+                            "sent": 0
+                          }
+                        }
+                      },
+                      {
+                        "afi-safi-name": "openconfig-bgp-types:L2VPN_EVPN",
+                        "config": {
+                          "afi-safi-name": "openconfig-bgp-types:L2VPN_EVPN"
+                        },
+                        "graceful-restart": {
+                          "state": {
+                            "advertised": false,
+                            "received": false
+                          }
+                        },
+                        "state": {
+                          "active": false,
+                          "afi-safi-name": "openconfig-bgp-types:L2VPN_EVPN",
+                          "prefixes": {
+                            "arista-bgp-augments:best-ecmp-paths": 0,
+                            "arista-bgp-augments:best-paths": 0,
+                            "installed": 0,
+                            "received": 0,
+                            "received-pre-policy": 0,
+                            "sent": 0
+                          }
+                        }
+                      }
+                    ]
+                  },
+                  "config": {
+                    "neighbor-address": "10.0.0.10",
+                    "peer-as": 65004
+                  },
+                  "ebgp-multihop": {
+                    "config": {
+                      "multihop-ttl": 0
+                    },
+                    "state": {
+                      "multihop-ttl": 0
+                    }
+                  },
+                  "graceful-restart": {
+                    "state": {
+                      "peer-restart-time": 300
+                    }
+                  },
+                  "neighbor-address": "10.0.0.10",
+                  "state": {
+                    "established-transitions": "2",
+                    "last-established": "1732438370162820339",
+                    "last-prefix-limit-exceeded": "0",
+                    "messages": {
+                      "received": {
+                        "NOTIFICATION": "0",
+                        "UPDATE": "12"
+                      },
+                      "sent": {
+                        "NOTIFICATION": "0",
+                        "UPDATE": "12"
+                      }
+                    },
+                    "neighbor-address": "10.0.0.10",
+                    "peer-as": 65004,
+                    "peer-type": "EXTERNAL",
+                    "queues": {
+                      "input": 0,
+                      "output": 0
+                    },
+                    "session-state": "ESTABLISHED",
+                    "supported-capabilities": [
+                      "openconfig-bgp-types:ADD_PATHS",
+                      "openconfig-bgp-types:MPBGP",
+                      "openconfig-bgp-types:ROUTE_REFRESH",
+                      "openconfig-bgp-types:ASN32",
+                      "openconfig-bgp-types:GRACEFUL_RESTART"
+                    ]
+                  },
+                  "timers": {
+                    "state": {
+                      "negotiated-hold-time": 180
+                    }
+                  },
+                  "transport": {
+                    "state": {
+                      "local-address": "10.0.0.9",
+                      "local-port": 43553,
+                      "remote-address": "10.0.0.10",
+                      "remote-port": 179
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788176"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788176",
+                    "state": {
+                      "index": "3852788176"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788176",
+                    "state": {
+                      "origin": "IGP"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788176",
+                    "state": {
+                      "atomic-aggregate": false
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788176",
+                    "state": {
+                      "next-hop": "10.0.0.10"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788176",
+                    "state": {
+                      "local-pref": 100
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0
+                        }
+                      ]
+                    },
+                    "index": "3852788176"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "index": 0
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788176"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "type": "AS_SEQ"
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788176"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "member": [
+                              65004,
+                              65002
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788176"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788160"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788160",
+                    "state": {
+                      "index": "3852788160"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788160",
+                    "state": {
+                      "origin": "IGP"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788160",
+                    "state": {
+                      "atomic-aggregate": false
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788160",
+                    "state": {
+                      "next-hop": "10.0.0.6"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788160",
+                    "state": {
+                      "local-pref": 100
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0
+                        }
+                      ]
+                    },
+                    "index": "3852788160"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "index": 0
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788160"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "type": "AS_SEQ"
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788160"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "member": [
+                              65003,
+                              65002
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788160"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788064"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788064",
+                    "state": {
+                      "index": "3852788064"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788064",
+                    "state": {
+                      "origin": "IGP"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788064",
+                    "state": {
+                      "atomic-aggregate": false
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788064",
+                    "state": {
+                      "next-hop": "10.0.0.10"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788064",
+                    "state": {
+                      "local-pref": 100
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0
+                        }
+                      ]
+                    },
+                    "index": "3852788064"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "index": 0
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788064"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "type": "AS_SEQ"
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788064"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "member": [
+                              65004,
+                              65003
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788064"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788112"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788112",
+                    "state": {
+                      "index": "3852788112"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788112",
+                    "state": {
+                      "origin": "IGP"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788112",
+                    "state": {
+                      "atomic-aggregate": false
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788112",
+                    "state": {
+                      "next-hop": "10.0.0.2"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788112",
+                    "state": {
+                      "local-pref": 100
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0
+                        }
+                      ]
+                    },
+                    "index": "3852788112"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "index": 0
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788112"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "type": "AS_SEQ"
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788112"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "member": [
+                              65002,
+                              65004
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788112"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788048"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788048",
+                    "state": {
+                      "index": "3852788048"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788048",
+                    "state": {
+                      "origin": "IGP"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788048",
+                    "state": {
+                      "atomic-aggregate": false
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788048",
+                    "state": {
+                      "next-hop": "10.0.0.2"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788048",
+                    "state": {
+                      "local-pref": 100
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0
+                        }
+                      ]
+                    },
+                    "index": "3852788048"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "index": 0
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788048"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "type": "AS_SEQ"
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788048"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "member": [
+                              65002,
+                              65003
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788048"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788096"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788096",
+                    "state": {
+                      "index": "3852788096"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788096",
+                    "state": {
+                      "origin": "IGP"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788096",
+                    "state": {
+                      "atomic-aggregate": false
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788096",
+                    "state": {
+                      "next-hop": "10.0.0.10"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788096",
+                    "state": {
+                      "local-pref": 100
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0
+                        }
+                      ]
+                    },
+                    "index": "3852788096"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "index": 0
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788096"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "type": "AS_SEQ"
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788096"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "member": [
+                              65004
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788096"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788080"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788080",
+                    "state": {
+                      "index": "3852788080"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788080",
+                    "state": {
+                      "origin": "IGP"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788080",
+                    "state": {
+                      "atomic-aggregate": false
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788080",
+                    "state": {
+                      "next-hop": "10.0.0.6"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788080",
+                    "state": {
+                      "local-pref": 100
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0
+                        }
+                      ]
+                    },
+                    "index": "3852788080"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "index": 0
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788080"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "type": "AS_SEQ"
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788080"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "member": [
+                              65003
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788080"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788192"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788192",
+                    "state": {
+                      "index": "3852788192"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788192",
+                    "state": {
+                      "origin": "IGP"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788192",
+                    "state": {
+                      "atomic-aggregate": false
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788192",
+                    "state": {
+                      "next-hop": "10.0.0.2"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788192",
+                    "state": {
+                      "local-pref": 100
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0
+                        }
+                      ]
+                    },
+                    "index": "3852788192"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "index": 0
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788192"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "type": "AS_SEQ"
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788192"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "member": [
+                              65002
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788192"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788128"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788128",
+                    "state": {
+                      "index": "3852788128"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788128",
+                    "state": {
+                      "origin": "IGP"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788128",
+                    "state": {
+                      "atomic-aggregate": false
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788128",
+                    "state": {
+                      "next-hop": "10.0.0.6"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "index": "3852788128",
+                    "state": {
+                      "local-pref": 100
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0
+                        }
+                      ]
+                    },
+                    "index": "3852788128"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "index": 0
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788128"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "type": "AS_SEQ"
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788128"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "attr-sets": {
+                "attr-set": [
+                  {
+                    "as-path": {
+                      "as-segment": [
+                        {
+                          "index": 0,
+                          "state": {
+                            "member": [
+                              65003,
+                              65004
+                            ]
+                          }
+                        }
+                      ]
+                    },
+                    "index": "3852788128"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "state": {
+                      "afi-safi-name": "IPV4_UNICAST"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "prefix": "2.2.2.2/32"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "origin": "10.0.0.10"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "path-id": 0
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "attr-index": "3852788176"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "last-modified": "1732438370948752128"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "valid-route": true
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "openconfig-rib-bgp-ext:reject-reason": "BGP_NOT_SELECTED_BESTPATH"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "prefix": "2.2.2.2/32"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "origin": "10.0.0.6"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "path-id": 0
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "attr-index": "3852788160"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "last-modified": "1732431094948751104"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "valid-route": true
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "openconfig-rib-bgp-ext:reject-reason": "BGP_NOT_SELECTED_BESTPATH"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "prefix": "2.2.2.2/32"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "origin": "10.0.0.2"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "path-id": 0
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "attr-index": "3852788192"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "last-modified": "1732756684948751872"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "2.2.2.2/32",
+                              "state": {
+                                "valid-route": true
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "prefix": "3.3.3.3/32"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "origin": "10.0.0.10"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "path-id": 0
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "attr-index": "3852788064"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "last-modified": "1732438370948751616"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "valid-route": true
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "openconfig-rib-bgp-ext:reject-reason": "BGP_NOT_SELECTED_BESTPATH"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "prefix": "3.3.3.3/32"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "origin": "10.0.0.6"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "path-id": 0
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "attr-index": "3852788080"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "last-modified": "1732431093948750848"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "valid-route": true
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "prefix": "3.3.3.3/32"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "origin": "10.0.0.2"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "path-id": 0
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "attr-index": "3852788048"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "last-modified": "1732756684948751104"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "valid-route": true
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "3.3.3.3/32",
+                              "state": {
+                                "openconfig-rib-bgp-ext:reject-reason": "BGP_NOT_SELECTED_BESTPATH"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "prefix": "4.4.4.4/32"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "origin": "10.0.0.10"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "path-id": 0
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "attr-index": "3852788096"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "last-modified": "1732438370948751360"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.10",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "valid-route": true
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "prefix": "4.4.4.4/32"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "origin": "10.0.0.6"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "path-id": 0
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "attr-index": "3852788128"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "last-modified": "1732431174948750848"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "valid-route": true
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.6",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "openconfig-rib-bgp-ext:reject-reason": "BGP_NOT_SELECTED_BESTPATH"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "prefix": "4.4.4.4/32"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[name=BGP][identifier=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "origin": "10.0.0.2"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "path-id": 0
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "attr-index": "3852788112"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "last-modified": "1732756684948751616"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "valid-route": true
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      },
+      {
+        "Path": "network-instances/network-instance[name=default]/protocols/protocol[identifier=BGP][name=BGP]/bgp",
+        "values": {
+          "network-instances/network-instance/protocols/protocol/bgp": {
+            "openconfig-network-instance:rib": {
+              "afi-safis": {
+                "afi-safi": [
+                  {
+                    "afi-safi-name": "IPV4_UNICAST",
+                    "ipv4-unicast": {
+                      "loc-rib": {
+                        "routes": {
+                          "route": [
+                            {
+                              "origin": "10.0.0.2",
+                              "path-id": 0,
+                              "prefix": "4.4.4.4/32",
+                              "state": {
+                                "openconfig-rib-bgp-ext:reject-reason": "BGP_NOT_SELECTED_BESTPATH"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    ]
+  }
+]

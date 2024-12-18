@@ -1,0 +1,20 @@
+{
+  "name": "read_template",
+  "description": "Read the content of a Jinja2 template file from the device_config_templates directory. Use this to view and explain network configuration templates.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "template_name": {
+        "type": "string",
+        "description": "Name of the template file to read (e.g., 'ceos-leaf-template.jinja2', 'ceos-spine-template.jinja2')",
+        "examples": [
+          "ceos-leaf-template.jinja2",
+          "ceos-spine-template.jinja2"
+        ]
+      }
+    },
+    "required": [
+      "template_name"
+    ]
+  }
+}

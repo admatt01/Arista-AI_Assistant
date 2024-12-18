@@ -1,0 +1,104 @@
+module: openconfig-lldp
+  +---u lldp-top
+
+  grouping lldp-common-counters:
+    +-- frame-in?         yang:counter64
+    +-- frame-out?        yang:counter64
+    +-- frame-error-in?   yang:counter64
+    +-- frame-discard?    yang:counter64
+    +-- tlv-discard?      yang:counter64
+    +-- tlv-unknown?      yang:counter64
+    +-- last-clear?       yang:date-and-time
+  grouping lldp-global-counters:
+    +---u lldp-common-counters
+    +-- tlv-accepted?           yang:counter64
+    +-- entries-aged-out?       yang:counter64
+  grouping lldp-interface-counters:
+    +---u lldp-common-counters
+    +-- frame-error-out?        yang:counter64
+  grouping lldp-system-info-config:
+    +-- system-name?          string
+    +-- system-description?   string
+    +-- chassis-id?           string
+    +-- chassis-id-type?      oc-lldp-types:chassis-id-type
+  grouping lldp-system-info-state:
+  grouping lldp-neighbor-config:
+  grouping lldp-neighbor-state:
+    +-- id?                        string
+    +-- age?                       uint64
+    +-- last-update?               int64
+    +-- ttl?                       uint16
+    +-- port-id?                   string
+    +-- port-id-type?              oc-lldp-types:port-id-type
+    +-- port-description?          string
+    +-- management-address?        string
+    +-- management-address-type?   string
+  grouping lldp-capabilities-config:
+  grouping lldp-capabilities-state:
+    +-- name?      identityref
+    +-- enabled?   boolean
+  grouping lldp-capabilities-top:
+    +--ro capabilities
+       +--ro capability* [name]
+          +--ro name?     -> ../state/name
+          +--ro config
+          +--ro state
+             +---u lldp-capabilities-state
+  grouping lldp-custom-tlv-config:
+  grouping lldp-custom-tlv-state:
+    +-- type?          int32
+    +-- oui?           string
+    +-- oui-subtype?   string
+    +-- value?         binary
+  grouping lldp-custom-tlv-top:
+    +--ro custom-tlvs
+       +--ro tlv* [type oui oui-subtype]
+          +--ro type?          -> ../state/type
+          +--ro oui?           -> ../state/oui
+          +--ro oui-subtype?   -> ../state/oui-subtype
+          +--ro config
+          +--ro state
+             +---u lldp-custom-tlv-state
+  grouping lldp-neighbor-top:
+    +--ro neighbors
+       +--ro neighbor* [id]
+          +--ro id?                      -> ../state/id
+          +--ro config
+          +--ro state
+          |  +---u lldp-system-info-config
+          |  +---u lldp-neighbor-state
+          +---u lldp-custom-tlv-top
+          +---u lldp-capabilities-top
+  grouping lldp-interface-config:
+    +-- name?      oc-if:base-interface-ref
+    +-- enabled?   boolean
+  grouping lldp-interface-state:
+    +-- counters
+       +---u lldp-interface-counters
+  grouping lldp-interface-top:
+    +-- interfaces
+       +-- interface* [name]
+          +-- name?                -> ../config/name
+          +-- config
+          |  +---u lldp-interface-config
+          +--ro state
+          |  +---u lldp-interface-config
+          |  +---u lldp-interface-state
+          +---u lldp-neighbor-top
+  grouping lldp-config:
+    +-- enabled?                      boolean
+    +-- hello-timer?                  uint64
+    +-- suppress-tlv-advertisement*   identityref
+  grouping lldp-state:
+    +-- counters
+       +---u lldp-global-counters
+  grouping lldp-top:
+    +-- lldp
+       +-- config
+       |  +---u lldp-config
+       |  +---u lldp-system-info-config
+       +--ro state
+       |  +---u lldp-config
+       |  +---u lldp-system-info-config
+       |  +---u lldp-state
+       +---u lldp-interface-top

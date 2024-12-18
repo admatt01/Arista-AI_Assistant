@@ -1,0 +1,40 @@
+module: openconfig-defined-sets
+  +---u defined-sets-top
+
+  grouping ipv4-prefix-sets-config:
+    +-- name?          string
+    +-- description?   string
+    +-- prefix*        oc-inet:ipv4-prefix
+  grouping ipv6-prefix-sets-config:
+    +-- name?          string
+    +-- description?   string
+    +-- prefix*        oc-inet:ipv6-prefix
+  grouping port-sets-config:
+    +-- name?          string
+    +-- description?   string
+    +-- port*          oc-pkt-match-types:port-num-range
+  grouping defined-sets:
+    +-- ipv4-prefix-sets
+    |  +-- ipv4-prefix-set* [name]
+    |     +-- name?     -> ../config/name
+    |     +-- config
+    |     |  +---u ipv4-prefix-sets-config
+    |     +--ro state
+    |        +---u ipv4-prefix-sets-config
+    +-- ipv6-prefix-sets
+    |  +-- ipv6-prefix-set* [name]
+    |     +-- name?     -> ../config/name
+    |     +-- config
+    |     |  +---u ipv6-prefix-sets-config
+    |     +--ro state
+    |        +---u ipv6-prefix-sets-config
+    +-- port-sets
+       +-- port-set* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u port-sets-config
+          +--ro state
+             +---u port-sets-config
+  grouping defined-sets-top:
+    +-- defined-sets
+       +---u defined-sets

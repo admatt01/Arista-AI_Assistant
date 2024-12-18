@@ -1,0 +1,51 @@
+module: openconfig-transport-types
+
+  grouping avg-min-max-instant-stats-precision2-ps-nm:
+    +-- instant?                        decimal64
+    +-- avg?                            decimal64
+    +-- min?                            decimal64
+    +-- max?                            decimal64
+    +---u oc-types:stat-interval-state
+    +---u oc-types:min-max-time
+  grouping avg-min-max-instant-stats-precision2-ps:
+    +-- instant?                        decimal64
+    +-- avg?                            decimal64
+    +-- min?                            decimal64
+    +-- max?                            decimal64
+    +---u oc-types:stat-interval-state
+    +---u oc-types:min-max-time
+  grouping avg-min-max-instant-stats-precision2-ps2:
+    +-- instant?                        decimal64
+    +-- avg?                            decimal64
+    +-- min?                            decimal64
+    +-- max?                            decimal64
+    +---u oc-types:stat-interval-state
+    +---u oc-types:min-max-time
+  grouping avg-min-max-instant-stats-precision18-ber:
+    +-- instant?                        decimal64
+    +-- avg?                            decimal64
+    +-- min?                            decimal64
+    +-- max?                            decimal64
+    +---u oc-types:stat-interval-state
+    +---u oc-types:min-max-time
+  grouping avg-min-max-instant-stats-precision1-mhz:
+    +-- instant?                        decimal64
+    +-- avg?                            decimal64
+    +-- min?                            decimal64
+    +-- max?                            decimal64
+    +---u oc-types:stat-interval-state
+    +---u oc-types:min-max-time
+  grouping avg-min-max-instant-stats-precision1-krads:
+    +-- instant?                        decimal64
+    +-- avg?                            decimal64
+    +-- min?                            decimal64
+    +-- max?                            decimal64
+    +---u oc-types:stat-interval-state
+    +---u oc-types:min-max-time
+  grouping avg-min-max-instant-stats-precision2-pct:
+    +-- instant?                        decimal64
+    +-- avg?                            decimal64
+    +-- min?                            decimal64
+    +-- max?                            decimal64
+    +---u oc-types:stat-interval-state
+    +---u oc-types:min-max-time

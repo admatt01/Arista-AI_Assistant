@@ -1,0 +1,15 @@
+module: openconfig-p4rt
+
+  augment /oc-if:interfaces/oc-if:interface/oc-if:config:
+    +---u p4rt-interface-config
+  augment /oc-if:interfaces/oc-if:interface/oc-if:state:
+    +---u p4rt-interface-config
+  augment /oc-platform:components/oc-platform:component/oc-platform:integrated-circuit/oc-platform:config:
+    +---u p4rt-ic-config
+  augment /oc-platform:components/oc-platform:component/oc-platform:integrated-circuit/oc-platform:state:
+    +---u p4rt-ic-config
+
+  grouping p4rt-interface-config:
+    +-- id?   uint32
+  grouping p4rt-ic-config:
+    +-- node-id?   uint64

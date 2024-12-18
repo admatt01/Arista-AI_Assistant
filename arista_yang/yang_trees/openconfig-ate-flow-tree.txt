@@ -1,0 +1,65 @@
+module: openconfig-ate-flow
+  +---u flow-top
+
+  grouping flow-top:
+    +-- flows
+       +--ro flow* [name]
+          +--ro name?               -> ../state/name
+          +--ro state
+          |  +---u flow-params
+          |  +---u flow-state
+          |  +--ro counters
+          |     +---u flow-counters-state
+          +--ro ingress-tracking
+          |  +---u flow-ingress-tracking
+          +--ro egress-tracking
+             +---u flow-egress-tracking
+  grouping flow-params:
+    +-- name?         string
+    +-- src-port?     string
+    +-- dst-port?     string
+    +-- mpls-label?   oc-mplst:mpls-label
+    +-- src-ipv4?     oc-inet:ipv4-address
+    +-- dst-ipv4?     oc-inet:ipv4-address
+    +-- src-ipv6?     oc-inet:ipv6-address
+    +-- dst-ipv6?     oc-inet:ipv6-address
+    +-- vlan-id?      oc-vlan:vlan-id
+    +-- filter?       string
+  grouping flow-state:
+    +-- loss-pct?               oc-types:ieeefloat32
+    +-- out-frame-rate?         oc-types:ieeefloat32
+    +-- in-frame-rate?          oc-types:ieeefloat32
+    +-- out-rate?               oc-types:ieeefloat32
+    +-- in-rate?                oc-types:ieeefloat32
+    +-- first-packet-latency?   oc-types:timeticks64
+    +-- convergence-time?       oc-types:timeticks64
+  grouping flow-counters-state:
+    +-- in-octets?    oc-yang:counter64
+    +-- in-pkts?      oc-yang:counter64
+    +-- out-octets?   oc-yang:counter64
+    +-- out-pkts?     oc-yang:counter64
+  grouping flow-ingress-tracking:
+    +--ro ingress-tracking* [src-port dst-port mpls-label src-ipv4 dst-ipv4 src-ipv6 dst-ipv6 vlan-id]
+       +--ro src-port?          -> ../state/src-port
+       +--ro dst-port?          -> ../state/dst-port
+       +--ro mpls-label?        -> ../state/mpls-label
+       +--ro src-ipv4?          -> ../state/src-ipv4
+       +--ro dst-ipv4?          -> ../state/dst-ipv4
+       +--ro src-ipv6?          -> ../state/src-ipv6
+       +--ro dst-ipv6?          -> ../state/dst-ipv6
+       +--ro vlan-id?           -> ../state/vlan-id
+       +--ro state
+       |  +---u flow-params
+       |  +---u flow-state
+       |  +--ro counters
+       |     +---u flow-counters-state
+       +--ro egress-tracking
+          +---u flow-egress-tracking
+  grouping flow-egress-tracking:
+    +--ro egress-tracking* [filter]
+       +--ro filter?   -> ../state/filter
+       +--ro state
+          +--ro filter?       string
+          +---u flow-state
+          +--ro counters
+             +---u flow-counters-state

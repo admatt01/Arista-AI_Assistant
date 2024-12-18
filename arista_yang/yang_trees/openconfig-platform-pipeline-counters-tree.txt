@@ -1,0 +1,198 @@
+module: openconfig-platform-pipeline-counters
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:integrated-circuit:
+    +---u platform-pipeline-top
+
+  grouping platform-pipeline-top:
+    +--ro pipeline-counters
+       +--ro packet
+       |  +--ro interface-block
+       |  |  +--ro state
+       |  |     +---u pipeline-counters-packet-interface-block-state
+       |  +--ro lookup-block
+       |  |  +--ro state
+       |  |     +---u pipeline-counters-packet-lookup-block-state
+       |  +--ro queueing-block
+       |  |  +--ro state
+       |  |     +---u pipeline-counters-packet-queueing-block-state
+       |  +--ro fabric-block
+       |  |  +--ro state
+       |  |     +---u pipeline-counters-packet-fabric-block-state
+       |  +--ro host-interface-block
+       |     +--ro state
+       |        +---u pipeline-counters-packet-host-interface-block-state
+       +--ro drop
+       |  +--ro state
+       |  |  +---u pipeline-drop-packet-state
+       |  +--ro interface-block
+       |  |  +--ro state
+       |  |     +---u pipeline-drop-packet-interface-block-state
+       |  +--ro lookup-block
+       |  |  +--ro state
+       |  |     +---u pipeline-drop-packet-lookup-block-state
+       |  +--ro queueing-block
+       |  |  +--ro state
+       |  |     +---u pipeline-drop-packet-queueing-block-state
+       |  +--ro fabric-block
+       |  |  +--ro state
+       |  |     +---u pipeline-drop-packet-fabric-block-state
+       |  +--ro host-interface-block
+       |  |  +--ro state
+       |  |     +---u pipeline-drop-packet-host-interface-block-state
+       |  +---u pipeline-vendor-drop-packets
+       +--ro errors
+       |  +--ro interface-block
+       |  |  +--ro interface-block-error* [name]
+       |  |     +--ro name?    -> ../state/name
+       |  |     +--ro state
+       |  |        +---u pipeline-errors-packet-interface-block-state
+       |  +--ro lookup-block
+       |  |  +--ro lookup-block-error* [name]
+       |  |     +--ro name?    -> ../state/name
+       |  |     +--ro state
+       |  |        +---u pipeline-errors-packet-lookup-block-state
+       |  +--ro queueing-block
+       |  |  +--ro queueing-block-error* [name]
+       |  |     +--ro name?    -> ../state/name
+       |  |     +--ro state
+       |  |        +---u pipeline-errors-packet-queueing-block-state
+       |  +--ro fabric-block
+       |  |  +--ro fabric-block-error* [name]
+       |  |     +--ro name?    -> ../state/name
+       |  |     +--ro state
+       |  |        +---u pipeline-errors-packet-fabric-block-state
+       |  +--ro host-interface-block
+       |     +--ro host-interface-error* [name]
+       |        +--ro name?    -> ../state/name
+       |        +--ro state
+       |           +---u pipeline-errors-packet-host-interface-block-state
+       +---u pipeline-control-plane-top
+  grouping pipeline-packets-common:
+    +-- in-packets?    oc-yang:counter64
+    +-- out-packets?   oc-yang:counter64
+    +-- in-bytes?      oc-yang:counter64
+    +-- out-bytes?     oc-yang:counter64
+  grouping pipeline-counters-common-high-low-packets:
+    +-- in-high-priority-packets?    oc-yang:counter64
+    +-- out-high-priority-packets?   oc-yang:counter64
+    +-- in-low-priority-packets?     oc-yang:counter64
+    +-- out-low-priority-packets?    oc-yang:counter64
+  grouping pipeline-counters-packet-interface-block-state:
+    +---u pipeline-packets-common
+  grouping pipeline-counters-packet-lookup-block-state:
+    +-- lookup-utilization?         oc-types:percentage
+    +---u pipeline-packets-common
+    +-- lookup-memory?              uint64
+    +-- lookup-memory-used?         uint64
+    +-- nexthop-memory?             uint64
+    +-- nexthop-memory-used?        uint64
+    +-- acl-memory-total-entries?   uint64
+    +-- acl-memory-used-entries?    uint64
+    +-- acl-memory-total-bytes?     uint64
+    +-- acl-memory-used-bytes?      uint64
+    +-- fragment-total-pkts?        oc-yang:counter64
+  grouping pipeline-counters-packet-queueing-block-state:
+    +---u pipeline-packets-common
+    +-- queue-memory?              uint64
+    +-- queue-memory-used?         uint64
+    +-- loopback-packets?          oc-yang:counter64
+    +-- loopback-bytes?            uint64
+  grouping pipeline-counters-packet-fabric-block-state:
+    +-- in-cells?                                    oc-yang:counter64
+    +-- out-cells?                                   oc-yang:counter64
+    +---u pipeline-packets-common
+    +-- in-high-priority-cells?                      oc-yang:counter64
+    +-- out-high-priority-cells?                     oc-yang:counter64
+    +-- in-low-priority-cells?                       oc-yang:counter64
+    +-- out-low-priority-cells?                      oc-yang:counter64
+    +---u pipeline-counters-common-high-low-packets
+  grouping pipeline-counters-packet-host-interface-block-state:
+    +---u pipeline-packets-common
+    +-- fragment-punt-pkts?                          oc-yang:counter64
+    +---u pipeline-counters-common-high-low-packets
+  grouping pipeline-drops-common:
+    +-- oversubscription?   oc-yang:counter64
+  grouping pipeline-drops-common-high-low:
+    +-- in-high-priority?    oc-yang:counter64
+    +-- out-high-priority?   oc-yang:counter64
+    +-- in-low-priority?     oc-yang:counter64
+    +-- out-low-priority?    oc-yang:counter64
+  grouping pipeline-drop-packet-interface-block-state:
+    +---u pipeline-drops-common
+    +-- in-drops?                oc-yang:counter64
+    +-- out-drops?               oc-yang:counter64
+  grouping pipeline-drop-packet-lookup-block-state:
+    +---u pipeline-drops-common
+    +-- no-route?                   oc-yang:counter64
+    +-- no-label?                   oc-yang:counter64
+    +-- no-nexthop?                 oc-yang:counter64
+    +-- invalid-packet?             oc-yang:counter64
+    +-- forwarding-policy?          oc-yang:counter64
+    +-- incorrect-software-state?   oc-yang:counter64
+    +-- rate-limit?                 oc-yang:counter64
+    +-- fragment-total-drops?       oc-yang:counter64
+    +-- lookup-aggregate?           oc-yang:counter64
+    +-- acl-drops?                  oc-yang:counter64
+  grouping pipeline-drop-packet-queueing-block-state:
+    +---u pipeline-drops-common
+    +-- memory-limit?            oc-yang:counter64
+    +-- incorrect-state?         oc-yang:counter64
+    +-- lookup-queue?            oc-yang:counter64
+  grouping pipeline-drop-packet-fabric-block-state:
+    +---u pipeline-drops-common
+    +-- lost-packets?                     oc-yang:counter64
+    +---u pipeline-drops-common-high-low
+    +-- fabric-aggregate?                 oc-yang:counter64
+  grouping pipeline-drop-packet-host-interface-block-state:
+    +---u pipeline-drops-common
+    +-- rate-limit?                       oc-yang:counter64
+    +---u pipeline-drops-common-high-low
+    +-- fragment-punt?                    oc-yang:counter64
+    +-- host-aggregate?                   oc-yang:counter64
+  grouping pipeline-errors-common:
+    +-- name?        string
+    +-- count?       uint64
+    +-- threshold?   uint64
+    +-- action*      enumeration
+    +-- active?      boolean
+    +-- level?       enumeration
+  grouping pipeline-errors-packet-interface-block-state:
+    +---u pipeline-errors-common
+  grouping pipeline-errors-packet-lookup-block-state:
+    +---u pipeline-errors-common
+  grouping pipeline-errors-packet-queueing-block-state:
+    +---u pipeline-errors-common
+  grouping pipeline-errors-packet-fabric-block-state:
+    +---u pipeline-errors-common
+  grouping pipeline-errors-packet-host-interface-block-state:
+    +---u pipeline-errors-common
+  grouping pipeline-drop-packet-state:
+    +-- adverse-aggregate?             oc-yang:counter64
+    +-- congestion-aggregate?          oc-yang:counter64
+    +-- packet-processing-aggregate?   oc-yang:counter64
+    +-- urpf-aggregate?                oc-yang:counter64
+    +-- no-route?                      oc-yang:counter64
+  grouping pipeline-vendor-drop-packets:
+    +-- vendor
+  grouping pipeline-vendor-drop-containers:
+    +-- adverse
+    |  +-- state
+    +-- congestion
+    |  +-- state
+    +-- packet-processing
+       +-- state
+  grouping control-plane-traffic-counters-state:
+    +-- queued-aggregate?          oc-yang:counter64
+    +-- queued-bytes-aggregate?    oc-yang:counter64
+    +-- dropped-aggregate?         oc-yang:counter64
+    +-- dropped-bytes-aggregate?   oc-yang:counter64
+  grouping control-plane-traffic-vendor-counters:
+    +-- queued?          oc-yang:counter64
+    +-- queued-bytes?    oc-yang:counter64
+    +-- dropped?         oc-yang:counter64
+    +-- dropped-bytes?   oc-yang:counter64
+  grouping pipeline-control-plane-top:
+    +-- control-plane-traffic
+       +--ro state
+       |  +---u control-plane-traffic-counters-state
+       +-- vendor

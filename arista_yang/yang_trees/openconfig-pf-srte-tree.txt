@@ -1,0 +1,41 @@
+module: openconfig-pf-srte
+
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:policy-forwarding/oc-ni:policies/oc-ni:policy/oc-ni:rules/oc-ni:rule:
+    +---u oc-pf-srte-match-top
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:policy-forwarding/oc-ni:policies/oc-ni:policy/oc-ni:rules/oc-ni:rule/oc-ni:action:
+    +---u oc-pf-srte-segment-list-top
+
+  grouping oc-pf-srte-match-top:
+    +-- srte
+       +-- config
+       |  +---u oc-pf-srte-match-config
+       +--ro state
+          +---u oc-pf-srte-match-config
+  grouping oc-pf-srte-match-config:
+    +-- mpls-bsid?         oc-mplst:mpls-label
+    +-- srte-endpoint?     oc-inet:ip-address
+    +-- srte-color?        uint32
+    +-- srte-preference?   uint32
+  grouping oc-pf-srte-segment-list-top:
+    +-- segment-lists
+       +-- segment-list* [index]
+          +-- index?    -> ../config/index
+          +-- config
+          |  +---u oc-pf-srte-segment-list-config
+          +--ro state
+          |  +---u oc-pf-srte-segment-list-config
+          +-- sids
+             +-- sid* [index]
+                +-- index?    -> ../config/index
+                +-- config
+                |  +---u oc-pf-srte-segment-list-sid-config
+                +--ro state
+                   +---u oc-pf-srte-segment-list-sid-config
+  grouping oc-pf-srte-segment-list-config:
+    +-- index?    uint64
+    +-- weight?   uint32
+  grouping oc-pf-srte-segment-list-sid-config:
+    +-- index?      uint64
+    +-- value?      oc-srt:sr-sid-type
+    +-- mpls-ttl?   uint8
+    +-- mpls-tc?    uint8

@@ -1,0 +1,17 @@
+module: openconfig-if-ip-ext
+
+  augment /oc-if:interfaces/oc-if:interface/oc-if:subinterfaces/oc-if:subinterface/oc-ip:ipv6:
+    +---u ipv6-autoconf-top
+
+  grouping ipv6-autoconf-config:
+    +-- create-global-addresses?        boolean
+    +-- create-temporary-addresses?     boolean
+    +-- temporary-valid-lifetime?       uint32
+    +-- temporary-preferred-lifetime?   uint32
+  grouping ipv6-autoconf-state:
+  grouping ipv6-autoconf-top:
+    +-- autoconf
+       +-- config
+       |  +---u ipv6-autoconf-config
+       +--ro state
+          +---u ipv6-autoconf-config

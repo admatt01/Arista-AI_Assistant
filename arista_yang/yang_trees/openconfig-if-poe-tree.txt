@@ -1,0 +1,17 @@
+module: openconfig-if-poe
+
+  augment /oc-if:interfaces/oc-if:interface/oc-eth:ethernet:
+    +---u poe-ethernet-top
+
+  grouping poe-ethernet-config:
+    +-- enabled?   boolean
+  grouping poe-ethernet-state:
+    +-- power-used?    decimal64
+    +-- power-class?   uint8
+  grouping poe-ethernet-top:
+    +-- poe
+       +-- config
+       |  +---u poe-ethernet-config
+       +--ro state
+          +---u poe-ethernet-config
+          +---u poe-ethernet-state

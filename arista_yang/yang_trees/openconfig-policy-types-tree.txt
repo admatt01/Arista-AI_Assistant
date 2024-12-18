@@ -1,0 +1,5 @@
+module: openconfig-policy-types
+
+  grouping attribute-compare-operators:
+    +-- operator?   identityref
+    +-- value?      uint32

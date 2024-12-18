@@ -1,0 +1,148 @@
+module: openconfig-relay-agent
+  +---u relay-agent-top
+
+  grouping agent-information-ipv4-common-config:
+    +-- enable?   boolean
+  grouping agent-information-ipv4-common-state:
+  grouping agent-information-ipv4-global-top:
+    +-- agent-information-option
+       +-- config
+       |  +---u agent-information-ipv4-common-config
+       +--ro state
+          +---u agent-information-ipv4-common-config
+  grouping agent-information-ipv4-interface-config:
+    +-- circuit-id?   string
+    +-- remote-id?    string
+  grouping agent-information-ipv4-interface-state:
+    +-- sent-circuit-id?   string
+    +-- sent-remote-id?    string
+  grouping agent-information-ipv4-interface-top:
+    +-- agent-information-option
+       +-- config
+       |  +---u agent-information-ipv4-common-config
+       |  +---u agent-information-ipv4-interface-config
+       +--ro state
+          +---u agent-information-ipv4-common-config
+          +---u agent-information-ipv4-interface-config
+          +---u agent-information-ipv4-interface-state
+  grouping agent-options-ipv6-common-config:
+    +-- enable-interface-id?   boolean
+    +-- enable-remote-id?      boolean
+  grouping agent-options-ipv6-common-state:
+  grouping agent-options-ipv6-interface-config:
+    +-- interface-id?   string
+    +-- remote-id?      string
+  grouping agent-options-ipv6-interface-state:
+    +-- sent-interface-id?   string
+    +-- sent-remote-id?      string
+  grouping agent-options-ipv6-global-top:
+    +-- options
+       +-- config
+       |  +---u agent-options-ipv6-common-config
+       +--ro state
+          +---u agent-options-ipv6-common-config
+  grouping agent-options-ipv6-interface-top:
+    +-- options
+       +-- config
+       |  +---u agent-options-ipv6-common-config
+       |  +---u agent-options-ipv6-interface-config
+       +--ro state
+          +---u agent-options-ipv6-common-config
+          +---u agent-options-ipv6-interface-config
+          +---u agent-options-ipv6-interface-state
+  grouping relay-agent-common-config:
+    +-- enable-relay-agent?   boolean
+  grouping relay-agent-common-state:
+  grouping relay-agent-ipv4-config:
+    +---u relay-agent-common-config
+  grouping relay-agent-ipv4-state:
+  grouping relay-agent-ipv4-top:
+    +-- dhcp
+       +-- config
+       |  +---u relay-agent-ipv4-config
+       +--ro state
+       |  +---u relay-agent-ipv4-config
+       +---u agent-information-ipv4-global-top
+       +---u relay-agent-ipv4-interfaces-top
+  grouping relay-agent-ipv6-config:
+    +---u relay-agent-common-config
+  grouping relay-agent-ipv6-state:
+  grouping relay-agent-ipv6-top:
+    +-- dhcpv6
+       +-- config
+       |  +---u relay-agent-ipv6-config
+       +--ro state
+       |  +---u relay-agent-ipv6-config
+       +---u agent-options-ipv6-global-top
+       +---u relay-agent-ipv6-interfaces-top
+  grouping relay-agent-common-stats:
+    +-- total-dropped?     yang:counter64
+    +-- invalid-opcode?    yang:counter64
+    +-- invalid-options?   yang:counter64
+  grouping relay-agent-ipv4-stats:
+    +-- bootrequest-received?     yang:counter64
+    +-- dhcp-decline-received?    yang:counter64
+    +-- dhcp-discover-received?   yang:counter64
+    +-- dhcp-inform-received?     yang:counter64
+    +-- dhcp-release-received?    yang:counter64
+    +-- dhcp-request-received?    yang:counter64
+    +-- bootrequest-sent?         yang:counter64
+    +-- bootreply-sent?           yang:counter64
+    +-- dhcp-offer-sent?          yang:counter64
+    +-- dhcp-ack-sent?            yang:counter64
+    +-- dhcp-nack-sent?           yang:counter64
+  grouping relay-agent-ipv6-stats:
+    +-- dhcpv6-solicit-received?        yang:counter64
+    +-- dhcpv6-decline-received?        yang:counter64
+    +-- dhcpv6-request-received?        yang:counter64
+    +-- dhcpv6-release-received?        yang:counter64
+    +-- dhcpv6-confirm-received?        yang:counter64
+    +-- dhcpv6-rebind-received?         yang:counter64
+    +-- dhcpv6-info-request-received?   yang:counter64
+    +-- dhcpv6-relay-reply-received?    yang:counter64
+    +-- dhcpv6-adverstise-sent?         yang:counter64
+    +-- dhcpv6-reply-sent?              yang:counter64
+    +-- dhcpv6-reconfigure-sent?        yang:counter64
+    +-- dhcpv6-relay-forw-sent?         yang:counter64
+  grouping relay-agent-ipv4-interfaces-config:
+    +-- id?               oc-if:interface-id
+    +-- enable?           boolean
+    +-- helper-address*   inet:ip-address
+  grouping relay-agent-ipv4-interfaces-state:
+    +-- counters
+       +---u relay-agent-common-stats
+       +---u relay-agent-ipv4-stats
+  grouping relay-agent-ipv4-interfaces-top:
+    +-- interfaces
+       +-- interface* [id]
+          +-- id?                                     -> ../config/id
+          +-- config
+          |  +---u relay-agent-ipv4-interfaces-config
+          +--ro state
+          |  +---u relay-agent-ipv4-interfaces-config
+          |  +---u relay-agent-ipv4-interfaces-state
+          +---u oc-if:interface-ref
+          +---u agent-information-ipv4-interface-top
+  grouping relay-agent-ipv6-interfaces-config:
+    +-- id?               oc-if:interface-id
+    +-- enable?           boolean
+    +-- helper-address*   inet:ipv6-address
+  grouping relay-agent-ipv6-interfaces-state:
+    +-- counters
+       +---u relay-agent-common-stats
+       +---u relay-agent-ipv6-stats
+  grouping relay-agent-ipv6-interfaces-top:
+    +-- interfaces
+       +-- interface* [id]
+          +-- id?                                 -> ../config/id
+          +-- config
+          |  +---u relay-agent-ipv6-interfaces-config
+          +--ro state
+          |  +---u relay-agent-ipv6-interfaces-config
+          |  +---u relay-agent-ipv6-interfaces-state
+          +---u oc-if:interface-ref
+          +---u agent-options-ipv6-interface-top
+  grouping relay-agent-top:
+    +-- relay-agent
+       +---u relay-agent-ipv4-top
+       +---u relay-agent-ipv6-top

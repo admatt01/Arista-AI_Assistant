@@ -1,0 +1,7 @@
+submodule: openconfig-ospfv2-common (belongs-to openconfig-ospfv2)
+
+  grouping ospfv2-common-mpls-igp-ldp-sync-config:
+    +-- enabled?                 boolean
+    +-- post-session-up-delay?   uint32
+  grouping ospfv2-common-timers:
+    +-- timer-type?   enumeration

@@ -1,0 +1,81 @@
+module: openconfig-fw-high-availability
+  +---u ha-configuration-top
+
+  grouping control-link-common-config:
+    +-- control-link-interface?      oc-if:base-interface-ref
+    +-- control-link-port?           oc-inet:port-number
+    +-- control-link-ipv4?           oc-inet:ipv4-prefix
+    +-- control-link-gateway?        oc-inet:ipv4-address
+    +-- control-link-ipv6?           oc-inet:ipv6-prefix
+    +-- control-link-ipv6-gateway?   oc-inet:ipv6-address
+    +-- control-link-peer-ipv4?      oc-inet:ipv4-prefix
+    +-- control-link-peer-ipv6?      oc-inet:ipv6-prefix
+  grouping data-link-common-config:
+    +-- data-link-interface?      oc-if:base-interface-ref
+    +-- data-link-port?           oc-inet:port-number
+    +-- data-link-ipv4?           oc-inet:ipv4-prefix
+    +-- data-link-gateway?        oc-inet:ipv4-address
+    +-- data-link-ipv6?           oc-inet:ipv6-prefix
+    +-- data-link-ipv6-gateway?   oc-inet:ipv6-address
+    +-- data-link-peer-ipv4?      oc-inet:ipv4-prefix
+    +-- data-link-peer-ipv6?      oc-inet:ipv6-prefix
+  grouping ha-timers-config:
+    +-- preempt-hold-timer?   uint32
+    +-- hello-interval?       uint32
+  grouping ha-parameters-config:
+    +-- ha-enabled?                           boolean
+    +-- ha-mode?                              enumeration
+    +-- ha-key?                               string
+    +-- ha-key-hashed?                        oc-aaa-types:crypt-password-type
+    +-- ha-msg-encryption?                    boolean
+    +-- id?                                   uint8
+    +-- ha-device-id?                         uint8
+    +-- preempt?                              boolean
+    +-- priority?                             uint8
+    +---u ha-timers-config
+    +---u oc-fw-linkmon:global-health-config
+  grouping ha-parameters-state:
+    +-- ha-state?                            enumeration
+    +-- ha-state-last-change?                oc-types:timeticks64
+    +-- ha-config-sync?                      boolean
+    +-- ha-session-sync?                     boolean
+    +-- ha-mismatched-parameters*            identityref
+    +---u oc-fw-linkmon:global-health-state
+  grouping control-link-backup:
+    +-- backup
+       +-- config
+       |  +---u control-link-common-config
+       +--ro state
+          +---u control-link-common-config
+  grouping control-link-top:
+    +-- control-link
+       +-- config
+       |  +---u control-link-common-config
+       +--ro state
+       |  +---u control-link-common-config
+       +---u control-link-backup
+  grouping data-link-backup:
+    +-- backup
+       +-- config
+       |  +---u data-link-common-config
+       +--ro state
+          +---u data-link-common-config
+  grouping data-link-top:
+    +-- data-link
+       +-- config
+       |  +---u data-link-common-config
+       +--ro state
+       |  +---u data-link-common-config
+       +---u data-link-backup
+  grouping ha-configuration-top:
+    +-- ha-groups
+       +-- ha-group* [id]
+          +-- id?                                  -> ../config/id
+          +-- config
+          |  +---u ha-parameters-config
+          +--ro state
+          |  +---u ha-parameters-config
+          |  +---u ha-parameters-state
+          +---u control-link-top
+          +---u data-link-top
+          +---u oc-fw-linkmon:interface-group-top

@@ -1,0 +1,67 @@
+module: openconfig-system-logging
+
+  grouping logging-selectors-config:
+    +-- facility?   identityref
+    +-- severity?   syslog-severity
+  grouping logging-selectors-state:
+  grouping logging-selectors-top:
+    +-- selectors
+       +-- selector* [facility severity]
+          +-- facility?   -> ../config/facility
+          +-- severity?   -> ../config/severity
+          +-- config
+          |  +---u logging-selectors-config
+          +--ro state
+             +---u logging-selectors-config
+  grouping logging-console-config:
+  grouping logging-console-state:
+  grouping logging-console-top:
+    +-- console
+       +-- config
+       +--ro state
+       +---u logging-selectors-top
+  grouping logging-remote-config:
+    +-- host?               oc-inet:host
+    +-- source-address?     oc-inet:ip-address
+    +-- network-instance?   oc-ni:network-instance-ref
+    +-- remote-port?        oc-inet:port-number
+  grouping logging-remote-state:
+  grouping logging-remote-top:
+    +-- remote-servers
+       +-- remote-server* [host]
+          +-- host?                    -> ../config/host
+          +-- config
+          |  +---u logging-remote-config
+          +--ro state
+          |  +---u logging-remote-config
+          +---u logging-selectors-top
+  grouping logging-file-config:
+    +-- filename-prefix?   string
+    +-- path?              string
+    +-- rotate?            uint32
+    +-- max-size?          uint32
+    +-- max-open-time?     uint32
+  grouping logging-file-state:
+    +-- open-logfile?   string
+  grouping logging-files-top:
+    +-- files
+       +-- file* [path filename-prefix]
+          +-- filename-prefix?         -> ../config/filename-prefix
+          +-- path?                    -> ../config/path
+          +-- config
+          |  +---u logging-file-config
+          +--ro state
+          |  +---u logging-file-config
+          |  +---u logging-file-state
+          +---u logging-selectors-top
+  grouping logging-vty-top:
+    +-- vty
+       +-- config
+       +--ro state
+       +---u logging-selectors-top
+  grouping logging-top:
+    +-- logging
+       +---u logging-console-top
+       +---u logging-remote-top
+       +---u logging-files-top
+       +---u logging-vty-top

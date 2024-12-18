@@ -1,0 +1,6 @@
+submodule: openconfig-mpls-igp (belongs-to openconfig-mpls)
+
+  grouping igp-lsp-common:
+  grouping igp-lsp-setup:
+    +-- path-setup-protocol
+       +---u oc-ldp:igp-lsp-ldp-setup

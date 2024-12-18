@@ -1,0 +1,69 @@
+module: openconfig-wifi-phy
+  +---u radio-top
+
+  grouping radio-common-config:
+    +-- id?                       uint8
+    +-- operating-frequency?      identityref
+    +-- enabled?                  boolean
+    +-- transmit-power?           int8
+    +-- transmit-eirp?            uint8
+    +-- channel?                  uint8
+    +-- channel-width?            uint8
+    +-- bss-coloring?             boolean
+    +-- bss-color-id?             uint8
+    +-- dca?                      boolean
+    +-- allowed-channels*         oc-wifi-types:channels-type
+    +-- dtp?                      boolean
+    +-- dtp-min?                  int8
+    +-- dtp-max?                  int8
+    +-- antenna-gain?             int8
+    +-- scanning?                 boolean
+    +-- scanning-interval?        uint8
+    +-- scanning-dwell-time?      uint16
+    +-- scanning-defer-clients?   uint8
+    +-- scanning-defer-traffic?   boolean
+  grouping radio-common-state:
+    +-- base-radio-mac?                 oc-yang:mac-address
+    +-- allowed-regulatory-channels*    oc-wifi-types:channels-type
+    +-- software-selectable?            boolean
+    +-- dfs-hit-time?                   oc-types:timeticks64
+    +-- supported-channels*             oc-wifi-types:channels-type
+    +-- channel-change-reason?          identityref
+    +-- total-channel-utilization?      oc-types:percentage
+    +-- rx-dot11-channel-utilization?   oc-types:percentage
+    +-- rx-noise-channel-utilization?   oc-types:percentage
+    +-- tx-dot11-channel-utilization?   oc-types:percentage
+    +-- allowed-max-eirp?               uint8
+    +-- allowed-max-txpower?            uint8
+    +-- obss-rx?                        oc-types:percentage
+  grouping radio-counters-state:
+    +-- counters
+       +-- failed-fcs-frames?   oc-yang:counter64
+       +-- noise-floor?         int8
+  grouping neighbor-list-state:
+    +-- bssid?             oc-yang:mac-address
+    +-- ssid?              string
+    +-- rssi?              int8
+    +-- channel?           uint16
+    +-- primary-channel?   uint16
+    +-- bss-color-id?      uint8
+    +-- last-seen?         oc-types:timeticks64
+    +-- opmode?            enumeration
+  grouping neighbor-bssid-top:
+    +-- neighbors
+       +--ro neighbor* [bssid]
+          +--ro bssid?   -> ../state/bssid
+          +--ro state
+             +---u neighbor-list-state
+  grouping radio-top:
+    +-- radios
+       +-- radio* [id operating-frequency]
+          +-- id?                    -> ../config/id
+          +-- operating-frequency?   -> ../config/operating-frequency
+          +-- config
+          |  +---u radio-common-config
+          +--ro state
+          |  +---u radio-common-config
+          |  +---u radio-common-state
+          |  +---u radio-counters-state
+          +---u neighbor-bssid-top

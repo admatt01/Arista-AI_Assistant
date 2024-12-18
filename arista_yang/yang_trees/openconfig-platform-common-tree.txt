@@ -1,0 +1,28 @@
+submodule: openconfig-platform-common (belongs-to openconfig-platform)
+
+  grouping platform-resource-utilization-top:
+    +-- utilization
+       +-- resources
+          +-- resource* [name]
+             +-- name?     -> ../config/name
+             +-- config
+             |  +---u platform-resource-utilization-config
+             +--ro state
+                +---u platform-resource-utilization-config
+                +---u platform-resource-utilization-state
+  grouping resource-utilization-threshold-common:
+    +-- used-threshold-upper?         oc-types:percentage
+    +-- used-threshold-upper-clear?   oc-types:percentage
+  grouping platform-resource-utilization-config:
+    +-- name?                                    string
+    +---u resource-utilization-threshold-common
+  grouping platform-resource-utilization-state:
+    +-- used?                            uint64
+    +-- committed?                       uint64
+    +-- free?                            uint64
+    +-- max-limit?                       uint64
+    +-- high-watermark?                  uint64
+    +-- last-high-watermark?             oc-types:timeticks64
+    +-- used-threshold-upper-exceeded?   boolean
+  grouping component-power-management:
+    +-- power-admin-state?   oc-platform-types:component-power-type

@@ -1,0 +1,44 @@
+module: openconfig-if-8021x
+
+  augment /oc-if:interfaces/oc-if:interface/oc-eth:ethernet:
+    +---u dot1x-top
+  augment /oc-if:interfaces/oc-if:interface/oc-eth:ethernet/oc-vlan:switched-vlan:
+    +---u vlan-map-top
+
+  grouping vlan-map-config:
+    +-- vlan-name    string
+    +-- id           oc-vlan-types:vlan-id
+  grouping dot1x-port-config:
+    +-- authenticate-port?         boolean
+    +-- host-mode?                 enumeration
+    +-- reauthenticate-interval?   uint16
+    +-- retransmit-interval?       uint16
+    +-- supplicant-timeout?        uint16
+    +-- max-requests?              uint16
+    +-- server-fail-vlan?          union
+    +-- auth-fail-vlan?            union
+  grouping vlan-map-top:
+    +-- dot1x-vlan-map
+       +-- vlan-name* [vlan-name]
+          +-- vlan-name?   -> ../config/vlan-name
+          +-- config
+          |  +---u vlan-map-config
+          +--ro state
+             +---u vlan-map-config
+  grouping dot1x-sessions-top:
+    +-- authenticated-sessions
+       +--ro authenticated-session* [mac]
+          +--ro mac?     -> ../state/mac
+          +--ro state
+             +--ro mac?                    oc-yang:mac-address
+             +---u dot1x-sessions-state
+  grouping dot1x-sessions-state:
+    +-- session-id?   string
+    +-- status?       enumeration
+  grouping dot1x-top:
+    +-- dot1x
+    |  +-- config
+    |  |  +---u dot1x-port-config
+    |  +--ro state
+    |     +---u dot1x-port-config
+    +---u dot1x-sessions-top

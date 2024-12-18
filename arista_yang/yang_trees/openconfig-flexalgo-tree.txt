@@ -1,0 +1,68 @@
+module: openconfig-flexalgo
+
+  augment /oc-ni:network-instances/oc-ni:network-instance:
+    +---u flex-algo-top
+
+  grouping algorithm-attributes:
+    +-- flex-algo-id             flex-algo-id
+    +-- flex-algo-name?          string
+    +-- flex-algo-description?   string
+    +-- metric-type?             flex-algo-metric-type
+    +-- calc-type?               flex-algo-calc-type
+    +-- priority?                uint8
+    +-- exclude*                 -> ../../../../flex-algo-global-attributes/flex-algo-admin-groups/admin-group/admin-group-name
+    +-- include-all*             -> ../../../../flex-algo-global-attributes/flex-algo-admin-groups/admin-group/admin-group-name
+    +-- include-any*             -> ../../../../flex-algo-global-attributes/flex-algo-admin-groups/admin-group/admin-group-name
+    +-- srlg-exclude*            -> ../../../../flex-algo-global-attributes/srlgs/srlg/name
+    +-- algo-flags?              boolean
+  grouping flex-algo-definition-top:
+    +-- algorithm* [flex-algo-id]
+       +-- flex-algo-id?   -> ../config/flex-algo-id
+       +-- config
+       |  +---u algorithm-attributes
+       +--ro state
+          +---u algorithm-attributes
+  grouping flex-algo-interface-attributes-config:
+    +-- interface-id?      oc-if:interface-id
+    +-- te-metric?         uint32
+    +-- min-delay?         uint32
+    +-- srlg-membership*   -> ../../../../flex-algo-global-attributes/srlgs/srlg/name
+    +-- admin-group*       -> ../../../../flex-algo-global-attributes/flex-algo-admin-groups/admin-group/admin-group-name
+  grouping flex-algo-interface-attributes-top:
+    +-- interface* [interface-id]
+       +-- interface-id?   -> ../config/interface-id
+       +-- config
+       |  +---u flex-algo-interface-attributes-config
+       +--ro state
+          +---u flex-algo-interface-attributes-config
+  grouping flex-algo-srlg-config:
+    +-- name?    string
+    +-- value?   uint32
+  grouping flex-algo-srlg-top:
+    +-- srlgs
+       +-- srlg* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u flex-algo-srlg-config
+          +--ro state
+             +---u flex-algo-srlg-config
+  grouping flex-algo-admin-group-config:
+    +-- admin-group-name?   string
+    +-- bit-position?       uint32
+  grouping flex-algo-admin-groups-top:
+    +-- flex-algo-admin-groups
+       +-- admin-group* [admin-group-name]
+          +-- admin-group-name?   -> ../config/admin-group-name
+          +-- config
+          |  +---u flex-algo-admin-group-config
+          +--ro state
+             +---u flex-algo-admin-group-config
+  grouping flex-algo-top:
+    +-- flex-algorithm
+       +-- flex-algorithm-definition
+       |  +---u flex-algo-definition-top
+       +-- flex-algo-global-attributes
+       |  +---u flex-algo-srlg-top
+       |  +---u flex-algo-admin-groups-top
+       +-- flex-algo-interface-attributes
+          +---u flex-algo-interface-attributes-top

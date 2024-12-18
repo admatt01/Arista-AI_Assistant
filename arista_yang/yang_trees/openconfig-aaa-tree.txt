@@ -1,0 +1,166 @@
+module: openconfig-aaa
+
+  grouping aaa-servergroup-common-config:
+    +-- name?   string
+    +-- type?   identityref
+  grouping aaa-servergroup-common-state:
+  grouping aaa-servergroup-common-top:
+    +-- server-groups
+       +-- server-group* [name]
+          +-- name?             -> ../config/name
+          +-- config
+          |  +---u aaa-servergroup-common-config
+          +--ro state
+          |  +---u aaa-servergroup-common-config
+          +---u aaa-server-top
+  grouping aaa-server-config:
+    +-- name?      string
+    +-- address?   oc-inet:ip-address
+    +-- timeout?   uint16
+  grouping aaa-server-state:
+    +-- connection-opens?      oc-yang:counter64
+    +-- connection-closes?     oc-yang:counter64
+    +-- connection-aborts?     oc-yang:counter64
+    +-- connection-failures?   oc-yang:counter64
+    +-- connection-timeouts?   oc-yang:counter64
+    +-- messages-sent?         oc-yang:counter64
+    +-- messages-received?     oc-yang:counter64
+    +-- errors-received?       oc-yang:counter64
+  grouping aaa-server-top:
+    +-- servers
+       +-- server* [address]
+          +-- address?                 -> ../config/address
+          +-- config
+          |  +---u aaa-server-config
+          +--ro state
+          |  +---u aaa-server-config
+          |  +---u aaa-server-state
+          +---u aaa-tacacs-server-top
+          +---u aaa-radius-server-top
+  grouping aaa-admin-config:
+    +-- admin-password?          string
+    +-- admin-password-hashed?   oc-aaa-types:crypt-password-type
+  grouping aaa-admin-state:
+    +-- admin-username?   string
+  grouping aaa-authentication-admin-top:
+    +-- admin-user
+       +-- config
+       |  +---u aaa-admin-config
+       +--ro state
+          +---u aaa-admin-config
+          +---u aaa-admin-state
+  grouping aaa-authentication-user-config:
+    +-- username?          string
+    +-- password?          string
+    +-- password-hashed?   oc-aaa-types:crypt-password-type
+    +-- ssh-key?           string
+    +-- role               union
+  grouping aaa-authentication-user-state:
+  grouping aaa-authentication-user-top:
+    +-- users
+       +-- user* [username]
+          +-- username?   -> ../config/username
+          +-- config
+          |  +---u aaa-authentication-user-config
+          +--ro state
+             +---u aaa-authentication-user-config
+  grouping aaa-accounting-methods-common:
+    +-- accounting-method*   union
+  grouping aaa-accounting-events-config:
+    +-- event-type?   identityref
+    +-- record?       enumeration
+  grouping aaa-accounting-events-state:
+  grouping aaa-accounting-events-top:
+    +-- events
+       +-- event* [event-type]
+          +-- event-type?   -> ../config/event-type
+          +-- config
+          |  +---u aaa-accounting-events-config
+          +--ro state
+             +---u aaa-accounting-events-config
+  grouping aaa-accounting-config:
+    +---u aaa-accounting-methods-common
+  grouping aaa-accounting-state:
+  grouping aaa-accounting-top:
+    +-- accounting
+       +-- config
+       |  +---u aaa-accounting-config
+       +--ro state
+       |  +---u aaa-accounting-config
+       +---u aaa-accounting-events-top
+  grouping aaa-authorization-methods-config:
+    +-- authorization-method*   union
+  grouping aaa-authorization-events-config:
+    +-- event-type?   identityref
+  grouping aaa-authorization-events-state:
+  grouping aaa-authorization-events-top:
+    +-- events
+       +-- event* [event-type]
+          +-- event-type?   -> ../config/event-type
+          +-- config
+          |  +---u aaa-authorization-events-config
+          +--ro state
+             +---u aaa-authorization-events-config
+  grouping aaa-authorization-config:
+    +---u aaa-authorization-methods-config
+  grouping aaa-authorization-state:
+  grouping aaa-authorization-top:
+    +-- authorization
+       +-- config
+       |  +---u aaa-authorization-config
+       +--ro state
+       |  +---u aaa-authorization-config
+       +---u aaa-authorization-events-top
+  grouping aaa-authentication-config:
+    +-- authentication-method*   union
+  grouping aaa-authentication-state:
+  grouping aaa-authentication-top:
+    +-- authentication
+       +-- config
+       |  +---u aaa-authentication-config
+       +--ro state
+       |  +---u aaa-authentication-config
+       +---u aaa-authentication-admin-top
+       +---u aaa-authentication-user-top
+  grouping aaa-config:
+  grouping aaa-state:
+  grouping aaa-top:
+    +-- aaa
+       +-- config
+       +--ro state
+       +---u aaa-authentication-top
+       +---u aaa-authorization-top
+       +---u aaa-accounting-top
+       +---u aaa-servergroup-common-top
+  grouping aaa-tacacs-server-config:
+    +-- port?                oc-inet:port-number
+    +-- secret-key?          oc-types:routing-password
+    +-- secret-key-hashed?   oc-aaa-types:crypt-password-type
+    +-- source-address?      oc-inet:ip-address
+  grouping aaa-tacacs-server-state:
+  grouping aaa-tacacs-server-top:
+    +-- tacacs
+       +-- config
+       |  +---u aaa-tacacs-server-config
+       +--ro state
+          +---u aaa-tacacs-server-config
+  grouping aaa-radius-server-config:
+    +-- auth-port?             oc-inet:port-number
+    +-- acct-port?             oc-inet:port-number
+    +-- secret-key?            oc-types:routing-password
+    +-- secret-key-hashed?     oc-aaa-types:crypt-password-type
+    +-- source-address?        oc-inet:ip-address
+    +-- retransmit-attempts?   uint8
+  grouping aaa-radius-server-state:
+    +-- counters
+       +-- retried-access-requests?   oc-yang:counter64
+       +-- access-accepts?            oc-yang:counter64
+       +-- access-rejects?            oc-yang:counter64
+       +-- timeout-access-requests?   oc-yang:counter64
+  grouping aaa-radius-server-top:
+    +-- radius
+       +-- config
+       |  +---u aaa-radius-server-config
+       +--ro state
+          +---u aaa-radius-server-config
+          +---u aaa-radius-server-state

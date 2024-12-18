@@ -1,0 +1,78 @@
+submodule: openconfig-ospfv2-area-interface (belongs-to openconfig-ospfv2)
+
+  grouping ospfv2-area-interface-config:
+    +-- id?                             oc-if:interface-id
+    +-- network-type?                   identityref
+    +-- priority?                       uint8
+    +-- multi-area-adjacency-primary?   boolean
+    +-- authentication-type?            string
+    +-- metric?                         oc-ospf-types:ospf-metric
+    +-- passive?                        boolean
+    +-- hide-network?                   boolean
+  grouping ospfv2-area-interface-timers-config:
+    +-- dead-interval?             uint32
+    +-- hello-interval?            uint32
+    +-- retransmission-interval?   uint32
+  grouping ospfv2-area-interface-mpls-config:
+    +-- traffic-engineering-metric?   uint32
+  grouping ospfv2-area-interface-neighbor-config:
+    +-- router-id?   yang:dotted-quad
+    +-- metric?      oc-ospf-types:ospf-metric
+  grouping ospfv2-area-interface-neighbor-state:
+    +-- priority?                      uint8
+    +-- dead-time?                     oc-types:timeticks64
+    +-- designated-router?             yang:dotted-quad
+    +-- backup-designated-router?      yang:dotted-quad
+    +-- optional-capabilities?         yang:hex-string
+    +-- last-established-time?         oc-types:timeticks64
+    +-- adjacency-state?               identityref
+    +-- state-changes?                 uint32
+    +-- retransmission-queue-length?   uint32
+  grouping ospfv2-area-interface-lsa-filter-config:
+    +-- all?   boolean
+  grouping ospfv2-area-interface-mpls-igp-ldp-sync-state:
+    +-- synchronized?   boolean
+  grouping ospfv2-area-interfaces-structure:
+    +-- interfaces
+       +-- interface* [id]
+          +-- id?                    -> ../config/id
+          +-- config
+          |  +---u ospfv2-area-interface-config
+          +--ro state
+          |  +---u ospfv2-area-interface-config
+          +---u oc-if:interface-ref
+          +-- timers
+          |  +-- config
+          |  |  +---u ospfv2-area-interface-timers-config
+          |  +--ro state
+          |     +---u ospfv2-area-interface-timers-config
+          +-- mpls
+          |  +-- config
+          |  |  +---u ospfv2-area-interface-mpls-config
+          |  +--ro state
+          |  |  +---u ospfv2-area-interface-mpls-config
+          |  +-- igp-ldp-sync
+          |     +-- config
+          |     |  +---u ospfv2-common-mpls-igp-ldp-sync-config
+          |     +--ro state
+          |        +---u ospfv2-common-mpls-igp-ldp-sync-config
+          |        +---u ospfv2-area-interface-mpls-igp-ldp-sync-state
+          +-- lsa-filter
+          |  +-- config
+          |  |  +---u ospfv2-area-interface-lsa-filter-config
+          |  +--ro state
+          |     +---u ospfv2-area-interface-lsa-filter-config
+          +-- neighbors
+          |  +-- neighbor* [router-id]
+          |     +-- router-id?   -> ../config/router-id
+          |     +-- config
+          |     |  +---u ospfv2-area-interface-neighbor-config
+          |     +--ro state
+          |        +---u ospfv2-area-interface-neighbor-config
+          |        +---u ospfv2-area-interface-neighbor-state
+          +---u oc-bfd:bfd-enable
+  grouping ospfv2-common-mpls-igp-ldp-sync-config:
+    +-- enabled?                 boolean
+    +-- post-session-up-delay?   uint32
+  grouping ospfv2-common-timers:
+    +-- timer-type?   enumeration

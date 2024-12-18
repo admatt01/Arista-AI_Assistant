@@ -1,0 +1,165 @@
+module: openconfig-vlan
+
+  augment /oc-if:interfaces/oc-if:interface/oc-if:subinterfaces/oc-if:subinterface:
+    +---u vlan-logical-top
+  augment /oc-if:interfaces/oc-if:interface/oc-if:config:
+    +---u vlan-tpid-config
+  augment /oc-if:interfaces/oc-if:interface/oc-if:state:
+    +---u vlan-tpid-config
+  augment /oc-if:interfaces/oc-if:interface/oc-eth:ethernet:
+    +---u vlan-switched-top
+  augment /oc-if:interfaces/oc-if:interface/oc-lag:aggregation:
+    +---u vlan-switched-top
+  augment /oc-if:interfaces/oc-if:interface:
+    +---u vlan-routed-top
+
+  grouping vlan-config:
+    +-- vlan-id?   oc-vlan-types:vlan-id
+    +-- name?      string
+    +-- status?    enumeration
+  grouping vlan-state:
+  grouping vlan-tpid-config:
+    +-- tpid?   identityref
+  grouping vlan-tpid-state:
+  grouping vlan-members-state:
+    +-- members
+       +--ro member* []
+          +---u oc-if:base-interface-ref-state
+  grouping vlan-switched-config:
+    +-- interface-mode?   oc-vlan-types:vlan-mode-type
+    +-- native-vlan?      oc-vlan-types:vlan-id
+    +-- access-vlan?      oc-vlan-types:vlan-id
+    +-- trunk-vlans*      union
+  grouping vlan-switched-state:
+  grouping vlan-switched-top:
+    +-- switched-vlan
+       +-- config
+       |  +---u vlan-switched-config
+       +--ro state
+          +---u vlan-switched-config
+  grouping vlan-logical-config:
+    x-- vlan-id?   union
+  grouping vlan-logical-state:
+  grouping vlan-logical-single-tagged-config:
+    +-- vlan-id?   oc-vlan-types:vlan-id
+  grouping vlan-logical-single-tagged-list-config:
+    +-- vlan-ids*   oc-vlan-types:vlan-id
+  grouping vlan-logical-single-tagged-range-config:
+    +-- low-vlan-id?    oc-vlan-types:vlan-id
+    +-- high-vlan-id?   oc-vlan-types:vlan-id
+  grouping vlan-logical-double-tagged-config:
+    +-- inner-vlan-id?   oc-vlan-types:vlan-id
+    +-- outer-vlan-id?   oc-vlan-types:vlan-id
+  grouping vlan-logical-double-tagged-inner-list-config:
+    +-- inner-vlan-ids*   oc-vlan-types:vlan-id
+    +-- outer-vlan-id?    oc-vlan-types:vlan-id
+  grouping vlan-logical-double-tagged-outer-list-config:
+    +-- inner-vlan-id?    oc-vlan-types:vlan-id
+    +-- outer-vlan-ids*   oc-vlan-types:vlan-id
+  grouping vlan-logical-double-tagged-inner-range-config:
+    +-- inner-low-vlan-id?    oc-vlan-types:vlan-id
+    +-- inner-high-vlan-id?   oc-vlan-types:vlan-id
+    +-- outer-vlan-id*        oc-vlan-types:vlan-id
+  grouping vlan-logical-double-tagged-outer-range-config:
+    +-- inner-vlan-id?        oc-vlan-types:vlan-id
+    +-- outer-low-vlan-id?    oc-vlan-types:vlan-id
+    +-- outer-high-vlan-id?   oc-vlan-types:vlan-id
+  grouping vlan-logical-double-tagged-inner-outer-range-config:
+    +-- inner-low-vlan-id?    oc-vlan-types:vlan-id
+    +-- inner-high-vlan-id?   oc-vlan-types:vlan-id
+    +-- outer-low-vlan-id?    oc-vlan-types:vlan-id
+    +-- outer-high-vlan-id?   oc-vlan-types:vlan-id
+  grouping vlan-logical-match-top:
+    +-- match
+       +-- single-tagged
+       |  +-- config
+       |  |  +---u vlan-logical-single-tagged-config
+       |  +--ro state
+       |     +---u vlan-logical-single-tagged-config
+       +-- single-tagged-list
+       |  +-- config
+       |  |  +---u vlan-logical-single-tagged-list-config
+       |  +--ro state
+       |     +---u vlan-logical-single-tagged-list-config
+       +-- single-tagged-range
+       |  +-- config
+       |  |  +---u vlan-logical-single-tagged-range-config
+       |  +--ro state
+       |     +---u vlan-logical-single-tagged-range-config
+       +-- double-tagged
+       |  +-- config
+       |  |  +---u vlan-logical-double-tagged-config
+       |  +--ro state
+       |     +---u vlan-logical-double-tagged-config
+       +-- double-tagged-inner-list
+       |  +-- config
+       |  |  +---u vlan-logical-double-tagged-inner-list-config
+       |  +--ro state
+       |     +---u vlan-logical-double-tagged-inner-list-config
+       +-- double-tagged-outer-list
+       |  +-- config
+       |  |  +---u vlan-logical-double-tagged-outer-list-config
+       |  +--ro state
+       |     +---u vlan-logical-double-tagged-outer-list-config
+       +-- double-tagged-inner-range
+       |  +-- config
+       |  |  +---u vlan-logical-double-tagged-inner-range-config
+       |  +--ro state
+       |     +---u vlan-logical-double-tagged-inner-range-config
+       +-- double-tagged-outer-range
+       |  +-- config
+       |  |  +---u vlan-logical-double-tagged-outer-range-config
+       |  +--ro state
+       |     +---u vlan-logical-double-tagged-outer-range-config
+       +-- double-tagged-inner-outer-range
+          +-- config
+          |  +---u vlan-logical-double-tagged-inner-outer-range-config
+          +--ro state
+             +---u vlan-logical-double-tagged-inner-outer-range-config
+  grouping vlan-logical-ingress-mapping-config:
+    +-- vlan-stack-action?   oc-vlan-types:vlan-stack-action
+    +-- vlan-id?             oc-vlan-types:vlan-id
+    +-- tpid?                identityref
+  grouping vlan-logical-ingress-mapping-top:
+    +-- ingress-mapping
+       +-- config
+       |  +---u vlan-logical-ingress-mapping-config
+       +--ro state
+          +---u vlan-logical-ingress-mapping-config
+  grouping vlan-logical-egress-mapping-config:
+    +-- vlan-stack-action?   oc-vlan-types:vlan-stack-action
+    +-- vlan-id?             oc-vlan-types:vlan-id
+    +-- tpid?                identityref
+  grouping vlan-logical-egress-mapping-top:
+    +-- egress-mapping
+       +-- config
+       |  +---u vlan-logical-egress-mapping-config
+       +--ro state
+          +---u vlan-logical-egress-mapping-config
+  grouping vlan-top:
+    +-- vlans
+       +-- vlan* [vlan-id]
+          +-- vlan-id?              -> ../config/vlan-id
+          +-- config
+          |  +---u vlan-config
+          +--ro state
+          |  +---u vlan-config
+          +---u vlan-members-state
+  grouping vlan-logical-top:
+    +-- vlan
+       +-- config
+       |  +---u vlan-logical-config
+       +--ro state
+       |  +---u vlan-logical-config
+       +---u vlan-logical-match-top
+       +---u vlan-logical-ingress-mapping-top
+       +---u vlan-logical-egress-mapping-top
+  grouping vlan-routed-config:
+    +-- vlan?   union
+  grouping vlan-routed-state:
+  grouping vlan-routed-top:
+    +-- routed-vlan
+       +-- config
+       |  +---u vlan-routed-config
+       +--ro state
+          +---u vlan-routed-config

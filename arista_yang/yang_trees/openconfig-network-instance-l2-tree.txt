@@ -1,0 +1,116 @@
+submodule: openconfig-network-instance-l2 (belongs-to openconfig-network-instance)
+
+  grouping l2ni-instance:
+    +-- fdb
+       +-- config
+       |  +---u l2ni-fdb-mac-config
+       +--ro state
+       |  +---u l2ni-fdb-mac-config
+       +---u l2ni-mac-table-top
+       +---u oc-evpn:evpn-mac-mobility-top
+       +---u oc-evpn:evpn-arp-proxy-top
+       +---u oc-evpn:evpn-nd-proxy-top
+       +---u l2ni-l2rib-top
+  grouping l2ni-fdb-mac-config:
+    +-- mac-learning?                  boolean
+    +-- mac-aging-time?                uint16
+    +-- maximum-entries?               uint16
+    +---u oc-evpn:evpn-mac-vrf-config
+  grouping l2ni-encapsulation-config:
+    +-- control-word?   boolean
+  grouping l2ni-mac-table-config:
+    +-- mac-address?   oc-yang:mac-address
+    +-- vlan?          -> ../../../../../../vlans/vlan/config/vlan-id
+  grouping l2ni-mac-table-state:
+    +-- age?          uint64
+    +-- entry-type?   enumeration
+    +-- evi?          oc-evpn-types:vni-id
+  grouping l2ni-mac-table-top:
+    +-- mac-table
+       +-- entries
+          +-- entry* [mac-address vlan]
+             +-- mac-address?   -> ../config/mac-address
+             +-- vlan?          -> ../config/vlan
+             +-- config
+             |  +---u l2ni-mac-table-config
+             +--ro state
+             |  +---u l2ni-mac-table-config
+             |  +---u l2ni-mac-table-state
+             +-- interface
+                +---u oc-if:interface-ref
+  grouping l2ni-l2rib-top:
+    +--ro l2rib
+       +--ro mac-table
+       |  +--ro entries
+       |  |  +--ro entry* [mac-address]
+       |  |     +--ro mac-address?   -> ../state/mac-address
+       |  |     +--ro state
+       |  |     |  +---u l2ni-l2rib-mac-table-state
+       |  |     +--ro producers
+       |  |        +--ro producer* [producer]
+       |  |           +--ro producer?   -> ../state/producer
+       |  |           +--ro state
+       |  |              +---u l2ni-l2rib-common-producer-state
+       |  |              +---u l2ni-l2rib-mac-table-producer-state
+       |  +---u l2ni-l2rib-common-next-hop-group-state
+       |  +---u l2ni-l2rib-common-next-hop-state
+       +--ro mac-ip-table
+          +--ro entries
+          |  +--ro entry* [mac-address host-ip]
+          |     +--ro mac-address?   -> ../state/mac-address
+          |     +--ro host-ip?       -> ../state/host-ip
+          |     +--ro state
+          |     |  +---u l2ni-l2rib-mac-ip-table-state
+          |     +--ro producers
+          |        +--ro producer* [producer]
+          |           +--ro producer?   -> ../state/producer
+          |           +--ro state
+          |              +---u l2ni-l2rib-common-producer-state
+          +---u l2ni-l2rib-common-next-hop-group-state
+          +---u l2ni-l2rib-common-next-hop-state
+  grouping l2ni-l2rib-mac-table-state:
+    +---u l2ni-l2rib-common-state
+  grouping l2ni-l2rib-mac-ip-table-state:
+    +---u l2ni-l2rib-common-state
+    +-- host-ip?                   oc-inet:ip-address
+    +-- l3-vni?                    oc-evpn-types:evi-id
+  grouping l2ni-l2rib-common-state:
+    +-- mac-address?   oc-yang:mac-address
+    +-- vlan?          -> ../../../../../../../vlans/vlan/config/vlan-id
+    +-- evi?           oc-evpn-types:evi-id
+    +-- l2-vni?        oc-evpn-types:evi-id
+  grouping l2ni-l2rib-common-producer-state:
+    +-- producer?         enumeration
+    +-- seq-number?       uint32
+    +-- mobility-state?   enumeration
+    +-- esi?              oc-evpn-types:esi
+    +-- sticky?           boolean
+    x-- next-hop?         -> ../../../../../../next-hops/next-hop/index
+    +-- next-hop-group*   -> ../../../../../../next-hop-groups/next-hop-group/id
+  grouping l2ni-l2rib-common-next-hop-state:
+    +-- next-hops
+       +-- next-hop* [index]
+          +-- index?   -> ../state/index
+          +--ro state
+             +--ro index?                        uint64
+             +--ro peer-ip?                      oc-inet:ip-address
+             +--ro label?                        oc-evpn-types:evi-id
+             +--ro esi?                          oc-evpn-types:esi
+             +--ro resolved?                     boolean
+             +---u oc-if:interface-ref-common
+  grouping l2ni-l2rib-common-next-hop-group-state:
+    +-- next-hop-groups
+       +-- next-hop-group* [id]
+          +-- id?          -> ../state/id
+          +--ro state
+          |  +--ro id?     uint64
+          |  +--ro esi?    oc-evpn-types:esi
+          |  +--ro type?   enumeration
+          +-- next-hops
+             +-- next-hop* [index]
+                +-- index?   -> ../state/index
+                +--ro state
+                   +--ro index?   -> ../../../../../../next-hops/next-hop/index
+  grouping l2ni-l2rib-mac-table-producer-state:
+    +-- derived-from-mac-ip?   boolean
+    +-- directly-received?     boolean

@@ -1,0 +1,140 @@
+module: openconfig-spanning-tree
+  +---u stp-top
+
+  grouping stp-interfaces-state:
+    +-- port-num?                     uint16
+    +-- role?                         identityref
+    +-- port-state?                   identityref
+    +-- designated-root-priority?     oc-stp-types:stp-bridge-priority-type
+    +-- designated-root-address?      oc-yang:mac-address
+    +-- designated-cost?              uint32
+    +-- designated-bridge-priority?   oc-stp-types:stp-bridge-priority-type
+    +-- designated-bridge-address?    oc-yang:mac-address
+    +-- designated-port-priority?     oc-stp-types:stp-port-priority-type
+    +-- designated-port-num?          uint16
+    +-- forward-transisitions?        oc-yang:counter64
+    +-- counters
+       +-- bpdu-sent?       oc-yang:counter64
+       +-- bpdu-received?   oc-yang:counter64
+  grouping stp-interfaces-config:
+    +-- name?            oc-if:base-interface-ref
+    +-- cost?            uint32
+    +-- port-priority?   oc-stp-types:stp-port-priority-type
+  grouping stp-interfaces-top:
+    +-- interfaces
+       +-- interface* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u stp-interfaces-config
+          +--ro state
+             +---u stp-interfaces-config
+             +---u stp-interfaces-state
+  grouping bridge-priority-config:
+    +-- bridge-priority?   oc-stp-types:stp-bridge-priority-type
+  grouping stp-common-state:
+    +-- bridge-address?             oc-yang:mac-address
+    +-- designated-root-priority?   oc-stp-types:stp-bridge-priority-type
+    +-- designated-root-address?    oc-yang:mac-address
+    +-- root-port?                  uint16
+    +-- root-cost?                  uint32
+    +-- hold-time?                  uint8
+    +-- topology-changes?           oc-yang:counter64
+    +-- last-topology-change?       oc-types:timeticks64
+  grouping stp-timer-config:
+    +-- hello-time?         uint8
+    +-- max-age?            uint8
+    +-- forwarding-delay?   uint8
+    +-- hold-count?         uint8
+  grouping stp-rapid-pvst-config:
+    +-- vlan-id?   oc-vlan-types:vlan-id
+  grouping stp-rapid-pvst-top:
+    +-- vlan* [vlan-id]
+       +-- vlan-id?              -> ../config/vlan-id
+       +-- config
+       |  +---u stp-rapid-pvst-config
+       |  +---u stp-timer-config
+       |  +---u bridge-priority-config
+       +--ro state
+       |  +---u stp-rapid-pvst-config
+       |  +---u stp-timer-config
+       |  +---u bridge-priority-config
+       |  +---u stp-common-state
+       +---u stp-interfaces-top
+  grouping mst-instance-config:
+    +-- mst-id?   uint16
+    +-- vlan*     union
+  grouping mst-instance-top:
+    +-- mst-instance* [mst-id]
+       +-- mst-id?               -> ../config/mst-id
+       +-- config
+       |  +---u mst-instance-config
+       |  +---u bridge-priority-config
+       +--ro state
+       |  +---u mst-instance-config
+       |  +---u bridge-priority-config
+       |  +---u stp-common-state
+       +---u stp-interfaces-top
+  grouping mstp-config:
+    +-- name?               string
+    +-- revision?           uint32
+    +-- max-hop?            uint8
+    +---u stp-timer-config
+  grouping mstp-state:
+  grouping stp-mstp-top:
+    +-- config
+    |  +---u mstp-config
+    +--ro state
+    |  +---u mstp-config
+    +-- mst-instances
+       +---u mst-instance-top
+  grouping stp-rstp-top:
+    +-- config
+    |  +---u stp-timer-config
+    |  +---u bridge-priority-config
+    +--ro state
+    |  +---u stp-timer-config
+    |  +---u bridge-priority-config
+    |  +---u stp-common-state
+    +---u stp-interfaces-top
+  grouping stp-interface-common-config:
+    +-- name?              oc-if:base-interface-ref
+    +-- edge-port?         identityref
+    +-- link-type?         oc-stp-types:stp-link-type
+    +-- guard?             oc-stp-types:stp-guard-type
+    +---u stp-bpdu-config
+  grouping stp-interface-common-state:
+  grouping stp-interface-common-top:
+    +-- interface* [name]
+       +-- name?     -> ../config/name
+       +-- config
+       |  +---u stp-interface-common-config
+       +--ro state
+          +---u stp-interface-common-config
+  grouping stp-bpdu-config:
+    +-- bpdu-guard?    boolean
+    +-- bpdu-filter?   boolean
+  grouping stp-global-config:
+    +-- enabled-protocol*               identityref
+    +-- bridge-assurance?               boolean
+    +-- etherchannel-misconfig-guard?   boolean
+    +-- bpduguard-timeout-recovery?     uint8
+    +-- loop-guard?                     boolean
+    +---u stp-bpdu-config
+  grouping stp-global-state:
+  grouping stp-global-base:
+    +-- config
+    |  +---u stp-global-config
+    +--ro state
+       +---u stp-global-config
+  grouping stp-top:
+    +-- stp
+       +-- global
+       |  +---u stp-global-base
+       +-- rstp
+       |  +---u stp-rstp-top
+       +-- mstp
+       |  +---u stp-mstp-top
+       +-- rapid-pvst
+       |  +---u stp-rapid-pvst-top
+       +-- interfaces
+          +---u stp-interface-common-top

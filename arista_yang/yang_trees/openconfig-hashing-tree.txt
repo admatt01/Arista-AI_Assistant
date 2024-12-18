@@ -1,0 +1,67 @@
+module: openconfig-hashing
+
+  augment /oc-sys:system:
+    +---u hashing-top
+  augment /oc-intf:interfaces/oc-intf:interface/oc-intf:config:
+    +--rw hashing-policy?   -> /oc-sys:system/hashing/hashing-policies/hashing-policy/name
+  augment /oc-intf:interfaces/oc-intf:interface/oc-intf:state:
+    +--ro hashing-policy?   -> /oc-sys:system/hashing/hashing-policies/hashing-policy/name
+
+  grouping hashing-inputs:
+    +-- ingress-interface?   boolean
+    +-- ip-protocol-type?    boolean
+  grouping ipv4-ipv6-inputs-top:
+    +-- src-addr?   boolean
+    +-- dst-addr?   boolean
+    +-- src-port?   boolean
+    +-- dst-port?   boolean
+  grouping ipv6-inputs-top:
+    +-- flow-label?   boolean
+  grouping hashing-policy-config:
+    +-- name?        string
+    +-- seed?        uint64
+    +-- algorithm?   string
+  grouping hashing-policy-top:
+    +-- hashing-policies
+       +-- hashing-policy* [name]
+          +-- name?               -> ../config/name
+          +-- config
+          |  +---u hashing-policy-config
+          +--ro state
+          |  +---u hashing-policy-config
+          +-- hash-field-modes
+             +-- config
+             |  +---u hashing-inputs
+             +--ro state
+             |  +---u hashing-inputs
+             +-- ipv4
+             |  +-- config
+             |  |  +---u ipv4-ipv6-inputs-top
+             |  +--ro state
+             |     +---u ipv4-ipv6-inputs-top
+             +-- ipv6
+                +-- config
+                |  +---u ipv4-ipv6-inputs-top
+                |  +---u ipv6-inputs-top
+                +--ro state
+                   +---u ipv4-ipv6-inputs-top
+                   +---u ipv6-inputs-top
+  grouping supported-algorithms-state:
+    +-- name?          string
+    +-- description?   string
+  grouping supported-algorithms-top:
+    +-- algorithms
+       +---u vendor-hashing-algorithms
+  grouping hashing-algo-top:
+    +--ro hashing-algorithms
+       +--ro hashing-algorithm* [name]
+          +--ro name?    -> ../state/name
+          +--ro state
+             +--ro name?          string
+             +--ro description?   string
+  grouping vendor-hashing-algorithms:
+    +-- vendor
+  grouping hashing-top:
+    +-- hashing
+       +---u supported-algorithms-top
+       +---u hashing-policy-top

@@ -1,0 +1,107 @@
+module: openconfig-platform-transceiver
+
+  augment /oc-platform:components/oc-platform:component:
+    +---u port-transceiver-top
+  augment /oc-if:interfaces/oc-if:interface/oc-if:state:
+    +--ro transceiver?   -> /oc-platform:components/component[oc-platform:name=current()/../oc-port:hardware-port]/oc-platform:subcomponents/subcomponent/name
+  augment /oc-if:interfaces/oc-if:interface/oc-if:state:
+    +--ro physical-channel*   -> /oc-platform:components/component[oc-platform:name=current()/../oc-transceiver:transceiver]/transceiver/physical-channels/channel/index
+
+  grouping optical-power-state:
+    +-- output-power
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- input-power
+    |  +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+    +-- laser-bias-current
+       +---u oc-types:avg-min-max-instant-stats-precision2-mA
+  grouping output-optical-frequency:
+    +-- output-frequency?   oc-opt-types:frequency-type
+  grouping physical-channel-config:
+    +-- index?                              uint16
+    +-- associated-optical-channel?         -> /oc-platform:components/component/name
+    +-- description?                        string
+    +-- tx-laser?                           boolean
+    +---u physical-channel-config-extended
+  grouping physical-channel-config-extended:
+    +-- target-output-power?   decimal64
+  grouping physical-channel-state:
+    +-- laser-age?                         oc-types:percentage
+    +-- laser-temperature
+    |  +---u oc-platform-types:avg-min-max-instant-stats-precision1-celsius
+    +-- target-frequency-deviation
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision1-mhz
+    +-- tec-current
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision2-pct
+    +---u physical-channel-state-extended
+  grouping physical-channel-state-extended:
+    +---u output-optical-frequency
+    +---u optical-power-state
+  grouping physical-channel-top:
+    +-- physical-channels
+       +-- channel* [index]
+          +-- index?    -> ../config/index
+          +-- config
+          |  +---u physical-channel-config
+          +--ro state
+             +---u physical-channel-config
+             +---u physical-channel-state
+  grouping transceiver-threshold-top:
+    +-- thresholds
+       +--ro threshold* [severity]
+          +--ro severity?   -> ../state/severity
+          +--ro state
+             +---u transceiver-threshold-state
+  grouping port-transceiver-config:
+    +-- enabled?                  boolean
+    +-- form-factor-preconf?      identityref
+    +-- ethernet-pmd-preconf?     identityref
+    +-- fec-mode?                 identityref
+    +-- module-functional-type?   identityref
+  grouping port-transceiver-state:
+    +-- present?                     enumeration
+    +-- form-factor?                 identityref
+    +-- connector-type?              identityref
+    +-- vendor?                      string
+    +-- vendor-part?                 string
+    +-- vendor-rev?                  string
+    +-- ethernet-pmd?                identityref
+    +-- sonet-sdh-compliance-code?   identityref
+    +-- otn-compliance-code?         identityref
+    +-- serial-no?                   string
+    +-- date-code?                   oc-yang:date-and-time
+    +-- fault-condition?             boolean
+    +-- fec-status?                  identityref
+    +-- fec-uncorrectable-blocks?    yang:counter64
+    +-- fec-uncorrectable-words?     yang:counter64
+    +-- fec-corrected-bytes?         yang:counter64
+    +-- fec-corrected-bits?          yang:counter64
+    +-- pre-fec-ber
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision18-ber
+    +-- post-fec-ber
+    |  +---u oc-opt-types:avg-min-max-instant-stats-precision18-ber
+    +-- supply-voltage
+    |  +---u oc-platform-types:avg-min-max-instant-stats-precision2-volts
+    +---u optical-power-state
+  grouping transceiver-threshold-state:
+    +-- severity?                   identityref
+    +-- laser-temperature-upper?    decimal64
+    +-- laser-temperature-lower?    decimal64
+    +-- output-power-upper?         decimal64
+    +-- output-power-lower?         decimal64
+    +-- input-power-upper?          decimal64
+    +-- input-power-lower?          decimal64
+    +-- laser-bias-current-upper?   decimal64
+    +-- laser-bias-current-lower?   decimal64
+    +-- supply-voltage-upper?       decimal64
+    +-- supply-voltage-lower?       decimal64
+    +-- module-temperature-lower?   decimal64
+    +-- module-temperature-upper?   decimal64
+  grouping port-transceiver-top:
+    +-- transceiver
+       +-- config
+       |  +---u port-transceiver-config
+       +--ro state
+       |  +---u port-transceiver-config
+       |  +---u port-transceiver-state
+       +---u physical-channel-top
+       +---u transceiver-threshold-top

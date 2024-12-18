@@ -1,0 +1,121 @@
+module: openconfig-module-catalog
+  +---u catalog-top
+
+  grouping catalog-module-common-config:
+    +-- name?      string
+    +-- version?   oc-cat-types:module-version-type
+  grouping feature-bundle-included-reference:
+    +-- name?        -> ../../../../../../../organizations/organization[name=current()/../publisher]/feature-bundles/feature-bundle/name
+    +-- publisher?   -> ../../../../../../../organizations/organization/name
+    +-- version?     oc-cat-types:module-version-type
+  grouping catalog-implementation-bundle-config:
+    +---u feature-bundle-included-reference
+  grouping catalog-implementation-bundle-top:
+    +-- feature-bundles
+       +-- feature-bundle* [name version]
+          +---u catalog-implementation-bundle-config
+  grouping catalog-implementation-config:
+    +-- id?                 string
+    +-- description?        string
+    +-- reference?          union
+    +-- platform?           string
+    +-- platform-version?   string
+    +-- status?             identityref
+  grouping catalog-implementation-top:
+    +-- implementations
+       +-- implementation* [id]
+          +---u catalog-implementation-config
+          +---u catalog-implementation-bundle-top
+  grouping catalog-module-dependency-config:
+    +-- required-module*   string
+  grouping catalog-module-dependency-top:
+    +-- dependencies
+       +---u catalog-module-dependency-config
+  grouping catalog-module-classification-config:
+    +-- category?            identityref
+    +-- subcategory?         identityref
+    +-- deployment-status?   identityref
+  grouping catalog-module-classification-top:
+    +-- classification
+       +---u catalog-module-classification-config
+  grouping catalog-module-access-config:
+    +-- uri?        oc-inet:uri
+    +-- md5-hash?   string
+  grouping catalog-module-access-top:
+    +-- access
+       +---u catalog-module-access-config
+  grouping catalog-module-submodule-config:
+    +-- name?   string
+  grouping catalog-module-submodule-top:
+    +-- submodules
+       +-- submodule* [name]
+          +---u catalog-module-submodule-config
+          +---u catalog-module-access-top
+  grouping catalog-module-base-config:
+    +-- namespace?   string
+    +-- prefix?      string
+    +-- revision?    string
+    +-- summary?     string
+  grouping release-bundle-member-config:
+    +-- id?                    string
+    +-- type?                  identityref
+    +-- module?                -> ../../../../../../../organizations/organization[name=current()/../publisher]/modules/module/name
+    +-- release-bundle?        -> ../../../../../../../organizations/organization[name=current()/../publisher]/release-bundles/release-bundle/name
+    +-- publisher?             -> ../../../../../../../organizations/organization/name
+    +-- compatible-versions*   oc-cat-types:module-version-type
+  grouping release-bundle-member-top:
+    +-- members
+       +-- member* [id]
+          +---u release-bundle-member-config
+  grouping release-bundle-top:
+    +-- release-bundles
+       +-- release-bundle* [name version]
+          +---u catalog-module-common-config
+          +---u release-bundle-member-top
+  grouping feature-bundle-release-config:
+    +-- name?        -> ../../../../release-bundles/release-bundle/name
+    +-- version?     -> ../../../../release-bundles/release-bundle[name=current()/../name]/version
+    +-- publisher?   -> ../../../../release-bundles/release-bundle[name=current()/../name]/publisher
+  grouping feature-bundle-release-top:
+    +-- release-bundle
+       +-- name?        -> ../../../../../../organizations/organization[name=current()/../publisher]/release-bundles/release-bundle/name
+       +-- publisher?   -> ../../../../../../organizations/organization/name
+       +-- version?     oc-cat-types:module-version-type
+  grouping feature-bundle-config:
+    +---u catalog-module-common-config
+    +-- path*                           string
+  grouping feature-bundle-feature-config:
+    +---u feature-bundle-included-reference
+  grouping feature-bundle-feature-top:
+    +-- feature-bundles
+       +-- feature-bundle* [name]
+          +---u feature-bundle-feature-config
+  grouping feature-bundle-top:
+    +-- feature-bundles
+       +-- feature-bundle* [name version]
+          +---u feature-bundle-config
+          +---u feature-bundle-release-top
+          +---u feature-bundle-feature-top
+  grouping catalog-module-top:
+    +-- modules
+       +-- module* [name version]
+          +---u catalog-module-common-config
+          +---u catalog-module-base-config
+          +---u catalog-module-classification-top
+          +---u catalog-module-dependency-top
+          +---u catalog-module-access-top
+          +---u catalog-module-submodule-top
+  grouping catalog-organization-config:
+    +-- name?      string
+    +-- type?      identityref
+    +-- contact?   string
+  grouping catalog-organization-top:
+    +-- organizations
+       +-- organization* [name]
+          +---u catalog-organization-config
+          +---u catalog-module-top
+          +---u release-bundle-top
+          +---u feature-bundle-top
+          +---u catalog-implementation-top
+  grouping catalog-top:
+    +---u catalog-organization-top

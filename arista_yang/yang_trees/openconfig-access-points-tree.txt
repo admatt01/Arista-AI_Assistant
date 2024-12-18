@@ -1,0 +1,33 @@
+module: openconfig-access-points
+  +---u access-points-top
+
+  grouping assigned-ap-managers-config:
+    +-- id?                        string
+    +-- fqdn?                      oc-inet:domain-name
+    +-- ap-manager-ipv4-address?   oc-inet:ipv4-address
+    +-- ap-manager-ipv6-address*   oc-inet:ipv6-address
+  grouping assigned-ap-managers-state:
+    +-- joined?   boolean
+  grouping manager-ap-parameters-top:
+    +-- assigned-ap-managers
+       +-- ap-manager* [id]
+          +-- id?       -> ../config/id
+          +-- config
+          |  +---u assigned-ap-managers-config
+          +--ro state
+             +---u assigned-ap-managers-config
+             +---u assigned-ap-managers-state
+  grouping access-points-common-config:
+    +-- hostname?   -> /ap-manager:provision-aps/provision-ap/config/hostname
+  grouping access-points-top:
+    +-- access-points
+       +-- access-point* [hostname]
+          +-- hostname?                    -> ../config/hostname
+          +-- config
+          |  +---u access-points-common-config
+          +--ro state
+          |  +---u access-points-common-config
+          +---u wifi-phy:radio-top
+          +---u wifi-mac:ssid-top
+          +---u oc-sys:system-top
+          +---u manager-ap-parameters-top

@@ -1,0 +1,194 @@
+module: openconfig-system
+  +---u system-top
+
+  grouping system-clock-config:
+    +-- timezone-name?   timezone-name-type
+  grouping system-clock-state:
+  grouping system-clock-top:
+    +-- clock
+       +-- config
+       |  +---u system-clock-config
+       +--ro state
+          +---u system-clock-config
+  grouping system-global-config:
+    +-- hostname?       oc-inet:domain-name
+    +-- domain-name?    oc-inet:domain-name
+    +-- login-banner?   string
+    +-- motd-banner?    string
+  grouping mount-point-state:
+    +-- name?                string
+    +-- storage-component?   -> /oc-platform:components/component/name
+    +-- size?                uint64
+    +-- available?           uint64
+    +-- utilized?            uint64
+  grouping system-global-state:
+    +-- current-datetime?               oc-yang:date-and-time
+    +-- up-time?                        oc-types:timeticks64
+    +-- boot-time?                      oc-types:timeticks64
+    +-- software-version?               string
+    +-- last-configuration-timestamp?   oc-types:timeticks64
+  grouping mount-points-top:
+    +--ro mount-points
+       +--ro mount-point* [name]
+          +--ro name?    -> ../state/name
+          +--ro state
+             +---u mount-point-state
+  grouping system-dns-config:
+    +-- search*   oc-inet:domain-name
+  grouping system-dns-state:
+  grouping system-dns-servers-config:
+    +-- address?   oc-inet:ip-address
+    +-- port?      oc-inet:port-number
+  grouping system-dns-static-config:
+    +-- hostname?       string
+    +-- alias*          string
+    +-- ipv4-address*   oc-inet:ipv4-address
+    +-- ipv6-address*   oc-inet:ipv6-address
+  grouping system-dns-static-state:
+  grouping system-dns-static-top:
+    +-- host-entries
+       +-- host-entry* [hostname]
+          +-- hostname?   -> ../config/hostname
+          +-- config
+          |  +---u system-dns-static-config
+          +--ro state
+             +---u system-dns-static-config
+  grouping system-dns-servers-state:
+  grouping system-dns-servers-top:
+    +-- servers
+       +-- server* [address]
+          +-- address?   -> ../config/address
+          +-- config
+          |  +---u system-dns-servers-config
+          +--ro state
+             +---u system-dns-servers-config
+  grouping system-dns-top:
+    +-- dns
+       +-- config
+       |  +---u system-dns-config
+       +--ro state
+       |  +---u system-dns-config
+       +---u system-dns-servers-top
+       +---u system-dns-static-top
+  grouping system-ntp-server-config:
+    +-- address?            oc-inet:host
+    +-- port?               oc-inet:port-number
+    +-- version?            uint8
+    +-- association-type?   enumeration
+    +-- iburst?             boolean
+    +-- prefer?             boolean
+    +-- network-instance?   oc-ni:network-instance-ref
+    +-- source-address?     oc-inet:ip-address
+  grouping system-ntp-server-state:
+    +-- stratum?           uint8
+    +-- root-delay?        int64
+    +-- root-dispersion?   int64
+    +-- offset?            int64
+    +-- poll-interval?     uint32
+  grouping system-ntp-server-top:
+    +-- servers
+       +-- server* [address]
+          +-- address?   -> ../config/address
+          +-- config
+          |  +---u system-ntp-server-config
+          +--ro state
+             +---u system-ntp-server-config
+             +---u system-ntp-server-state
+  grouping system-ntp-auth-keys-config:
+    +-- key-id?      uint16
+    +-- key-type?    identityref
+    +-- key-value?   string
+  grouping system-ntp-auth-keys-state:
+  grouping system-ntp-auth-keys-top:
+    +-- ntp-keys
+       +-- ntp-key* [key-id]
+          +-- key-id?   -> ../config/key-id
+          +-- config
+          |  +---u system-ntp-auth-keys-config
+          +--ro state
+             +---u system-ntp-auth-keys-config
+  grouping system-ntp-config:
+    +-- enabled?           boolean
+    +-- enable-ntp-auth?   boolean
+  grouping system-ntp-state:
+    +-- auth-mismatch?   oc-yang:counter64
+  grouping system-ntp-top:
+    +-- ntp
+       +-- config
+       |  +---u system-ntp-config
+       +--ro state
+       |  +---u system-ntp-config
+       |  +---u system-ntp-state
+       +---u system-ntp-auth-keys-top
+       +---u system-ntp-server-top
+  grouping system-routing-macaddr-config:
+    +-- routing-mac?   oc-yang:mac-address
+  grouping system-macaddr-top:
+    +-- mac-address
+       +-- config
+       |  +---u system-routing-macaddr-config
+       +--ro state
+          +---u system-routing-macaddr-config
+  grouping system-memory-config:
+  grouping system-memory-state:
+    +-- physical?   uint64
+    +-- reserved?   uint64
+    +-- used?       uint64
+    +-- free?       uint64
+  grouping system-memory-error-counters:
+    +-- correctable-ecc-errors?     uint64
+    +-- uncorrectable-ecc-errors?   uint64
+    +-- total-ecc-errors?           uint64
+  grouping system-memory-top:
+    +-- memory
+       +-- config
+       +--ro state
+          +--ro counters
+          |  +---u system-memory-error-counters
+          +---u system-memory-state
+  grouping system-cpu-state:
+    +-- index?                union
+    +-- total
+    |  +---u oc-types:avg-min-max-instant-stats-pct
+    +-- user
+    |  +---u oc-types:avg-min-max-instant-stats-pct
+    +-- kernel
+    |  +---u oc-types:avg-min-max-instant-stats-pct
+    +-- nice
+    |  +---u oc-types:avg-min-max-instant-stats-pct
+    +-- idle
+    |  +---u oc-types:avg-min-max-instant-stats-pct
+    +-- wait
+    |  +---u oc-types:avg-min-max-instant-stats-pct
+    +-- hardware-interrupt
+    |  +---u oc-types:avg-min-max-instant-stats-pct
+    +-- software-interrupt
+       +---u oc-types:avg-min-max-instant-stats-pct
+  grouping system-cpu-top:
+    +--ro cpus
+       +--ro cpu* [index]
+          +--ro index?   -> ../state/index
+          +--ro state
+             +---u system-cpu-state
+  grouping system-top:
+    +-- system
+       +-- config
+       |  +---u system-global-config
+       +--ro state
+       |  +---u system-global-config
+       |  +---u system-global-state
+       +---u mount-points-top
+       +---u oc-aaa:aaa-top
+       +---u oc-alarms:alarms-top
+       +---u oc-log:logging-top
+       +---u oc-proc:procmon-processes-top
+       +---u oc-messages:messages-top
+       +---u oc-license:license-top
+       +---u oc-sys-term:system-ssh-server-top
+       +---u oc-sys-term:system-telnet-server-top
+       +---u system-clock-top
+       +---u system-cpu-top
+       +---u system-dns-top
+       +---u system-macaddr-top
+       +---u system-memory-top
+       +---u system-ntp-top

@@ -1,0 +1,44 @@
+module: openconfig-types
+
+  grouping stat-interval-state:
+    +-- interval?   oc-types:stat-interval
+  grouping min-max-time:
+    +-- min-time?   oc-types:timeticks64
+    +-- max-time?   oc-types:timeticks64
+  grouping avg-min-max-stats-precision1:
+    +-- avg?                   decimal64
+    +-- min?                   decimal64
+    +-- max?                   decimal64
+    +---u stat-interval-state
+    +---u min-max-time
+  grouping avg-min-max-instant-stats-precision1:
+    +-- instant?                        decimal64
+    +---u avg-min-max-stats-precision1
+  grouping avg-min-max-instant-stats-precision2-dB:
+    +-- instant?               decimal64
+    +-- avg?                   decimal64
+    +-- min?                   decimal64
+    +-- max?                   decimal64
+    +---u stat-interval-state
+    +---u min-max-time
+  grouping avg-min-max-instant-stats-precision2-dBm:
+    +-- instant?               decimal64
+    +-- avg?                   decimal64
+    +-- min?                   decimal64
+    +-- max?                   decimal64
+    +---u stat-interval-state
+    +---u min-max-time
+  grouping avg-min-max-instant-stats-precision2-mA:
+    +-- instant?               decimal64
+    +-- avg?                   decimal64
+    +-- min?                   decimal64
+    +-- max?                   decimal64
+    +---u stat-interval-state
+    +---u min-max-time
+  grouping avg-min-max-instant-stats-pct:
+    +-- instant?               oc-types:percentage
+    +-- avg?                   oc-types:percentage
+    +-- min?                   oc-types:percentage
+    +-- max?                   oc-types:percentage
+    +---u stat-interval-state
+    +---u min-max-time

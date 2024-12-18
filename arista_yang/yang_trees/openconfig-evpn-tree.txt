@@ -1,0 +1,180 @@
+module: openconfig-evpn
+
+  grouping evpn-config-top:
+    +-- evpn-instances
+       +-- evpn-instance* [evi]
+          +-- evi?                             -> ../config/evi
+          +-- config
+          |  +---u evpn-evi-common-config
+          +--ro state
+          |  +---u evpn-evi-common-config
+          +---u evpn-import-export-policy-top
+          +---u evpn-evi-overlay-top
+          +---u evpn-evi-pbb-top
+  grouping evpn-import-export-policy-top:
+    +-- import-export-policy
+       +-- config
+       |  +---u evpn-import-export-config
+       +--ro state
+          +---u evpn-import-export-config
+  grouping evpn-arp-proxy-top:
+    +-- arp-proxy
+       +-- config
+       |  +---u evpn-arp-proxy-config
+       +--ro state
+          +---u evpn-arp-proxy-config
+  grouping evpn-nd-proxy-top:
+    +-- nd-proxy
+       +-- config
+       |  +---u evpn-nd-proxy-config
+       +--ro state
+          +---u evpn-nd-proxy-config
+  grouping evpn-arp-proxy-config:
+    +-- enable?                            boolean
+    +-- arp-suppression?                   boolean
+    +-- ip-mobility-threshold?             uint16
+    +-- duplicate-ip-detection-interval?   uint16
+  grouping evpn-nd-proxy-config:
+    +-- enable?                            boolean
+    +-- nd-suppression?                    boolean
+    +-- ip-mobility-threshold?             uint16
+    +-- duplicate-ip-detection-interval?   uint16
+  grouping evpn-mac-vrf-config:
+    +-- anycast-gateway-mac?                oc-yang:mac-address
+    +-- flood-unknown-unicast-supression?   boolean
+  grouping evpn-mac-mobility-config:
+    +-- mac-mobility?                      boolean
+    +-- mac-mobility-window?               uint16
+    +-- mac-mobility-threshold?            uint8
+    +-- ip-mobility-threshold?             uint16
+    +-- duplicate-ip-detection-interval?   uint16
+  grouping evpn-mac-mobility-top:
+    +-- mac-mobility
+       +-- config
+       |  +---u evpn-mac-mobility-config
+       +--ro state
+          +---u evpn-mac-mobility-config
+  grouping evpn-evi-common-config:
+    +-- evi?                      string
+    +-- encapsulation-type?       identityref
+    +-- service-type?             identityref
+    +-- multicast-group?          oc-inet:ip-address
+    +-- multicast-mask?           oc-inet:ip-address
+    +-- replication-mode?         enumeration
+    +-- route-distinguisher?      union
+    +-- control-word-enabled?     boolean
+    +-- local-vpws-service-id?    uint32
+    +-- remote-vpws-service-id?   uint32
+  grouping evpn-import-export-config:
+    +-- export-route-target*   union
+    +-- import-route-target*   union
+  grouping evpn-evi-overlay-top:
+    +-- vxlan
+       +-- config
+       |  +---u evpn-evi-overlay-config
+       +--ro state
+       |  +---u evpn-evi-overlay-config
+       +---u evpn-vxlan-anycast-config
+  grouping evpn-evi-overlay-config:
+    +-- vni?                                 oc-evpn-types:vni-id
+    +-- overlay-endpoint-network-instance?   -> /network-instances/network-instance/name
+    +-- overlay-endpoint?                    -> /network-instances/network-instance[name=current()/../overlay-endpoint-network-instance]/connection-points/connection-point/endpoints/endpoint/config/endpoint-id
+    +-- host-reachability-bgp?               boolean
+    +-- multicast-group?                     oc-inet:ip-address
+    +-- multicast-mask?                      oc-inet:ip-address
+  grouping evpn-vxlan-anycast-config:
+    +-- anycast-source-interface
+       +-- config
+       |  +---u oc-if:interface-ref-common
+       +--ro state
+          +---u oc-if:interface-ref-common
+  grouping evpn-parameters-pbb-isid-config:
+    +-- i-sid?   uint32
+  grouping evpn-parameters-pbb-config:
+    +-- b-component-name?   string
+    +-- backbone-src-mac?   oc-yang:mac-address
+  grouping evpn-parameters-pbb-icomponent-config:
+    +-- i-components
+       +-- i-component* [i-sid]
+          +-- i-sid?    -> ../config/i-sid
+          +-- config
+          |  +---u evpn-parameters-pbb-isid-config
+          +--ro state
+             +---u evpn-parameters-pbb-isid-config
+  grouping evpn-evi-pbb-config:
+    +-- b-component* [b-component-name]
+       +-- b-component-name?                        -> ../config/b-component-name
+       +-- config
+       |  +---u evpn-parameters-pbb-config
+       +--ro state
+       |  +---u evpn-parameters-pbb-config
+       +---u evpn-parameters-pbb-icomponent-config
+  grouping evpn-evi-pbb-top:
+    +-- pbb
+       +---u evpn-evi-pbb-config
+  grouping evpn-vxlan-parameters-config:
+    +-- description?        string
+    +-- enabled?            boolean
+    +-- source-interface?   string
+  grouping evpn-overlays-grp-top:
+    +-- config
+    |  +---u evpn-vxlan-parameters-config
+    +--ro state
+    |  +---u evpn-vxlan-parameters-config
+    +--ro endpoint-peers
+    |  +--ro endpoint-peer* [peer-address]
+    |     +--ro peer-address?      -> ../state/peer-address
+    |     +--ro state
+    |     |  +---u evpn-endpoint-peer-state
+    |     |  +---u evpn-endpoint-counters
+    |     +--ro vni-peer-groups
+    |        +--ro vni-peer-group* [cp-vni egress-vni]
+    |           +--ro cp-vni?       -> ../state/cp-vni
+    |           +--ro egress-vni?   -> ../state/egress-vni
+    |           +--ro state
+    |              +--ro cp-vni?       oc-evpn-types:vni-id
+    |              +--ro egress-vni?   oc-evpn-types:vni-id
+    |              +--ro router-mac?   oc-yang:mac-address
+    +--ro endpoint-vnis
+       +--ro endpoint-vni* [vni]
+          +--ro vni?        -> ../state/vni
+          +--ro state
+          |  +---u evpn-endpoint-vni-state
+          +---u ipv4-top
+          +---u ipv6-top
+  grouping evpn-endpoint-peer-state:
+    +-- peer-address?         oc-inet:ip-address
+    +-- peer-state?           enumeration
+    +-- uptime?               oc-types:timeticks64
+    x-- control-plane-vnis*   oc-evpn-types:vni-id
+    x-- router-mac?           oc-yang:mac-address
+  grouping evpn-endpoint-counters:
+    +-- counters
+       +-- total-encap-pkts?           oc-yang:counter64
+       +-- total-encap-bytes?          oc-yang:counter64
+       +-- bum-encap-pkts?             oc-yang:counter64
+       +-- total-decap-pkts?           oc-yang:counter64
+       +-- total-decap-bytes?          oc-yang:counter64
+       +-- unicast-decap-pkts?         oc-yang:counter64
+       +-- bum-decap-pkts?             oc-yang:counter64
+       +-- bum-decap-multicast-pkts?   oc-yang:counter64
+       +-- bum-decap-ir-pkts?          oc-yang:counter64
+       +-- drop-decap-pkts?            oc-yang:counter64
+       +-- except-decap-pkts?          oc-yang:counter64
+  grouping ipv4-top:
+    +-- ipv4
+       +--ro state
+          +---u evpn-endpoint-counters
+  grouping ipv6-top:
+    +-- ipv6
+       +--ro state
+          +---u evpn-endpoint-counters
+  grouping evpn-endpoint-vni-state:
+    +-- vni?                        oc-evpn-types:evi-id
+    +-- multidestination-traffic?   union
+    +-- learning-mode?              oc-evpn-types:learning-mode
+    +-- vni-type?                   enumeration
+    +-- vni-state?                  enumeration
+    +-- svi-state?                  enumeration
+    +-- bridge-domain?              uint32
+    +-- l3-vrf-name?                string

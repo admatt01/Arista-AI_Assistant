@@ -1,0 +1,479 @@
+module: openconfig-rib-bgp
+
+  grouping bgp-rib-state:
+    +-- afi-safi-name?   identityref
+  grouping bgp-rib-top:
+    +--ro rib
+       +---u attribute-sets-top
+       +---u community-sets-top
+       +---u ext-community-sets-top
+       +--ro afi-safis
+          +--ro afi-safi* [afi-safi-name]
+             +--ro afi-safi-name?      -> ../state/afi-safi-name
+             +--ro state
+             |  +---u bgp-rib-state
+             +--ro ipv4-unicast
+             |  +---u ipv4-loc-rib-top
+             |  +---u ipv4-adj-rib-top
+             +--ro ipv6-unicast
+             |  +---u ipv6-loc-rib-top
+             |  +---u ipv6-adj-rib-top
+             +--ro ipv4-srte-policy
+             |  +---u ipvX-srte-policy-locrib-top
+             |  +---u ipvX-srte-policy-adjrib-top
+             +--ro ipv6-srte-policy
+             |  +---u ipvX-srte-policy-locrib-top
+             |  +---u ipvX-srte-policy-adjrib-top
+             +--ro l2vpn-evpn
+                +---u l2vpn-evpn-loc-rib-top
+                +---u l2vpn-evpn-adj-rib-top
+  grouping bgp-adj-rib-common-attr-refs:
+    +-- attr-index?            -> ../../../../../../../../../../attr-sets/attr-set/state/index
+    +-- community-index?       -> ../../../../../../../../../../communities/community/state/index
+    +-- ext-community-index?   -> ../../../../../../../../../../ext-communities/ext-community/state/index
+  grouping bgp-loc-rib-common-attr-refs:
+    +-- attr-index?            -> ../../../../../../../../attr-sets/attr-set/state/index
+    +-- community-index?       -> ../../../../../../../../communities/community/state/index
+    +-- ext-community-index?   -> ../../../../../../../../ext-communities/ext-community/state/index
+  grouping bgp-loc-rib-common-keys:
+    +-- origin?    union
+    +-- path-id?   uint32
+  grouping bgp-loc-rib-key-refs:
+    +-- prefix?    -> ../state/prefix
+    +-- origin?    -> ../state/origin
+    +-- path-id?   -> ../state/path-id
+  grouping ipv4-loc-rib-top:
+    +--ro loc-rib
+       +---u bgp-common-table-attrs-top
+       +--ro routes
+          +--ro route* [prefix origin path-id]
+             +---u bgp-loc-rib-key-refs
+             +--ro state
+             |  +--ro prefix?                               oc-inet:ipv4-prefix
+             |  +---u bgp-loc-rib-common-keys
+             |  +---u bgp-loc-rib-common-attr-refs
+             |  +---u bgp-common-route-annotations-state
+             +---u bgp-unknown-attr-top
+  grouping ipv6-loc-rib-top:
+    +--ro loc-rib
+       +---u bgp-common-table-attrs-top
+       +--ro routes
+          +--ro route* [prefix origin path-id]
+             +---u bgp-loc-rib-key-refs
+             +--ro state
+             |  +--ro prefix?                               oc-inet:ipv6-prefix
+             |  +---u bgp-loc-rib-common-keys
+             |  +---u bgp-loc-rib-common-attr-refs
+             |  +---u bgp-common-route-annotations-state
+             +---u bgp-unknown-attr-top
+  grouping l2vpn-evpn-loc-rib-top:
+    +--ro loc-rib
+       +---u bgp-common-table-attrs-top
+       +--ro routes
+          +--ro route-distinguisher* [route-distinguisher]
+             +--ro route-distinguisher?         -> ../state/route-distinguisher
+             +--ro state
+             |  +--ro route-distinguisher?   oc-ni-types:route-distinguisher
+             +---u bgp-evpn-type-one-state
+             +---u bgp-evpn-type-two-state
+             +---u bgp-evpn-type-three-state
+             +---u bgp-evpn-type-four-state
+             +---u bgp-evpn-type-five-state
+  grouping bgp-loc-rib-l2vpn-evpn-attr-refs:
+    +-- attr-index?            -> ../../../../../../../../../../../../attr-sets/attr-set/state/index
+    +-- community-index?       -> ../../../../../../../../../../../../communities/community/state/index
+    +-- ext-community-index?   -> ../../../../../../../../../../../../ext-communities/ext-community/state/index
+  grouping bgp-evpn-route-path-common-state:
+    +-- paths
+       +-- path* [peer-ip peer-path-id source-route-distinguisher source-address-family]
+          +---u bgp-evpn-route-path-lefref-common
+          +-- state
+          |  +---u bgp-evpn-route-path-keys-common
+          |  +---u bgp-evpn-route-path-attributes-common
+          +---u bgp-unknown-attr-top
+  grouping bgp-evpn-route-path-type2-state:
+    +-- paths
+       +-- path* [peer-ip peer-path-id source-route-distinguisher source-address-family]
+          +---u bgp-evpn-route-path-lefref-common
+          +-- state
+          |  +---u bgp-evpn-route-path-keys-common
+          |  +-- esi?                                     oc-evpn-types:esi
+          |  +---u bgp-evpn-route-path-attributes-common
+          +---u bgp-unknown-attr-top
+  grouping bgp-evpn-route-path-type5-state:
+    +-- paths
+       +-- path* [peer-ip peer-path-id source-route-distinguisher source-address-family]
+          +---u bgp-evpn-route-path-lefref-common
+          +-- state
+          |  +-- esi?                                     oc-evpn-types:esi
+          |  +-- gateway-ip-address?                      oc-inet:ip-prefix
+          |  +---u bgp-evpn-route-path-keys-common
+          |  +---u bgp-evpn-route-path-attributes-common
+          +---u bgp-unknown-attr-top
+  grouping bgp-evpn-route-path-lefref-common:
+    +-- peer-ip?                      -> ../state/peer-ip
+    +-- peer-path-id?                 -> ../state/peer-path-id
+    +-- source-route-distinguisher?   -> ../state/source-route-distinguisher
+    +-- source-address-family?        -> ../state/source-address-family
+  grouping bgp-evpn-route-path-keys-common:
+    +-- peer-ip?                      oc-inet:ip-address
+    +-- peer-path-id?                 uint32
+    +-- source-route-distinguisher?   oc-ni-types:route-distinguisher
+    +-- source-address-family?        identityref
+  grouping bgp-evpn-route-path-attributes-common:
+    +-- advertised-to-peer*                   oc-inet:ip-address
+    +-- label?                                string
+    +-- label2?                               string
+    +-- bestpath?                             boolean
+    +-- multipath?                            boolean
+    +-- backup?                               boolean
+    +---u bgp-common-route-annotations-state
+    +---u bgp-loc-rib-l2vpn-evpn-attr-refs
+  grouping bgp-evpn-type-one-key-refs:
+    +-- esi?            -> ../state/esi
+    +-- ethernet-tag?   -> ../state/ethernet-tag
+  grouping bgp-evpn-type-one-state:
+    +-- type-one-ethernet-auto-discovery
+       +-- type-one-route* [esi ethernet-tag]
+          +---u bgp-evpn-type-one-key-refs
+          +-- state
+          |  +-- esi?            oc-evpn-types:esi
+          |  +-- ethernet-tag?   oc-evpn-types:ethernet-tag
+          +---u bgp-evpn-route-path-common-state
+  grouping bgp-evpn-type-two-key-refs:
+    +-- ethernet-tag?   -> ../state/ethernet-tag
+    +-- mac-address?    -> ../state/mac-address
+    +-- mac-length?     -> ../state/mac-length
+    +-- ip-prefix?      -> ../state/ip-prefix
+    +-- ip-length?      -> ../state/ip-length
+  grouping bgp-evpn-type-two-state:
+    +-- type-two-mac-ip-advertisement
+       +-- type-two-route* [ethernet-tag mac-address mac-length ip-prefix ip-length]
+          +---u bgp-evpn-type-two-key-refs
+          +-- state
+          |  +-- ethernet-tag?   oc-evpn-types:ethernet-tag
+          |  +-- mac-address?    oc-yang:mac-address
+          |  +-- mac-length?     uint32
+          |  +-- ip-prefix?      oc-inet:ip-prefix
+          |  +-- ip-length?      uint32
+          +---u bgp-evpn-route-path-type2-state
+  grouping bgp-evpn-type-three-key-refs:
+    +-- ethernet-tag?            -> ../state/ethernet-tag
+    +-- originating-router-ip?   -> ../state/originating-router-ip
+    +-- originator-ip-length?    -> ../state/originator-ip-length
+  grouping bgp-evpn-type-three-state:
+    +-- type-three-inclusive-multicast-ethernet-tag
+       +-- type-three-route* [ethernet-tag originating-router-ip originator-ip-length]
+          +---u bgp-evpn-type-three-key-refs
+          +-- state
+          |  +-- ethernet-tag?            oc-evpn-types:ethernet-tag
+          |  +-- originating-router-ip?   oc-inet:ip-prefix
+          |  +-- originator-ip-length?    uint32
+          +---u bgp-evpn-route-path-common-state
+  grouping bgp-evpn-type-four-key-refs:
+    +-- esi?                     -> ../state/esi
+    +-- originating-router-ip?   -> ../state/originating-router-ip
+    +-- originator-ip-length?    -> ../state/originator-ip-length
+  grouping bgp-evpn-type-four-state:
+    +-- type-four-ethernet-segment
+       +-- type-four-route* [esi originating-router-ip originator-ip-length]
+          +---u bgp-evpn-type-four-key-refs
+          +-- state
+          |  +-- esi?                     oc-evpn-types:esi
+          |  +-- originating-router-ip?   oc-inet:ip-prefix
+          |  +-- originator-ip-length?    uint32
+          +---u bgp-evpn-route-path-common-state
+  grouping bgp-evpn-type-five-key-refs:
+    +-- ethernet-tag?       -> ../state/ethernet-tag
+    +-- ip-prefix-length?   -> ../state/ip-prefix-length
+    +-- ip-prefix?          -> ../state/ip-prefix
+  grouping bgp-evpn-type-five-state:
+    +-- type-five-ip-prefix
+       +-- type-five-route* [ethernet-tag ip-prefix-length ip-prefix]
+          +---u bgp-evpn-type-five-key-refs
+          +-- state
+          |  +-- ethernet-tag?       oc-evpn-types:ethernet-tag
+          |  +-- ip-prefix-length?   string
+          |  +-- ip-prefix?          oc-inet:ip-prefix
+          +---u bgp-evpn-route-path-type5-state
+  grouping l2vpn-evpn-adj-rib-top:
+    +--ro neighbors
+       +--ro neighbor* [neighbor-address]
+          +--ro neighbor-address?   -> ../state/neighbor-address
+          +--ro state
+          |  +--ro neighbor-address?   oc-inet:ip-address
+          +--ro adj-rib-in-pre
+          +--ro adj-rib-in-post
+          +--ro adj-rib-out-pre
+          +--ro adj-rib-out-post
+  grouping bgp-adj-rib-key-refs:
+    +-- prefix?    -> ../state/prefix
+    +-- path-id?   -> ../state/path-id
+  grouping ipv4-adj-rib-common:
+    +---u bgp-common-table-attrs-top
+    +--ro routes
+       +--ro route* [prefix path-id]
+          +---u bgp-adj-rib-key-refs
+          +--ro state
+          |  +--ro prefix?                               oc-inet:ipv4-prefix
+          |  +---u bgp-adj-rib-attr-state
+          |  +---u bgp-adj-rib-common-attr-refs
+          |  +---u bgp-common-route-annotations-state
+          +---u bgp-unknown-attr-top
+  grouping ipv4-adj-rib-in-post:
+    +---u bgp-common-table-attrs-top
+    +--ro routes
+       +--ro route* [prefix path-id]
+          +---u bgp-adj-rib-key-refs
+          +--ro state
+          |  +--ro prefix?                                        oc-inet:ipv4-prefix
+          |  +---u bgp-adj-rib-attr-state
+          |  +---u bgp-adj-rib-common-attr-refs
+          |  +---u bgp-common-route-annotations-state
+          |  +---u bgp-adj-rib-in-post-route-annotations-state
+          +---u bgp-unknown-attr-top
+  grouping ipv4-adj-rib-top:
+    +--ro neighbors
+       +--ro neighbor* [neighbor-address]
+          +--ro neighbor-address?   -> ../state/neighbor-address
+          +--ro state
+          |  +--ro neighbor-address?   oc-inet:ip-address
+          +--ro adj-rib-in-pre
+          |  +---u ipv4-adj-rib-common
+          +--ro adj-rib-in-post
+          |  +---u ipv4-adj-rib-in-post
+          +--ro adj-rib-out-pre
+          |  +---u ipv4-adj-rib-common
+          +--ro adj-rib-out-post
+             +---u ipv4-adj-rib-common
+  grouping ipv6-adj-rib-common:
+    +--ro routes
+       +--ro route* [prefix path-id]
+          +---u bgp-adj-rib-key-refs
+          +--ro state
+          |  +--ro prefix?                               oc-inet:ipv6-prefix
+          |  +---u bgp-adj-rib-attr-state
+          |  +---u bgp-adj-rib-common-attr-refs
+          |  +---u bgp-common-route-annotations-state
+          +---u bgp-unknown-attr-top
+  grouping ipv6-adj-rib-in-post:
+    +--ro routes
+       +--ro route* [prefix path-id]
+          +---u bgp-adj-rib-key-refs
+          +--ro state
+          |  +--ro prefix?                                        oc-inet:ipv6-prefix
+          |  +---u bgp-adj-rib-attr-state
+          |  +---u bgp-adj-rib-common-attr-refs
+          |  +---u bgp-common-route-annotations-state
+          |  +---u bgp-adj-rib-in-post-route-annotations-state
+          +---u bgp-unknown-attr-top
+  grouping ipv6-adj-rib-top:
+    +--ro neighbors
+       +--ro neighbor* [neighbor-address]
+          +--ro neighbor-address?   -> ../state/neighbor-address
+          +--ro state
+          |  +--ro neighbor-address?   oc-inet:ip-address
+          +--ro adj-rib-in-pre
+          |  +---u ipv6-adj-rib-common
+          +--ro adj-rib-in-post
+          |  +---u ipv6-adj-rib-in-post
+          +--ro adj-rib-out-pre
+          |  +---u ipv6-adj-rib-common
+          +--ro adj-rib-out-post
+             +---u ipv6-adj-rib-common
+  grouping ipvX-srte-policy-adjrib-top:
+    +-- neighbors
+       +-- neighbor* [neighbor-address]
+          +-- neighbor-address?   -> ../state/neighbor-address
+          +-- state
+          |  +---u ipvX-srte-policy-adjrib-neighbor-state
+          +-- adj-rib-in-pre
+          |  +---u ipvX-srte-policy-adjrib-common
+          +-- adj-rib-in-post
+          |  +---u ipvX-srte-policy-adjrib-in-post
+          +-- adj-rib-out-pre
+          |  +---u ipvX-srte-policy-adjrib-common
+          +-- adj-rib-out-post
+             +---u ipvX-srte-policy-adjrib-common
+  grouping ipvX-srte-policy-adjrib-neighbor-state:
+    +-- neighbor-address?   oc-inet:ip-address
+  grouping ipvX-srte-policy-adjrib-common:
+    +-- routes
+       +-- route* [path-id endpoint color]
+          +---u ipvX-srte-policy-common-keys
+          +-- state
+          |  +---u ipvX-srte-policy-common-route-state
+          |  +---u bgp-adj-rib-common-attr-refs
+          |  +---u bgp-common-route-annotations-state
+          +---u bgp-unknown-attr-top
+  grouping ipvX-srte-policy-common-route-state:
+    +-- path-id?    uint32
+    +-- endpoint?   oc-inet:ip-address
+    +-- color?      uint32
+  grouping ipvX-srte-policy-common-keys:
+    +-- path-id?    -> ../state/path-id
+    +-- endpoint?   -> ../state/endpoint
+    +-- color?      -> ../state/color
+  grouping ipvX-srte-policy-adjrib-in-post:
+    +-- routes
+       +-- route* [path-id endpoint color]
+          +---u ipvX-srte-policy-common-keys
+          +-- state
+          |  +---u ipvX-srte-policy-common-route-state
+          |  +---u bgp-adj-rib-common-attr-refs
+          |  +---u bgp-common-route-annotations-state
+          |  +---u bgp-adj-rib-in-post-route-annotations-state
+          +---u bgp-unknown-attr-top
+  grouping ipvX-srte-policy-locrib-top:
+    +-- loc-rib
+       +-- routes
+          +-- route* [path-id endpoint color]
+             +---u ipvX-srte-policy-common-keys
+             +-- state
+             |  +---u ipvX-srte-policy-common-route-state
+             |  +---u bgp-loc-rib-common-attr-refs
+             |  +---u bgp-common-route-annotations-state
+             +---u bgp-unknown-attr-top
+  grouping attribute-sets-top:
+    +-- attr-sets
+       +-- attr-set* [index]
+          +-- index?                               -> ../state/index
+          +--ro state
+          |  +--ro index?                          uint64
+          |  +---u bgp-shared-common-attr-state
+          +---u bgp-aggregator-attr-top
+          +---u bgp-as-path-attr-top
+          +---u bgp-as4-path-attr-top
+          +---u bgp-tunnel-encapsulation-attr-top
+  grouping community-sets-top:
+    +-- communities
+       +-- community* [index]
+          +-- index?   -> ../state/index
+          +--ro state
+             +--ro index?                      uint64
+             +---u bgp-community-attr-state
+  grouping ext-community-sets-top:
+    +-- ext-communities
+       +-- ext-community* [index]
+          +-- index?   -> ../state/index
+          +--ro state
+             +--ro index?                               uint64
+             +---u bgp-extended-community-attr-state
+  grouping bgp-as-path-attr-state:
+    +-- index?    uint32
+    +-- type?     oc-bgpt:as-path-segment-type
+    +-- member*   oc-inet:as-number
+  grouping bgp-as-path-attr-top:
+    +-- as-path
+       +-- as-segment* [index]
+          +-- index?   -> ../state/index
+          +--ro state
+             +---u bgp-as-path-attr-state
+  grouping bgp-as4-path-attr-top:
+    +-- as4-path
+       +-- as4-segment* [index]
+          +-- index?   -> ../state/index
+          +--ro state
+             +---u bgp-as-path-attr-state
+  grouping bgp-community-attr-state:
+    +-- community*   union
+  grouping bgp-extended-community-attr-state:
+    +-- ext-community*   oc-bgpt:bgp-ext-community-recv-type
+  grouping bgp-aggregator-attr-state:
+    +-- as?        oc-inet:as-number
+    +-- as4?       oc-inet:as-number
+    +-- address?   oc-inet:ipv4-address
+  grouping bgp-aggregator-attr-top:
+    +-- aggregator
+       +--ro state
+          +---u bgp-aggregator-attr-state
+  grouping bgp-shared-common-attr-state:
+    +-- origin?             oc-bgpt:bgp-origin-attr-type
+    +-- atomic-aggregate?   boolean
+    +-- next-hop?           oc-inet:ip-address
+    +-- med?                uint32
+    +-- local-pref?         uint32
+    +-- originator-id?      oc-inet:ipv4-address
+    +-- cluster-list*       oc-inet:ipv4-address
+    +-- aigp?               uint64
+  grouping bgp-unknown-attr-flags-state:
+    +-- optional?     boolean
+    +-- transitive?   boolean
+    +-- partial?      boolean
+    +-- extended?     boolean
+  grouping bgp-unknown-attr-state:
+    +-- attr-type?    uint8
+    +-- attr-len?     uint16
+    +-- attr-value?   binary
+  grouping bgp-unknown-attr-top:
+    +-- unknown-attributes
+       +-- unknown-attribute* [attr-type]
+          +-- attr-type?   -> ../state/attr-type
+          +-- state
+             +---u bgp-unknown-attr-flags-state
+             +---u bgp-unknown-attr-state
+  grouping bgp-loc-rib-attr-state:
+  grouping bgp-adj-rib-attr-state:
+    +-- path-id?   uint32
+  grouping bgp-tunnel-encapsulation-attr-top:
+    +--ro tunnel-encapsulation
+       +--ro tunnels
+          +--ro tunnel* [type]
+             +--ro type?      -> ../state/type
+             +--ro state
+             |  +---u bgp-tunnel-encapsulation-attr-tunnel-state
+             +--ro subtlvs
+                +--ro subtlv* [type]
+                   +--ro type?               -> ../state/type
+                   +--ro state
+                   |  +---u bgp-tunnel-encapsulation-attr-tunnel-subtlv-state
+                   +--ro remote-endpoints
+                   |  +--ro remote-endpoint* [endpoint]
+                   |     +--ro endpoint?   -> ../state/endpoint
+                   |     +--ro state
+                   |        +---u bgp-tunnel-encapsulation-attr-tunnel-subtlv-endpoint-state
+                   +--ro segment-lists
+                      +--ro segment-list* [instance-id]
+                         +--ro instance-id?   -> ../state/instance-id
+                         +--ro state
+                         |  +---u bgp-tunnel-encapsulation-attr-tunnel-subtlv-segment-list-state
+                         +--ro segments
+                            +--ro segment* [index]
+                               +--ro index?   -> ../state/index
+                               +--ro state
+                                  +---u bgp-tunnel-encapsulation-attr-tunnel-subtlv-segment-state
+  grouping bgp-tunnel-encapsulation-attr-tunnel-state:
+    +-- type?   identityref
+  grouping bgp-tunnel-encapsulation-attr-tunnel-subtlv-state:
+    +-- type?          identityref
+    +-- colors*        uint32
+    +-- preference?    uint32
+    +-- binding-sid?   oc-srt:sr-sid-type
+  grouping bgp-tunnel-encapsulation-attr-tunnel-subtlv-endpoint-state:
+    +-- as?         oc-inet:as-number
+    +-- endpoint?   oc-inet:ip-address
+  grouping bgp-tunnel-encapsulation-attr-tunnel-subtlv-segment-list-state:
+    +-- instance-id?   uint64
+    +-- weight?        uint32
+  grouping bgp-tunnel-encapsulation-attr-tunnel-subtlv-segment-state:
+    +-- index?                 uint64
+    +-- type?                  enumeration
+    +-- sid?                   oc-srt:sr-sid-type
+    +-- mpls-tc?               uint8
+    +-- mpls-bos?              boolean
+    +-- mpls-ttl?              uint8
+    +-- remote-ipv4-address?   oc-inet:ipv4-address
+    +-- local-ipv4-address?    oc-inet:ipv4-address
+    +-- remote-ipv6-address?   oc-inet:ipv6-address
+    +-- local-ipv6-address?    oc-inet:ipv6-address
+    +-- local-interface-id?    uint32
+  grouping bgp-common-route-annotations-state:
+    +-- last-modified?    oc-types:timeticks64
+    +-- valid-route?      boolean
+    +-- invalid-reason?   identityref
+  grouping bgp-loc-rib-route-annotations-state:
+  grouping bgp-adj-rib-in-post-route-annotations-state:
+    +-- best-path?   boolean
+  grouping bgp-common-table-attrs-state:
+  grouping bgp-common-table-attrs-top:
+    +--ro state

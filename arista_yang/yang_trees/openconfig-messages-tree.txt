@@ -1,0 +1,30 @@
+module: openconfig-messages
+
+  grouping messages-config:
+    +-- severity?   oc-log:syslog-severity
+  grouping messages-state:
+    +--ro message
+       +--ro msg?        string
+       +--ro priority?   uint8
+       +--ro app-name?   string
+       +--ro procid?     string
+       +--ro msgid?      string
+  grouping debug-messages-config:
+    +-- service?   identityref
+    +-- enabled?   boolean
+  grouping debug-messages-top:
+    +-- debug-entries
+       +-- debug-service* [service]
+          +-- service?   -> ../config/service
+          +-- config
+          |  +---u debug-messages-config
+          +--ro state
+             +---u debug-messages-config
+  grouping messages-top:
+    +-- messages
+       +-- config
+       |  +---u messages-config
+       +--ro state
+       |  +---u messages-config
+       |  +---u messages-state
+       +---u debug-messages-top

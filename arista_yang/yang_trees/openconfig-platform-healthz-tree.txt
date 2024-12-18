@@ -1,0 +1,13 @@
+module: openconfig-platform-healthz
+
+  augment /oc-platform:components/oc-platform:component:
+    +---u platform-health-top
+
+  grouping platform-health-top:
+    +-- healthz
+       +--ro state
+          +---u platform-health-state
+  grouping platform-health-state:
+    +-- status?            enumeration
+    +-- last-unhealthy?    oc-types:timeticks64
+    +-- unhealthy-count?   uint64

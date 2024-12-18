@@ -1,0 +1,135 @@
+submodule: openconfig-rib-bgp-shared-attributes (belongs-to openconfig-rib-bgp)
+
+  grouping attribute-sets-top:
+    +-- attr-sets
+       +-- attr-set* [index]
+          +-- index?                               -> ../state/index
+          +--ro state
+          |  +--ro index?                          uint64
+          |  +---u bgp-shared-common-attr-state
+          +---u bgp-aggregator-attr-top
+          +---u bgp-as-path-attr-top
+          +---u bgp-as4-path-attr-top
+          +---u bgp-tunnel-encapsulation-attr-top
+  grouping community-sets-top:
+    +-- communities
+       +-- community* [index]
+          +-- index?   -> ../state/index
+          +--ro state
+             +--ro index?                      uint64
+             +---u bgp-community-attr-state
+  grouping ext-community-sets-top:
+    +-- ext-communities
+       +-- ext-community* [index]
+          +-- index?   -> ../state/index
+          +--ro state
+             +--ro index?                               uint64
+             +---u bgp-extended-community-attr-state
+  grouping bgp-as-path-attr-state:
+    +-- index?    uint32
+    +-- type?     oc-bgpt:as-path-segment-type
+    +-- member*   oc-inet:as-number
+  grouping bgp-as-path-attr-top:
+    +-- as-path
+       +-- as-segment* [index]
+          +-- index?   -> ../state/index
+          +--ro state
+             +---u bgp-as-path-attr-state
+  grouping bgp-as4-path-attr-top:
+    +-- as4-path
+       +-- as4-segment* [index]
+          +-- index?   -> ../state/index
+          +--ro state
+             +---u bgp-as-path-attr-state
+  grouping bgp-community-attr-state:
+    +-- community*   union
+  grouping bgp-extended-community-attr-state:
+    +-- ext-community*   oc-bgpt:bgp-ext-community-recv-type
+  grouping bgp-aggregator-attr-state:
+    +-- as?        oc-inet:as-number
+    +-- as4?       oc-inet:as-number
+    +-- address?   oc-inet:ipv4-address
+  grouping bgp-aggregator-attr-top:
+    +-- aggregator
+       +--ro state
+          +---u bgp-aggregator-attr-state
+  grouping bgp-shared-common-attr-state:
+    +-- origin?             oc-bgpt:bgp-origin-attr-type
+    +-- atomic-aggregate?   boolean
+    +-- next-hop?           oc-inet:ip-address
+    +-- med?                uint32
+    +-- local-pref?         uint32
+    +-- originator-id?      oc-inet:ipv4-address
+    +-- cluster-list*       oc-inet:ipv4-address
+    +-- aigp?               uint64
+  grouping bgp-unknown-attr-flags-state:
+    +-- optional?     boolean
+    +-- transitive?   boolean
+    +-- partial?      boolean
+    +-- extended?     boolean
+  grouping bgp-unknown-attr-state:
+    +-- attr-type?    uint8
+    +-- attr-len?     uint16
+    +-- attr-value?   binary
+  grouping bgp-unknown-attr-top:
+    +-- unknown-attributes
+       +-- unknown-attribute* [attr-type]
+          +-- attr-type?   -> ../state/attr-type
+          +-- state
+             +---u bgp-unknown-attr-flags-state
+             +---u bgp-unknown-attr-state
+  grouping bgp-loc-rib-attr-state:
+  grouping bgp-adj-rib-attr-state:
+    +-- path-id?   uint32
+  grouping bgp-tunnel-encapsulation-attr-top:
+    +--ro tunnel-encapsulation
+       +--ro tunnels
+          +--ro tunnel* [type]
+             +--ro type?      -> ../state/type
+             +--ro state
+             |  +---u bgp-tunnel-encapsulation-attr-tunnel-state
+             +--ro subtlvs
+                +--ro subtlv* [type]
+                   +--ro type?               -> ../state/type
+                   +--ro state
+                   |  +---u bgp-tunnel-encapsulation-attr-tunnel-subtlv-state
+                   +--ro remote-endpoints
+                   |  +--ro remote-endpoint* [endpoint]
+                   |     +--ro endpoint?   -> ../state/endpoint
+                   |     +--ro state
+                   |        +---u bgp-tunnel-encapsulation-attr-tunnel-subtlv-endpoint-state
+                   +--ro segment-lists
+                      +--ro segment-list* [instance-id]
+                         +--ro instance-id?   -> ../state/instance-id
+                         +--ro state
+                         |  +---u bgp-tunnel-encapsulation-attr-tunnel-subtlv-segment-list-state
+                         +--ro segments
+                            +--ro segment* [index]
+                               +--ro index?   -> ../state/index
+                               +--ro state
+                                  +---u bgp-tunnel-encapsulation-attr-tunnel-subtlv-segment-state
+  grouping bgp-tunnel-encapsulation-attr-tunnel-state:
+    +-- type?   identityref
+  grouping bgp-tunnel-encapsulation-attr-tunnel-subtlv-state:
+    +-- type?          identityref
+    +-- colors*        uint32
+    +-- preference?    uint32
+    +-- binding-sid?   oc-srt:sr-sid-type
+  grouping bgp-tunnel-encapsulation-attr-tunnel-subtlv-endpoint-state:
+    +-- as?         oc-inet:as-number
+    +-- endpoint?   oc-inet:ip-address
+  grouping bgp-tunnel-encapsulation-attr-tunnel-subtlv-segment-list-state:
+    +-- instance-id?   uint64
+    +-- weight?        uint32
+  grouping bgp-tunnel-encapsulation-attr-tunnel-subtlv-segment-state:
+    +-- index?                 uint64
+    +-- type?                  enumeration
+    +-- sid?                   oc-srt:sr-sid-type
+    +-- mpls-tc?               uint8
+    +-- mpls-bos?              boolean
+    +-- mpls-ttl?              uint8
+    +-- remote-ipv4-address?   oc-inet:ipv4-address
+    +-- local-ipv4-address?    oc-inet:ipv4-address
+    +-- remote-ipv6-address?   oc-inet:ipv6-address
+    +-- local-ipv6-address?    oc-inet:ipv6-address
+    +-- local-interface-id?    uint32

@@ -1,0 +1,34 @@
+module: openconfig-programming-errors
+
+  augment /oc-ni:network-instances/oc-ni:network-instance:
+    +---u programming-errors-top
+
+  grouping ip-routes-common-config:
+    +-- enabled?   boolean
+  grouping programming-errors-top:
+    +-- programming-errors
+       +-- ip-routes
+          +-- config
+          |  +---u ip-routes-common-config
+          +--ro state
+          |  +--ro total-errors?              oc-yang:counter64
+          |  +---u ip-routes-common-config
+          +--ro failed-routes
+          |  +--ro failed* [prefix]
+          |     +--ro prefix?   -> ../state/prefix
+          |     +--ro state
+          |        +---u route-state-common
+          +--ro stale-routes
+          |  +--ro stale* [prefix]
+          |     +--ro prefix?   -> ../state/prefix
+          |     +--ro state
+          |        +---u route-state-common
+          +--ro drop-routes
+             +--ro drop* [prefix]
+                +--ro prefix?   -> ../state/prefix
+                +--ro state
+                   +---u route-state-common
+  grouping route-state-common:
+    +-- prefix?           oc-inet:ip-prefix
+    +-- time?             oc-types:timeticks64
+    +-- dest-component*   -> /oc-platform:components/component/name

@@ -1,0 +1,87 @@
+module: openconfig-srte-policy
+
+  grouping oc-srte-policy-top:
+    +--ro te-policies
+       +--ro te-policy* [color endpoint]
+          +--ro color?                    -> ../state/color
+          +--ro endpoint?                 -> ../state/endpoint
+          +--ro state
+          |  +---u oc-srte-policy-state
+          |  +--ro counters
+          |     +---u oc-srte-policy-counters
+          +---u oc-srte-candidate-path
+  grouping oc-srte-policy-keys:
+    +-- color?      uint32
+    +-- endpoint?   oc-srt:srte-endpoint-type
+  grouping oc-srte-policy-state:
+    +---u oc-srte-policy-keys
+    +-- name?                  string
+    +-- bsid?                  oc-srt:sr-sid-type
+    +-- active?                boolean
+    +-- active-since?          oc-types:timeticks64
+    +-- active-transitions?    oc-yang:counter64
+  grouping oc-srte-policy-counters:
+    +-- in-pkts?              oc-yang:counter64
+    +-- in-octets?            oc-yang:counter64
+    +-- in-labeled-pkts?      oc-yang:counter64
+    +-- in-labeled-octets?    oc-yang:counter64
+    +-- out-pkts?             oc-yang:counter64
+    +-- out-octets?           oc-yang:counter64
+    +-- out-labeled-pkts?     oc-yang:counter64
+    +-- out-labeled-octets?   oc-yang:counter64
+  grouping oc-srte-candidate-path:
+    +-- candidate-paths
+       +-- candidate-path* [protocol-origin originator-asn originator-addr discriminator]
+          +-- protocol-origin?   -> ../state/protocol-origin
+          +-- originator-asn?    -> ../state/originator-asn
+          +-- originator-addr?   -> ../state/originator-addr
+          +-- discriminator?     -> ../state/discriminator
+          +--ro state
+          |  +---u oc-srte-candidate-path-state
+          +-- segment-lists
+             +-- segment-list* [id]
+                +-- id?          -> ../state/id
+                +--ro state
+                |  +---u oc-srte-segment-list-state
+                |  +--ro counters
+                |     +---u oc-srte-segment-list-common-counters
+                +-- sids
+                |  +-- sid* [index]
+                |     +-- index?   -> ../state/index
+                |     +--ro state
+                |        +---u oc-srte-segment-list-sids-state
+                +-- next-hops
+                   +-- next-hop* [index]
+                      +-- index?                       -> ../state/index
+                      +--ro state
+                      |  +---u oc-aft:aft-common-entry-nexthop-state
+                      |  +--ro counters
+                      |     +---u oc-srte-segment-list-common-counters
+                      +---u oc-if:interface-ref-state
+  grouping oc-srte-segment-list-state:
+    +-- id?               uint32
+    +-- valid?            boolean
+    +-- invalid-reason?   oc-srt:srte-invalid-sl-reason
+    +-- weight?           uint32
+  grouping oc-srte-candidate-path-state:
+    +-- name?                 string
+    +-- protocol-origin?      oc-srt:srte-protocol-type
+    +-- originator-asn?       uint32
+    +-- originator-addr?      oc-inet:ipv6-address
+    +-- discriminator?        uint32
+    +-- preference?           uint32
+    +-- enlp?                 oc-srt:enlp-type
+    +-- valid?                boolean
+    +-- active?               boolean
+    +-- active-since?         oc-types:timeticks64
+    +-- active-transitions?   oc-yang:counter64
+  grouping oc-srte-segment-list-common-counters:
+    +-- out-pkts?             oc-yang:counter64
+    +-- out-octets?           oc-yang:counter64
+    +-- out-labeled-pkts?     oc-yang:counter64
+    +-- out-labeled-octets?   oc-yang:counter64
+  grouping oc-srte-segment-list-sids-state:
+    +-- index?      uint64
+    +-- value?      oc-srt:sr-sid-type
+    +-- mpls-ttl?   uint8
+    +-- mpls-tc?    uint8

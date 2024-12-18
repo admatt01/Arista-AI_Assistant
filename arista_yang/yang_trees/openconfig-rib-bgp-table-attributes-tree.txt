@@ -1,0 +1,12 @@
+submodule: openconfig-rib-bgp-table-attributes (belongs-to openconfig-rib-bgp)
+
+  grouping bgp-common-route-annotations-state:
+    +-- last-modified?    oc-types:timeticks64
+    +-- valid-route?      boolean
+    +-- invalid-reason?   identityref
+  grouping bgp-loc-rib-route-annotations-state:
+  grouping bgp-adj-rib-in-post-route-annotations-state:
+    +-- best-path?   boolean
+  grouping bgp-common-table-attrs-state:
+  grouping bgp-common-table-attrs-top:
+    +--ro state

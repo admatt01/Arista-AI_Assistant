@@ -1,0 +1,15 @@
+module: openconfig-network-instance-policy
+
+  augment /oc-rpol:routing-policy/oc-rpol:policy-definitions/oc-rpol:policy-definition/oc-rpol:statements/oc-rpol:statement/oc-rpol:conditions:
+    +---u protocol-instance-policy-top
+
+  grouping protocol-instance-policy-config:
+    +-- protocol-identifier?   identityref
+    +-- protocol-name?         string
+  grouping protocol-instance-policy-state:
+  grouping protocol-instance-policy-top:
+    +-- match-protocol-instance
+       +-- config
+       |  +---u protocol-instance-policy-config
+       +--ro state
+          +---u protocol-instance-policy-config

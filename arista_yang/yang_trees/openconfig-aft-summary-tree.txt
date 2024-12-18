@@ -1,0 +1,23 @@
+module: openconfig-aft-summary
+
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:afts:
+    +--ro aft-summaries
+       +---u aft-summary-ipv4
+       +---u aft-summary-ipv6
+
+  grouping protocols-state:
+    +-- origin-protocol?   identityref
+    +-- counters
+       +-- aft-entries?   uint64
+  grouping aft-summary:
+    +-- protocols
+       +-- protocol* [origin-protocol]
+          +-- origin-protocol?   -> ../state/origin-protocol
+          +-- state
+             +---u protocols-state
+  grouping aft-summary-ipv4:
+    +-- ipv4-unicast
+       +---u aft-summary
+  grouping aft-summary-ipv6:
+    +-- ipv6-unicast
+       +---u aft-summary

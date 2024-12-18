@@ -1,0 +1,191 @@
+module: openconfig-platform
+  +---u platform-component-top
+
+  grouping platform-component-properties-config:
+    +-- name?    string
+    +-- value?   union
+  grouping platform-component-properties-state:
+    +-- configurable?   boolean
+  grouping platform-component-properties-top:
+    +-- properties
+       +-- property* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u platform-component-properties-config
+          +--ro state
+             +---u platform-component-properties-config
+             +---u platform-component-properties-state
+  grouping platform-subcomponent-ref-config:
+    +-- name?   -> ../../../../../component/config/name
+  grouping platform-subcomponent-ref-state:
+  grouping platform-subcomponent-ref-top:
+    +-- subcomponents
+       +-- subcomponent* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u platform-subcomponent-ref-config
+          +--ro state
+             +---u platform-subcomponent-ref-config
+  grouping platform-component-config:
+    +-- name?   string
+  grouping platform-component-state:
+    +-- type?                     union
+    +-- id?                       string
+    x-- location?                 string
+    +-- install-position?         string
+    +-- install-component?        -> ../name
+    +-- description?              string
+    +-- mfg-name?                 string
+    +-- mfg-date?                 oc-yang:date
+    +-- hardware-version?         string
+    +-- firmware-version?         string
+    +-- software-version?         string
+    +-- serial-no?                string
+    +-- part-no?                  string
+    +-- model-name?               string
+    +-- clei-code?                string
+    +-- removable?                boolean
+    +-- oper-status?              identityref
+    +-- empty?                    boolean
+    +-- parent?                   -> ../../../component/config/name
+    +-- redundant-role?           oc-platform-types:component-redundant-role
+    +-- last-poweroff-reason
+    |  +---u oc-platform-types:component-last-poweroff-reason
+    +-- last-poweroff-time?       oc-types:timeticks64
+    +-- last-switchover-reason
+    |  +---u oc-platform-types:component-redundant-role-switchover-reason
+    +-- last-switchover-time?     oc-types:timeticks64
+    +-- last-reboot-reason?       identityref
+    +-- last-reboot-time?         oc-types:timeticks64
+    +-- switchover-ready?         boolean
+    +-- base-mac-address?         oc-yang:mac-address
+  grouping platform-component-temp-alarm-state:
+    +-- alarm-status?      boolean
+    +-- alarm-threshold?   uint32
+    +-- alarm-severity?    identityref
+  grouping platform-component-power-state:
+    +-- allocated-power?   uint32
+    +-- used-power?        uint32
+  grouping platform-component-temp-state:
+    +-- temperature
+       +---u oc-platform-types:avg-min-max-instant-stats-precision1-celsius
+       +---u platform-component-temp-alarm-state
+  grouping platform-component-memory-state:
+    +-- memory
+       +-- available?   uint64
+       +-- utilized?    uint64
+  grouping pcie-uncorrectable-errors:
+    +-- total-errors?                   oc-yang:counter64
+    +-- undefined-errors?               oc-yang:counter64
+    +-- data-link-errors?               oc-yang:counter64
+    +-- surprise-down-errors?           oc-yang:counter64
+    +-- poisoned-tlp-errors?            oc-yang:counter64
+    +-- flow-control-protocol-errors?   oc-yang:counter64
+    +-- completion-timeout-errors?      oc-yang:counter64
+    +-- completion-abort-errors?        oc-yang:counter64
+    +-- unexpected-completion-errors?   oc-yang:counter64
+    +-- receiver-overflow-errors?       oc-yang:counter64
+    +-- malformed-tlp-errors?           oc-yang:counter64
+    +-- ecrc-errors?                    oc-yang:counter64
+    +-- unsupported-request-errors?     oc-yang:counter64
+    +-- acs-violation-errors?           oc-yang:counter64
+    +-- internal-errors?                oc-yang:counter64
+    +-- blocked-tlp-errors?             oc-yang:counter64
+    +-- atomic-op-blocked-errors?       oc-yang:counter64
+    +-- tlp-prefix-blocked-errors?      oc-yang:counter64
+  grouping pcie-correctable-errors:
+    +-- total-errors?                oc-yang:counter64
+    +-- receiver-errors?             oc-yang:counter64
+    +-- bad-tlp-errors?              oc-yang:counter64
+    +-- bad-dllp-errors?             oc-yang:counter64
+    +-- relay-rollover-errors?       oc-yang:counter64
+    +-- replay-timeout-errors?       oc-yang:counter64
+    +-- advisory-non-fatal-errors?   oc-yang:counter64
+    +-- internal-errors?             oc-yang:counter64
+    +-- hdr-log-overflow-errors?     oc-yang:counter64
+  grouping platform-component-pcie-state:
+    +-- pcie
+       +-- fatal-errors
+       |  +---u pcie-uncorrectable-errors
+       +-- non-fatal-errors
+       |  +---u pcie-uncorrectable-errors
+       +-- correctable-errors
+          +---u pcie-correctable-errors
+  grouping platform-anchors-top:
+    +-- chassis
+    |  +-- config
+    |  +--ro state
+    |  +---u platform-resource-utilization-top
+    +-- port
+    |  +-- config
+    |  +--ro state
+    +-- power-supply
+    |  +-- config
+    |  +--ro state
+    +-- fan
+    |  +-- config
+    |  +--ro state
+    +-- fabric
+    |  +-- config
+    |  +--ro state
+    +-- storage
+    |  +-- config
+    |  +--ro state
+    +-- cpu
+    |  +-- config
+    |  +--ro state
+    +-- integrated-circuit
+    |  +-- config
+    |  +--ro state
+    |  +---u platform-resource-utilization-top
+    +-- backplane
+    |  +-- config
+    |  +--ro state
+    +-- software-module
+    |  +-- config
+    |  +--ro state
+    +-- controller-card
+       +-- config
+       +--ro state
+  grouping platform-component-top:
+    +-- components
+       +-- component* [name]
+          +-- name?                                -> ../config/name
+          +-- config
+          |  +---u platform-component-config
+          +--ro state
+          |  +---u platform-component-config
+          |  +---u platform-component-state
+          |  +---u platform-component-temp-state
+          |  +---u platform-component-memory-state
+          |  +---u platform-component-power-state
+          |  +---u platform-component-pcie-state
+          +---u platform-component-properties-top
+          +---u platform-subcomponent-ref-top
+          +---u platform-anchors-top
+  grouping platform-resource-utilization-top:
+    +-- utilization
+       +-- resources
+          +-- resource* [name]
+             +-- name?     -> ../config/name
+             +-- config
+             |  +---u platform-resource-utilization-config
+             +--ro state
+                +---u platform-resource-utilization-config
+                +---u platform-resource-utilization-state
+  grouping resource-utilization-threshold-common:
+    +-- used-threshold-upper?         oc-types:percentage
+    +-- used-threshold-upper-clear?   oc-types:percentage
+  grouping platform-resource-utilization-config:
+    +-- name?                                    string
+    +---u resource-utilization-threshold-common
+  grouping platform-resource-utilization-state:
+    +-- used?                            uint64
+    +-- committed?                       uint64
+    +-- free?                            uint64
+    +-- max-limit?                       uint64
+    +-- high-watermark?                  uint64
+    +-- last-high-watermark?             oc-types:timeticks64
+    +-- used-threshold-upper-exceeded?   boolean
+  grouping component-power-management:
+    +-- power-admin-state?   oc-platform-types:component-power-type

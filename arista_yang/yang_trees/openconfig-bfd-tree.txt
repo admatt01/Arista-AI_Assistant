@@ -1,0 +1,97 @@
+module: openconfig-bfd
+  +---u bfd-top
+
+  grouping bfd-interface-config:
+    +-- id?                       oc-if:interface-id
+    +-- enabled?                  boolean
+    +-- local-address?            oc-inet:ip-address
+    +---u bfd-configuration
+    +-- enable-per-member-link?   boolean
+  grouping bfd-interface-state:
+  grouping bfd-session-state-mode-timers-common:
+    +-- last-packet-transmitted?   uint64
+    +-- last-packet-received?      uint64
+    +-- transmitted-packets?       uint64
+    +-- received-packets?          uint64
+    +-- up-transitions?            uint64
+  grouping bfd-session-state-sessiondetails-common:
+    +-- session-state?                      bfd-session-state
+    +-- remote-session-state?               bfd-session-state
+    +-- last-failure-time?                  oc-types:timeticks64
+    +-- failure-transitions?                uint64
+    +-- local-discriminator?                string
+    +-- remote-discriminator?               string
+    +-- local-diagnostic-code?              bfd-diagnostic-code
+    +-- remote-diagnostic-code?             bfd-diagnostic-code
+    +-- remote-minimum-receive-interval?    uint32
+    +-- demand-mode-requested?              boolean
+    +-- remote-authentication-enabled?      boolean
+    +-- remote-control-plane-independent?   boolean
+  grouping bfd-session-state-async-common:
+    +-- async
+       +---u bfd-session-state-mode-timers-common
+  grouping bfd-session-state-echo-common:
+    +-- echo
+       +-- active?                                 boolean
+       +---u bfd-session-state-mode-timers-common
+  grouping bfd-session-state-common:
+    +-- local-address?                             oc-inet:ip-address
+    +-- remote-address?                            oc-inet:ip-address
+    +-- subscribed-protocols*                      identityref
+    +---u bfd-session-state-sessiondetails-common
+    +---u bfd-session-state-echo-common
+    +---u bfd-session-state-async-common
+  grouping bfd-session-microbfd-common:
+    +---u bfd-session-state-sessiondetails-common
+    +---u bfd-session-state-async-common
+  grouping bfd-interface-peer-state:
+    +---u bfd-session-state-common
+  grouping bfd-interface-microbfd-config:
+    +-- local-address?      oc-inet:ip-address
+    +-- remote-address?     oc-inet:ip-address
+    +-- member-interface?   -> /oc-if:interfaces/interface/config/name
+  grouping bfd-interface-microbfd-state:
+    +---u bfd-session-microbfd-common
+  grouping bfd-interface-microbfd-structural:
+    +-- micro-bfd-sessions
+       +-- micro-bfd-session* [member-interface]
+          +-- member-interface?   -> ../config/member-interface
+          +-- config
+          |  +---u bfd-interface-microbfd-config
+          +--ro state
+             +---u bfd-interface-microbfd-config
+             +---u bfd-interface-microbfd-state
+  grouping bfd-interface-peer-structural:
+    +-- peers
+       +--ro peer* [local-discriminator]
+          +--ro local-discriminator?   -> ../state/local-discriminator
+          +--ro state
+             +---u bfd-interface-peer-state
+  grouping bfd-top:
+    +-- bfd
+       +-- interfaces
+          +-- interface* [id]
+             +-- id?                                  -> ../config/id
+             +-- config
+             |  +---u bfd-interface-config
+             +--ro state
+             |  +---u bfd-interface-config
+             +---u oc-if:interface-ref
+             +---u bfd-interface-microbfd-structural
+             +---u bfd-interface-peer-structural
+  grouping enable-bfd-config:
+    +-- enabled?   boolean
+  grouping bfd-configuration:
+    +-- desired-minimum-tx-interval?   uint32
+    +-- required-minimum-receive?      uint32
+    +-- detection-multiplier?          uint8
+  grouping enable-bfd-state:
+    +-- associated-session?   -> /bfd/interfaces/interface/peers/peer/local-discriminator
+  grouping bfd-enable:
+    +-- enable-bfd
+       +-- config
+       |  +---u enable-bfd-config
+       |  +---u bfd-configuration
+       +--ro state
+          +---u enable-bfd-config
+          +---u bfd-configuration

@@ -1,0 +1,49 @@
+{
+  "name": "gnmi_get",
+  "description": "Retrieve operational or configuration data from one or more Arista devices using gNMI GET. You can specify devices using their hostnames from hosts.json (e.g., 'ceos-spine-1') or direct target addresses.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "target": {
+        "oneOf": [
+          {
+            "type": "string",
+            "description": "Single target device specified by hostname from hosts.json (e.g., 'ceos-spine-1') or direct address (e.g., '172.20.20.2:6030')"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of target devices specified by hostnames from hosts.json or direct addresses",
+            "examples": ["ceos-spine-1", "ceos-spine-2"]
+          }
+        ],
+        "description": "Target device(s) to query. Can use hostnames from hosts.json or direct addresses."
+      },
+      "path": {
+        "type": "string",
+        "description": "The gNMI path to query. Preferred format is 'cli:/show ...' (e.g., 'cli:/show ip route', 'cli:/show interfaces'). Alternative formats: OpenConfig paths or eos_native paths.",
+        "examples": [
+          "cli:/show ip route",
+          "cli:/show interfaces",
+          "cli:/show bgp summary",
+          "eos_native:/System/bgp_summary",
+          "/interfaces/interface[name=Ethernet1]/state/counters"
+        ]
+      },
+      "username": {
+        "type": "string",
+        "description": "Username for device authentication. If target is specified by hostname, this will be automatically populated from hosts.json."
+      },
+      "password": {
+        "type": "string",
+        "description": "Password for device authentication. If target is specified by hostname, this will be automatically populated from hosts.json."
+      }
+    },
+    "required": [
+      "target",
+      "path"
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+module: openconfig-alarms
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:state:
+    +--ro equipment-failure?    boolean
+    +--ro equipment-mismatch?   boolean
+
+  grouping alarm-state:
+    +-- id?             string
+    +-- resource?       string
+    +-- text?           string
+    +-- time-created?   oc-types:timeticks64
+    +-- severity?       identityref
+    +-- type-id?        union
+  grouping alarm-config:
+  grouping alarms-top:
+    +--ro alarms
+       +--ro alarm* [id]
+          +--ro id?       -> ../state/id
+          +--ro config
+          +--ro state
+             +---u alarm-state

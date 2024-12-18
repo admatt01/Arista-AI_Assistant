@@ -1,0 +1,12 @@
+eth1_ip,10.0.0.6
+eth2_ip,10.0.0.14
+loopback_ip,4.4.4.4
+vlan_name,Vlan102
+eth3_vlan,102
+vlan_ip,10.0.102.1
+bgp_asn,65002
+bgp_neighbor1,10.0.0.13
+remote_as1,65006
+bgp_neighbor2,10.0.0.5
+remote_as2,65005
+bgp_network,10.0.102.0/24

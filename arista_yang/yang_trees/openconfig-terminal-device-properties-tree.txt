@@ -1,0 +1,134 @@
+module: openconfig-terminal-device-properties
+  +---u transceiver-descriptor-top
+  +---u linecard-descriptor-top
+  +---u operational-mode-top
+
+  grouping penalties-list-element-attributes:
+    +-- parameter-and-unit?   oc-opt-term-prop-types:impairment-type
+    +-- up-to-boundary?       decimal64
+    +-- penalty-value?        decimal64
+  grouping fec-codes-attributes:
+    +-- fec-coding?        union
+    +-- coding-overhead?   decimal64
+    +-- coding-gain?       decimal64
+  grouping filter-attributes-top:
+    +-- pulse-shaping-type?   union
+    +-- roll-off?             decimal64
+  grouping operational-mode-descriptor-explicit-config-constraints-state:
+    +-- min-central-frequency?    oc-opt-types:frequency-type
+    +-- max-central-frequency?    oc-opt-types:frequency-type
+    +-- grid-type?                oc-opt-term-prop-types:grid-type
+    +-- adjustment-granularity?   oc-opt-term-prop-types:adjustment-granularity
+    +-- min-channel-spacing?      decimal64
+    +-- min-output-power?         decimal64
+    +-- max-output-power?         decimal64
+  grouping mode-descriptor-design-properties-state:
+    +-- mode-descriptor-id?                uint16
+    +-- min-tx-osnr?                       decimal64
+    +-- min-rx-osnr?                       decimal64
+    +-- min-input-power?                   decimal64
+    +-- max-input-power?                   decimal64
+    +-- max-chromatic-dispersion?          decimal64
+    +-- max-differential-group-delay?      decimal64
+    +-- max-polarization-dependent-loss?   decimal64
+    +-- pre-fec-ber-threshold?             decimal64
+  grouping operational-mode-descriptor-design-properties-top:
+    +-- mode-descriptors
+       +-- mode-descriptor* [mode-descriptor-id]
+          +-- mode-descriptor-id?                                    -> ../state/mode-descriptor-id
+          +--ro state
+          |  +---u mode-descriptor-design-properties-state
+          +---u operational-mode-descriptor-penalties-top
+          +---u operational-mode-descriptor-interoperable-modes-top
+  grouping interoperable-mode-properties-state:
+    +-- name?    string
+    +-- value?   union
+  grouping operational-mode-descriptor-interoperable-mode-state:
+    +-- mode-name?                string
+    +-- publisher-organization?   union
+  grouping operational-mode-descriptor-penalties-top:
+    +-- penalties
+       +-- penalty* [parameter-and-unit up-to-boundary]
+          +-- parameter-and-unit?   -> ../state/parameter-and-unit
+          +-- up-to-boundary?       -> ../state/up-to-boundary
+          +--ro state
+             +---u penalties-list-element-attributes
+  grouping operational-mode-descriptor-interoperable-modes-top:
+    +-- interoperable-modes
+       +-- interoperable-mode* [mode-name]
+          +-- mode-name?   -> ../state/mode-name
+          +--ro state
+             +---u operational-mode-descriptor-interoperable-mode-state
+  grouping operational-mode-descriptor-state:
+    +-- mode-id?                          uint16
+    +-- modulation-format?                union
+    +-- bit-rate?                         oc-opt-term-prop-types:bit-rate
+    +-- baud-rate?                        decimal64
+    +-- optical-channel-spectrum-width?   decimal64
+  grouping operation-mode-filter-and-fec:
+    +-- filter
+    |  +--ro state
+    |     +---u filter-attributes-top
+    +-- fec
+       +--ro state
+          +---u fec-codes-attributes
+  grouping operational-mode-top:
+    +--ro operational-mode-descriptors
+       +--ro operational-modes* [mode-id]
+          +--ro mode-id?                                             -> ../state/mode-id
+          +--ro state
+          |  +---u operational-mode-descriptor-state
+          +---u operation-mode-filter-and-fec
+          +---u operational-mode-descriptor-design-properties-top
+  grouping terminal-device-component-descriptor-state:
+    +-- component-descriptor-id?   string
+    +-- system-vendor-name?        string
+    +-- system-vendor-part-no?     string
+    +-- mfg-name?                  string
+    +-- mfg-part-no?               string
+    +-- hardware-version?          string
+    +-- firmware-version?          string
+    +-- software-version?          string
+    +-- clei-code?                 string
+  grouping transceiver-compatible-mode-state:
+    +-- state
+       +-- mode-id?              uint16
+       +-- mode-descriptor-id?   -> /operational-mode-descriptors/operational-modes/mode-descriptors/mode-descriptor/mode-descriptor-id
+  grouping transceiver-compatible-modes:
+    +--ro transceiver-compatible-modes
+       +--ro transceiver-compatible-mode* [mode-id]
+          +--ro mode-id?                             -> ../state/mode-id
+          +---u transceiver-compatible-mode-state
+  grouping transceiver-descriptor-top:
+    +--ro transceiver-descriptors
+       +--ro transceiver-descriptor* [component-descriptor-id]
+          +--ro component-descriptor-id?        -> ../state/component-descriptor-id
+          +--ro state
+          |  +---u terminal-device-component-descriptor-state
+          +---u transceiver-compatible-modes
+  grouping linecards-constrained-compatible-modes-state:
+    +-- state
+       +-- mode-id?              uint16
+       +-- mode-descriptor-id?   -> /operational-mode-descriptors/operational-modes/mode-descriptors/mode-descriptor/mode-descriptor-id
+  grouping constrained-compatible-modes:
+    +--ro constrained-compatible-modes
+       +--ro constrained-compatible-mode* [mode-id]
+          +--ro mode-id?                                        -> ../state/mode-id
+          +---u linecards-constrained-compatible-modes-state
+          +--ro optical-channel-config-value-constraints
+             +--ro state
+                +---u operational-mode-descriptor-explicit-config-constraints-state
+  grouping linecard-compatible-transceivers:
+    +--ro compatible-transceivers
+       +--ro compatible-transceiver* [transceiver-descriptor-id]
+          +--ro transceiver-descriptor-id?      -> ../state/transceiver-descriptor-id
+          +--ro state
+          |  +--ro transceiver-descriptor-id?   string
+          +---u constrained-compatible-modes
+  grouping linecard-descriptor-top:
+    +--ro linecard-descriptors
+       +--ro linecard-descriptor* [component-descriptor-id]
+          +--ro component-descriptor-id?            -> ../state/component-descriptor-id
+          +--ro state
+          |  +---u terminal-device-component-descriptor-state
+          +---u linecard-compatible-transceivers

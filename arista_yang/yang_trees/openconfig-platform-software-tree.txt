@@ -1,0 +1,7 @@
+module: openconfig-platform-software
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:software-module/oc-platform:state:
+    +---u sw-module-state
+
+  grouping sw-module-state:
+    +-- module-type?   identityref

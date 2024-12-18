@@ -1,0 +1,121 @@
+module: openconfig-acl
+  +---u acl-top
+
+  grouping input-interface-config:
+  grouping input-interface-state:
+  grouping input-interface-top:
+    +-- input-interface
+       +-- config
+       +--ro state
+       +---u oc-if:interface-ref
+  grouping action-config:
+    +-- forwarding-action    identityref
+    +-- log-action?          identityref
+  grouping action-state:
+  grouping action-top:
+    +-- actions
+       +-- config
+       |  +---u action-config
+       +--ro state
+          +---u action-config
+  grouping acl-counters-state:
+    +-- matched-packets?   oc-yang:counter64
+    +-- matched-octets?    oc-yang:counter64
+  grouping access-list-entries-config:
+    +-- sequence-id?   uint32
+    +-- description?   string
+  grouping access-list-entries-state:
+    +---u acl-counters-state
+  grouping access-list-entries-top:
+    +-- acl-entries
+       +-- acl-entry* [sequence-id]
+          +-- sequence-id?                         -> ../config/sequence-id
+          +-- config
+          |  +---u access-list-entries-config
+          +--ro state
+          |  +---u access-list-entries-config
+          |  +---u access-list-entries-state
+          +---u oc-match:ethernet-header-top
+          +---u oc-match:ipv4-protocol-fields-top
+          +---u oc-match:mpls-header-top
+          +---u oc-match:ipv6-protocol-fields-top
+          +---u oc-match:transport-fields-top
+          +---u input-interface-top
+          +---u action-top
+  grouping acl-set-config:
+    +-- name?          string
+    +-- type?          identityref
+    +-- description?   string
+  grouping acl-set-state:
+  grouping acl-set-top:
+    +-- acl-sets
+       +-- acl-set* [name type]
+          +-- name?                      -> ../config/name
+          +-- type?                      -> ../config/type
+          +-- config
+          |  +---u acl-set-config
+          +--ro state
+          |  +---u acl-set-config
+          +---u access-list-entries-top
+  grouping interface-acl-entries-config:
+  grouping interface-acl-entries-state:
+    +-- sequence-id?          -> /acl/acl-sets/acl-set[oc-acl:name=current()/../../../../set-name][oc-acl:type=current()/../../../../type]/oc-acl:acl-entries/acl-entry/sequence-id
+    +---u acl-counters-state
+  grouping interface-acl-entries-top:
+    +--ro acl-entries
+       +--ro acl-entry* [sequence-id]
+          +--ro sequence-id?   -> ../state/sequence-id
+          +--ro state
+             +---u interface-acl-entries-state
+  grouping interface-ingress-acl-config:
+    +-- set-name?   -> ../../../../../../acl-sets/acl-set/config/name
+    +-- type?       -> ../../../../../../acl-sets/acl-set[name=current()/../set-name]/config/type
+  grouping interface-ingress-acl-state:
+  grouping interface-ingress-acl-top:
+    +-- ingress-acl-sets
+       +-- ingress-acl-set* [set-name type]
+          +-- set-name?                    -> ../config/set-name
+          +-- type?                        -> ../config/type
+          +-- config
+          |  +---u interface-ingress-acl-config
+          +--ro state
+          |  +---u interface-ingress-acl-config
+          +---u interface-acl-entries-top
+  grouping interface-egress-acl-config:
+    +-- set-name?   -> ../../../../../../acl-sets/acl-set/config/name
+    +-- type?       -> ../../../../../../acl-sets/acl-set[name=current()/../set-name]/config/type
+  grouping interface-egress-acl-state:
+  grouping interface-egress-acl-top:
+    +-- egress-acl-sets
+       +-- egress-acl-set* [set-name type]
+          +-- set-name?                    -> ../config/set-name
+          +-- type?                        -> ../config/type
+          +-- config
+          |  +---u interface-egress-acl-config
+          +--ro state
+          |  +---u interface-egress-acl-config
+          +---u interface-acl-entries-top
+  grouping acl-interfaces-config:
+    +-- id?   oc-if:interface-id
+  grouping acl-interfaces-state:
+  grouping acl-interfaces-top:
+    +-- interfaces
+       +-- interface* [id]
+          +-- id?                          -> ../config/id
+          +-- config
+          |  +---u acl-interfaces-config
+          +--ro state
+          |  +---u acl-interfaces-config
+          +---u oc-if:interface-ref
+          +---u interface-ingress-acl-top
+          +---u interface-egress-acl-top
+  grouping acl-config:
+  grouping acl-state:
+    +-- counter-capability?   identityref
+  grouping acl-top:
+    +-- acl
+       +-- config
+       +--ro state
+       |  +---u acl-state
+       +---u acl-set-top
+       +---u acl-interfaces-top

@@ -1,0 +1,214 @@
+module: openconfig-bgp-policy
+
+  augment /oc-rpol:routing-policy/oc-rpol:defined-sets:
+    +--rw bgp-defined-sets
+       +---u community-set-top
+       +---u ext-community-set-top
+       +---u as-path-set-top
+  augment /oc-rpol:routing-policy/oc-rpol:policy-definitions/oc-rpol:policy-definition/oc-rpol:statements/oc-rpol:statement/oc-rpol:conditions:
+    +---u bgp-conditions-top
+  augment /oc-rpol:routing-policy/oc-rpol:policy-definitions/oc-rpol:policy-definition/oc-rpol:statements/oc-rpol:statement/oc-rpol:actions:
+    +---u bgp-actions-top
+
+  grouping match-as-path-config:
+    +-- as-path-set?                       -> /oc-rpol:routing-policy/defined-sets/oc-bgp-pol:bgp-defined-sets/as-path-sets/as-path-set/as-path-set-name
+    +---u oc-rpol:match-set-options-group
+  grouping match-as-path-state:
+  grouping match-as-path-top:
+    +-- match-as-path-set
+       +-- config
+       |  +---u match-as-path-config
+       +--ro state
+          +---u match-as-path-config
+  grouping match-community-config:
+    +-- community-set?                     -> /oc-rpol:routing-policy/defined-sets/oc-bgp-pol:bgp-defined-sets/community-sets/community-set/community-set-name
+    +---u oc-rpol:match-set-options-group
+  grouping match-community-state:
+  grouping match-community-top:
+    +-- match-community-set
+       +-- config
+       |  +---u match-community-config
+       +--ro state
+          +---u match-community-config
+  grouping match-ext-community-config:
+    +-- ext-community-set?                 -> /oc-rpol:routing-policy/defined-sets/oc-bgp-pol:bgp-defined-sets/ext-community-sets/ext-community-set/ext-community-set-name
+    +---u oc-rpol:match-set-options-group
+  grouping match-ext-community-state:
+  grouping match-ext-community-top:
+    +-- match-ext-community-set
+       +-- config
+       |  +---u match-ext-community-config
+       +--ro state
+          +---u match-ext-community-config
+  grouping bgp-match-set-conditions:
+    +---u match-as-path-top
+    +---u match-community-top
+    +---u match-ext-community-top
+  grouping community-count-config:
+    +---u oc-pol-types:attribute-compare-operators
+  grouping community-count-state:
+  grouping community-count-top:
+    +-- community-count
+    |  +-- config
+    |  |  +---u community-count-config
+    |  +--ro state
+    |     +---u community-count-config
+    +-- ext-community-count
+       +-- config
+       |  +---u community-count-config
+       +--ro state
+          +---u community-count-config
+  grouping as-path-length-config:
+    +---u oc-pol-types:attribute-compare-operators
+  grouping as-path-length-state:
+  grouping as-path-length-top:
+    +-- as-path-length
+       +-- config
+       |  +---u as-path-length-config
+       +--ro state
+          +---u as-path-length-config
+  grouping bgp-conditions-config:
+    +-- med-eq?              uint32
+    +-- origin-eq?           oc-bgp-types:bgp-origin-attr-type
+    +-- next-hop-in*         oc-inet:ip-address
+    +-- afi-safi-in*         identityref
+    +-- local-pref-eq?       uint32
+    +-- route-type?          enumeration
+    x-- community-set?       -> /oc-rpol:routing-policy/defined-sets/oc-bgp-pol:bgp-defined-sets/community-sets/community-set/community-set-name
+    x-- ext-community-set?   -> /oc-rpol:routing-policy/defined-sets/oc-bgp-pol:bgp-defined-sets/ext-community-sets/ext-community-set/ext-community-set-name
+  grouping bgp-conditions-state:
+  grouping bgp-conditions-top:
+    +-- bgp-conditions
+       +-- config
+       |  +---u bgp-conditions-config
+       +--ro state
+       |  +---u bgp-conditions-config
+       +---u community-count-top
+       +---u as-path-length-top
+       +---u bgp-match-set-conditions
+  grouping community-set-config:
+    +-- community-set-name    string
+    +-- community-member*     union
+    x-- match-set-options?    oc-pol-types:match-set-options-type
+  grouping community-set-state:
+  grouping community-set-top:
+    +-- community-sets
+       +-- community-set* [community-set-name]
+          +-- community-set-name?   -> ../config/community-set-name
+          +-- config
+          |  +---u community-set-config
+          +--ro state
+             +---u community-set-config
+  grouping ext-community-set-config:
+    +-- ext-community-set-name?   string
+    +-- ext-community-member*     union
+    x-- match-set-options?        oc-pol-types:match-set-options-type
+  grouping ext-community-set-state:
+  grouping ext-community-set-top:
+    +-- ext-community-sets
+       +-- ext-community-set* [ext-community-set-name]
+          +-- ext-community-set-name?   -> ../config/ext-community-set-name
+          +-- config
+          |  +---u ext-community-set-config
+          +--ro state
+             +---u ext-community-set-config
+  grouping as-path-set-config:
+    +-- as-path-set-name?     string
+    +-- as-path-set-member*   string
+  grouping as-path-set-state:
+  grouping as-path-set-top:
+    +-- as-path-sets
+       +-- as-path-set* [as-path-set-name]
+          +-- as-path-set-name?   -> ../config/as-path-set-name
+          +-- config
+          |  +---u as-path-set-config
+          +--ro state
+             +---u as-path-set-config
+  grouping as-path-prepend-config:
+    +-- repeat-n?   uint8
+    +-- asn?        oc-inet:as-number
+  grouping as-path-prepend-state:
+  grouping as-path-prepend-top:
+    +-- set-as-path-prepend
+       +-- config
+       |  +---u as-path-prepend-config
+       +--ro state
+          +---u as-path-prepend-config
+  grouping set-community-action-common:
+    +-- method?    enumeration
+    +-- options?   bgp-set-community-option-type
+  grouping set-community-inline-config:
+    +-- communities*   union
+  grouping set-community-inline-state:
+  grouping set-community-inline-top:
+    +-- inline
+       +-- config
+       |  +---u set-community-inline-config
+       +--ro state
+          +---u set-community-inline-config
+  grouping set-community-reference-config:
+    +-- community-set-refs*   -> /oc-rpol:routing-policy/defined-sets/oc-bgp-pol:bgp-defined-sets/community-sets/community-set/community-set-name
+    x-- community-set-ref?    -> /oc-rpol:routing-policy/defined-sets/oc-bgp-pol:bgp-defined-sets/community-sets/community-set/community-set-name
+  grouping set-community-reference-state:
+  grouping set-community-reference-top:
+    +-- reference
+       +-- config
+       |  +---u set-community-reference-config
+       +--ro state
+          +---u set-community-reference-config
+  grouping set-community-action-config:
+    +---u set-community-action-common
+  grouping set-community-action-state:
+  grouping set-community-action-top:
+    +-- set-community
+       +-- config
+       |  +---u set-community-action-config
+       +--ro state
+       |  +---u set-community-action-config
+       +---u set-community-inline-top
+       +---u set-community-reference-top
+  grouping set-ext-community-inline-config:
+    +-- communities*   union
+  grouping set-ext-community-inline-state:
+  grouping set-ext-community-inline-top:
+    +-- inline
+       +-- config
+       |  +---u set-ext-community-inline-config
+       +--ro state
+          +---u set-ext-community-inline-config
+  grouping set-ext-community-reference-config:
+    +-- ext-community-set-refs*   -> /oc-rpol:routing-policy/defined-sets/oc-bgp-pol:bgp-defined-sets/ext-community-sets/ext-community-set/ext-community-set-name
+    x-- ext-community-set-ref?    -> /oc-rpol:routing-policy/defined-sets/oc-bgp-pol:bgp-defined-sets/ext-community-sets/ext-community-set/ext-community-set-name
+  grouping set-ext-community-reference-state:
+  grouping set-ext-community-reference-top:
+    +-- reference
+       +-- config
+       |  +---u set-ext-community-reference-config
+       +--ro state
+          +---u set-ext-community-reference-config
+  grouping set-ext-community-action-config:
+    +---u set-community-action-common
+  grouping set-ext-community-action-state:
+  grouping set-ext-community-action-top:
+    +-- set-ext-community
+       +-- config
+       |  +---u set-ext-community-action-config
+       +--ro state
+       |  +---u set-ext-community-action-config
+       +---u set-ext-community-inline-top
+       +---u set-ext-community-reference-top
+  grouping bgp-actions-config:
+    +-- set-route-origin?   oc-bgp-types:bgp-origin-attr-type
+    +-- set-local-pref?     uint32
+    +-- set-next-hop?       bgp-next-hop-type
+    +-- set-med?            bgp-set-med-type
+  grouping bgp-actions-state:
+  grouping bgp-actions-top:
+    +-- bgp-actions
+       +-- config
+       |  +---u bgp-actions-config
+       +--ro state
+       |  +---u bgp-actions-config
+       +---u as-path-prepend-top
+       +---u set-community-action-top
+       +---u set-ext-community-action-top

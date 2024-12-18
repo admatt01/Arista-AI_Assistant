@@ -1,0 +1,78 @@
+module: openconfig-igmp
+
+  grouping admin-config:
+    +-- enabled?   boolean
+  grouping igmp-interface-config:
+    +-- interface-id?      oc-if:interface-id
+    +---u admin-config
+    +-- version?           oc-igmp-types:igmp-version
+    +-- query-interval?    oc-igmp-types:igmp-interval-type
+    +-- filter-prefixes?   string
+  grouping igmp-counters-per-version:
+    +--ro state
+       +--ro v1?   uint32
+       +--ro v2?   uint32
+       +--ro v3?   uint32
+  grouping igmp-interface-counters:
+    +-- counters
+       +-- queries
+       |  +-- sent
+       |  |  +---u igmp-counters-per-version
+       |  +-- received
+       |     +---u igmp-counters-per-version
+       +-- reports
+          +---u igmp-counters-per-version
+  grouping igmp-snooping-state:
+    +-- group?      inet:ipv4-address
+    +-- source?     inet:ipv4-address
+    +-- reporter?   inet:ipv4-address
+  grouping igmp-static-config:
+    +-- static-group?   inet:ipv4-address
+    +-- source?         inet:ipv4-address
+  grouping igmp-static-top:
+    +-- static-membership-groups
+       +-- static-groups* [static-group]
+          +-- static-group?   -> ../config/static-group
+          +-- config
+          |  +---u igmp-static-config
+          +--ro state
+             +---u igmp-static-config
+  grouping igmp-snooping-structural:
+    +-- membership-groups
+       +--ro group* [group]
+          +--ro group?   -> ../state/group
+          +--ro state
+             +---u igmp-snooping-state
+  grouping igmp-interface-state:
+    +-- query-expires?   oc-types:timeticks64
+  grouping igmp-interface-top:
+    +-- interfaces
+       +-- interface* [interface-id]
+          +-- interface-id?               -> ../config/interface-id
+          +-- config
+          |  +---u igmp-interface-config
+          +--ro state
+          |  +---u igmp-interface-state
+          |  +---u igmp-interface-config
+          +---u igmp-interface-counters
+          +---u igmp-snooping-structural
+          +---u igmp-static-top
+          +---u oc-if:interface-ref
+  grouping igmp-ssm-maps-config:
+    +-- source?       inet:ipv4-address
+    +-- ssm-ranges?   -> /oc-acl:acl/acl-sets/acl-set/config/name
+  grouping igmp-global-config:
+  grouping igmp-global-top:
+    +-- ssm
+       +-- mappings
+          +-- mapping* [source]
+             +-- source?   -> ../config/source
+             +-- config
+             |  +---u igmp-ssm-maps-config
+             +--ro state
+                +---u igmp-ssm-maps-config
+  grouping igmp-top:
+    +-- igmp
+       +-- global
+       |  +---u igmp-global-top
+       +---u igmp-interface-top

@@ -1,0 +1,48 @@
+submodule: openconfig-mpls-static (belongs-to openconfig-mpls)
+
+  grouping static-lsp-common-config:
+    +-- next-hop?                     inet:ip-address
+    +-- incoming-label?               oc-mplst:mpls-label
+    +-- push-label?                   oc-mplst:mpls-label
+    +---u oc-if:interface-ref-common
+    +-- metric?                       uint8
+  grouping static-lsp-ingress-config:
+    +---u static-lsp-common-config
+  grouping static-lsp-ingress-state:
+  grouping static-lsp-ingress-top:
+    +-- ingress
+       +-- config
+       |  +---u static-lsp-ingress-config
+       +--ro state
+          +---u static-lsp-ingress-config
+  grouping static-lsp-transit-config:
+    +---u static-lsp-common-config
+  grouping static-lsp-transit-state:
+  grouping static-lsp-transit-top:
+    +-- transit
+       +-- config
+       |  +---u static-lsp-transit-config
+       +--ro state
+          +---u static-lsp-transit-config
+  grouping static-lsp-egress-config:
+    +---u static-lsp-common-config
+  grouping static-lsp-egress-state:
+  grouping static-lsp-egress-top:
+    +-- egress
+       +-- config
+       |  +---u static-lsp-egress-config
+       +--ro state
+          +---u static-lsp-egress-config
+  grouping static-lsp-config:
+    +-- name?   string
+  grouping static-lsp-state:
+  grouping static-lsp-top:
+    +-- static-lsp* [name]
+       +-- name?                     -> ../config/name
+       +-- config
+       |  +---u static-lsp-config
+       +--ro state
+       |  +---u static-lsp-config
+       +---u static-lsp-ingress-top
+       +---u static-lsp-transit-top
+       +---u static-lsp-egress-top

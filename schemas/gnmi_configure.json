@@ -1,0 +1,57 @@
+{
+  "name": "gnmi_configure",
+  "description": "Execute gNMI configuration operations on one or more Arista devices concurrently. You can specify devices using their hostnames from hosts.json (e.g., 'ceos-spine-1') or direct target addresses.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "target": {
+        "oneOf": [
+          {
+            "type": "string",
+            "description": "Single target device specified by hostname from hosts.json (e.g., 'ceos-spine-1') or direct address (e.g., '172.20.20.2:6030')"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "List of target devices specified by hostnames from hosts.json or direct addresses",
+            "examples": ["ceos-spine-1", "ceos-spine-2"]
+          }
+        ],
+        "description": "Target device(s) to configure. Can use hostnames from hosts.json or direct addresses."
+      },
+      "path": {
+        "type": "string",
+        "description": "The gNMI path for configuration. Use 'cli:' for CLI commands or OpenConfig paths for structured config.",
+        "examples": [
+          "cli:",
+          "/interfaces/interface[name=Ethernet1]/config/description",
+          "/network-instances/network-instance[name=default]/protocols/protocol[name=BGP]/bgp"
+        ]
+      },
+      "value": {
+        "type": "string",
+        "description": "The configuration value to set. For CLI commands, provide the full command.",
+        "examples": [
+          "interface Ethernet1\n  description Test Interface\n  no shutdown",
+          "router bgp 65001\n  neighbor 192.168.1.1 remote-as 65002",
+          "Test Interface Description"
+        ]
+      },
+      "username": {
+        "type": "string",
+        "description": "Username for device authentication. If target is specified by hostname, this will be automatically populated from hosts.json."
+      },
+      "password": {
+        "type": "string",
+        "description": "Password for device authentication. If target is specified by hostname, this will be automatically populated from hosts.json."
+      }
+    },
+    "required": [
+      "target",
+      "path",
+      "value"
+    ]
+  }
+}

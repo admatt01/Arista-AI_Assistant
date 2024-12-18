@@ -1,0 +1,531 @@
+module: openconfig-ospfv2
+
+  grouping ospfv2-top:
+    +-- ospfv2
+       +---u ospfv2-global-structural
+       +-- areas
+          +-- area* [identifier]
+             +-- identifier?              -> ../config/identifier
+             +---u ospfv2-area-structure
+  grouping ospfv2-global-config:
+    +-- router-id?                    yang:dotted-quad
+    +-- summary-route-cost-mode?      enumeration
+    +-- igp-shortcuts?                boolean
+    +-- log-adjacency-changes?        boolean
+    +-- hide-transit-only-networks?   boolean
+  grouping ospfv2-global-spf-timers-config:
+    +-- initial-delay?   uint32
+    +-- maximum-delay?   uint32
+  grouping ospfv2-global-lsa-generation-timers-config:
+    +-- initial-delay?   uint32
+    +-- maximum-delay?   uint32
+  grouping ospfv2-global-spf-timers-state:
+    +---u ospfv2-common-timers
+  grouping ospfv2-global-lsa-generation-timers-state:
+    +---u ospfv2-common-timers
+  grouping ospfv2-global-graceful-restart-config:
+    +-- enabled?       boolean
+    +-- helper-only?   boolean
+  grouping ospfv2-global-mpls-config:
+    +-- traffic-engineering-extensions?   boolean
+  grouping ospfv2-global-inter-areapp-config:
+    +-- src-area?                               -> ../../../../../areas/area/identifier
+    +-- dst-area?                               -> ../../../../../areas/area/identifier
+    +---u oc-rpol:apply-policy-import-config
+    +---u oc-rpol:default-policy-import-config
+  grouping ospfv2-global-max-metric-config:
+    +-- set?       boolean
+    +-- timeout?   uint64
+    +-- include*   identityref
+    +-- trigger*   identityref
+  grouping ospfv2-global-structural:
+    +-- global
+       +-- config
+       |  +---u ospfv2-global-config
+       +--ro state
+       |  +---u ospfv2-global-config
+       +-- timers
+       |  +-- spf
+       |  |  +-- config
+       |  |  |  +---u ospfv2-global-spf-timers-config
+       |  |  +--ro state
+       |  |     +---u ospfv2-global-spf-timers-config
+       |  |     +---u ospfv2-global-spf-timers-state
+       |  +-- max-metric
+       |  |  +-- config
+       |  |  |  +---u ospfv2-global-max-metric-config
+       |  |  +--ro state
+       |  |     +---u ospfv2-global-max-metric-config
+       |  +-- lsa-generation
+       |     +-- config
+       |     |  +---u ospfv2-global-lsa-generation-timers-config
+       |     +--ro state
+       |        +---u ospfv2-global-lsa-generation-timers-config
+       |        +---u ospfv2-global-lsa-generation-timers-state
+       +-- graceful-restart
+       |  +-- config
+       |  |  +---u ospfv2-global-graceful-restart-config
+       |  +--ro state
+       |     +---u ospfv2-global-graceful-restart-config
+       +-- mpls
+       |  +-- config
+       |  |  +---u ospfv2-global-mpls-config
+       |  +--ro state
+       |  |  +---u ospfv2-global-mpls-config
+       |  +-- igp-ldp-sync
+       |     +-- config
+       |     |  +---u ospfv2-common-mpls-igp-ldp-sync-config
+       |     +--ro state
+       |        +---u ospfv2-common-mpls-igp-ldp-sync-config
+       +-- inter-area-propagation-policies
+          +-- inter-area-propagation-policy* [src-area dst-area]
+             +-- src-area?   -> ../config/src-area
+             +-- dst-area?   -> ../config/dst-area
+             +-- config
+             |  +---u ospfv2-global-inter-areapp-config
+             +--ro state
+                +---u ospfv2-global-inter-areapp-config
+  grouping ospfv2-area-config:
+    +-- identifier?   oc-ospf-types:ospf-area-identifier
+  grouping ospfv2-area-mpls-config:
+    +-- traffic-engineering-enabled?   boolean
+  grouping ospfv2-area-virtual-link-config:
+    +-- remote-router-id?   inet:ipv4-address-no-zone
+  grouping ospfv2-area-structure:
+    +-- config
+    |  +---u ospfv2-area-config
+    +--ro state
+    |  +---u ospfv2-area-config
+    +-- mpls
+    |  +-- config
+    |  |  +---u ospfv2-area-mpls-config
+    |  +--ro state
+    |     +---u ospfv2-area-mpls-config
+    +---u ospfv2-lsdb-structure
+    +---u ospfv2-area-interfaces-structure
+    +-- virtual-links
+       +-- virtual-link* [remote-router-id]
+          +-- remote-router-id?   -> ../config/remote-router-id
+          +-- config
+          |  +---u ospfv2-area-virtual-link-config
+          +--ro state
+             +---u ospfv2-area-virtual-link-config
+             +---u ospfv2-area-interface-neighbor-state
+  grouping ospfv2-area-interface-config:
+    +-- id?                             oc-if:interface-id
+    +-- network-type?                   identityref
+    +-- priority?                       uint8
+    +-- multi-area-adjacency-primary?   boolean
+    +-- authentication-type?            string
+    +-- metric?                         oc-ospf-types:ospf-metric
+    +-- passive?                        boolean
+    +-- hide-network?                   boolean
+  grouping ospfv2-area-interface-timers-config:
+    +-- dead-interval?             uint32
+    +-- hello-interval?            uint32
+    +-- retransmission-interval?   uint32
+  grouping ospfv2-area-interface-mpls-config:
+    +-- traffic-engineering-metric?   uint32
+  grouping ospfv2-area-interface-neighbor-config:
+    +-- router-id?   yang:dotted-quad
+    +-- metric?      oc-ospf-types:ospf-metric
+  grouping ospfv2-area-interface-neighbor-state:
+    +-- priority?                      uint8
+    +-- dead-time?                     oc-types:timeticks64
+    +-- designated-router?             yang:dotted-quad
+    +-- backup-designated-router?      yang:dotted-quad
+    +-- optional-capabilities?         yang:hex-string
+    +-- last-established-time?         oc-types:timeticks64
+    +-- adjacency-state?               identityref
+    +-- state-changes?                 uint32
+    +-- retransmission-queue-length?   uint32
+  grouping ospfv2-area-interface-lsa-filter-config:
+    +-- all?   boolean
+  grouping ospfv2-area-interface-mpls-igp-ldp-sync-state:
+    +-- synchronized?   boolean
+  grouping ospfv2-area-interfaces-structure:
+    +-- interfaces
+       +-- interface* [id]
+          +-- id?                    -> ../config/id
+          +-- config
+          |  +---u ospfv2-area-interface-config
+          +--ro state
+          |  +---u ospfv2-area-interface-config
+          +---u oc-if:interface-ref
+          +-- timers
+          |  +-- config
+          |  |  +---u ospfv2-area-interface-timers-config
+          |  +--ro state
+          |     +---u ospfv2-area-interface-timers-config
+          +-- mpls
+          |  +-- config
+          |  |  +---u ospfv2-area-interface-mpls-config
+          |  +--ro state
+          |  |  +---u ospfv2-area-interface-mpls-config
+          |  +-- igp-ldp-sync
+          |     +-- config
+          |     |  +---u ospfv2-common-mpls-igp-ldp-sync-config
+          |     +--ro state
+          |        +---u ospfv2-common-mpls-igp-ldp-sync-config
+          |        +---u ospfv2-area-interface-mpls-igp-ldp-sync-state
+          +-- lsa-filter
+          |  +-- config
+          |  |  +---u ospfv2-area-interface-lsa-filter-config
+          |  +--ro state
+          |     +---u ospfv2-area-interface-lsa-filter-config
+          +-- neighbors
+          |  +-- neighbor* [router-id]
+          |     +-- router-id?   -> ../config/router-id
+          |     +-- config
+          |     |  +---u ospfv2-area-interface-neighbor-config
+          |     +--ro state
+          |        +---u ospfv2-area-interface-neighbor-config
+          |        +---u ospfv2-area-interface-neighbor-state
+          +---u oc-bfd:bfd-enable
+  grouping ospfv2-lsdb-common-prefix-properties:
+    +-- prefix-length?    uint8
+    +-- address-family?   enumeration
+  grouping ospfv2-lsdb-common-link-specification:
+    +-- link-id?     yang:dotted-quad
+    +-- link-data?   union
+  grouping ospfv2-lsdb-common-unknown-tlv:
+    +-- type?     uint16
+    +-- length?   uint16
+    +-- value?    binary
+  grouping ospfv2-lsdb-common-unknown-tlv-structure:
+    +-- unknown-tlv
+       +-- state
+          +---u ospfv2-lsdb-common-unknown-tlv
+  grouping ospfv2-lsdb-common-unknown-subtlv-structure:
+    +-- unknown-subtlv
+       +-- state
+          +---u ospfv2-lsdb-common-unknown-tlv
+  grouping ospfv2-lsdb-common-tos-metric:
+    +-- tos?      uint8
+    +-- metric?   oc-ospf-types:ospf-metric
+  grouping ospfv2-lsdb-common-sr-sid-spec:
+    +-- sid-type?    oc-ospf-types:sr-sid-type
+    +-- sid-value?   uint32
+  grouping ospfv2-lsdb-area-state:
+    +-- identifier?   oc-ospf-types:ospf-area-identifier
+  grouping ospfv2-lsdb-area-lsa-type-state:
+    +-- type?   identityref
+  grouping ospfv2-lsdb-area-lsa-state:
+    +-- link-state-id?        yang:dotted-quad
+    +-- advertising-router?   yang:dotted-quad
+    +-- sequence-number?      int32
+    +-- checksum?             uint16
+    +-- age?                  uint16
+  grouping ospfv2-lsdb-router-lsa-structure:
+    +-- router-lsa
+       +-- state
+       |  +---u ospfv2-lsdb-router-lsa-state
+       +---u ospfv2-lsdb-generic-lsa-tos-metric-structure
+  grouping ospfv2-lsdb-generic-lsa-tos-metric-structure:
+    +-- types-of-service
+       +-- type-of-service* [tos]
+          +-- tos?     -> ../state/tos
+          +-- state
+             +---u ospfv2-lsdb-generic-lsa-tos-metric-state
+  grouping ospfv2-lsdb-network-lsa-structure:
+    +-- network-lsa
+       +-- state
+          +---u ospfv2-lsdb-network-lsa-state
+  grouping ospfv2-lsdb-summary-lsa-structure:
+    +-- summary-lsa
+       +-- state
+       |  +---u ospfv2-lsdb-summary-lsa-state
+       +---u ospfv2-lsdb-generic-lsa-tos-metric-structure
+  grouping ospfv2-lsdb-asexternal-lsa-structure:
+    +-- as-external-lsa
+       +-- state
+       |  +---u ospfv2-lsdb-asexternal-lsa-state
+       +-- types-of-service
+          +-- type-of-service* [tos]
+             +-- tos?     -> ../state/tos
+             +-- state
+                +---u ospfv2-lsdb-asexternal-tos-state
+  grouping ospfv2-lsdb-nssa-external-lsa-structure:
+    +-- nssa-external-lsa
+       +-- state
+       |  +---u ospfv2-lsdb-asexternal-lsa-state
+       |  +---u ospfv2-lsdb-nssa-external-lsa-state
+       +-- types-of-service
+          +-- type-of-service* [tos]
+             +-- tos?     -> ../state/tos
+             +-- state
+                +---u ospfv2-lsdb-asexternal-tos-state
+  grouping ospfv2-lsdb-opaque-lsa-structure:
+    +-- opaque-lsa
+       +-- state
+       |  +---u ospfv2-lsdb-opaque-lsa-state
+       +-- traffic-engineering
+       |  +-- tlvs
+       |     +-- tlv* []
+       |        +-- state
+       |        |  +---u ospfv2-lsdb-opaque-lsa-te-tlv-state
+       |        +---u ospfv2-lsdb-common-unknown-tlv-structure
+       |        +-- router-address
+       |        |  +-- state
+       |        |     +---u ospfv2-lsdb-opaque-te-router-address-state
+       |        +-- link
+       |        |  +-- sub-tlvs
+       |        |     +-- sub-tlv* []
+       |        |        +-- state
+       |        |        |  +---u ospfv2-lsdb-opaque-te-link-state
+       |        |        +---u ospfv2-lsdb-common-unknown-subtlv-structure
+       |        |        +-- unreserved-bandwidths
+       |        |        |  +-- unreserved-bandwidth* [priority]
+       |        |        |     +-- priority?   -> ../state/priority
+       |        |        |     +-- state
+       |        |        |        +---u ospfv2-lsdb-opaque-te-link-unreserved-bw-state
+       |        |        +-- administrative-groups
+       |        |           +-- admin-group* [bit-index]
+       |        |              +-- bit-index?   -> ../state/bit-index
+       |        |              +-- state
+       |        |                 +---u ospfv2-lsdb-opaque-te-link-admin-group-state
+       |        +-- node-attribute
+       |           +-- sub-tlvs
+       |              +-- sub-tlv* []
+       |                 +-- state
+       |                 |  +---u ospfv2-lsdb-opaque-te-node-attribute-state
+       |                 +---u ospfv2-lsdb-common-unknown-subtlv-structure
+       +-- grace-lsa
+       |  +-- tlvs
+       |     +-- tlv* []
+       |        +-- state
+       |        |  +---u ospfv2-lsdb-opaque-grace-state
+       |        +---u ospfv2-lsdb-common-unknown-tlv-structure
+       +-- router-information
+       |  +-- tlvs
+       |     +-- tlv* []
+       |        +-- state
+       |        |  +---u ospfv2-lsdb-opaque-ri-state
+       |        +---u ospfv2-lsdb-common-unknown-tlv-structure
+       |        +-- informational-capabilities
+       |        |  +-- state
+       |        |     +---u ospfv2-lsdb-opaque-ri-informational-state
+       |        +-- node-administrative-tags
+       |        |  +-- state
+       |        |     +---u ospfv2-lsdb-opaque-ri-admintag-state
+       |        +-- segment-routing-algorithm
+       |        |  +-- state
+       |        |     +---u ospfv2-lsdb-opaque-ri-sralgo-state
+       |        +-- segment-routing-sid-label-range
+       |           +-- tlvs
+       |              +-- tlv* []
+       |                 +---u ospfv2-lsdb-common-unknown-tlv-structure
+       |                 +-- state
+       |                 |  +---u ospfv2-lsdb-opaque-ri-srrange-tlv-state
+       |                 +-- sid-label
+       |                    +-- state
+       |                       +---u ospfv2-lsdb-opaque-ri-srrange-sid-label-tlv-state
+       +-- extended-prefix
+       |  +-- state
+       |  |  +---u ospfv2-lsdb-extended-prefix-state
+       |  +-- tlvs
+       |     +-- tlv* []
+       |        +-- state
+       |        |  +---u ospfv2-lsdb-extended-prefix-tlv-state
+       |        +-- extended-prefix-range
+       |        |  +-- state
+       |        |     +---u ospfv2-lsdb-extended-prefix-range-state
+       |        +-- prefix-sid
+       |        |  +-- state
+       |        |     +---u ospfv2-lsdb-extended-prefix-prefix-sid-state
+       |        +-- sid-label-binding
+       |        |  +-- state
+       |        |  |  +---u ospfv2-lsdb-extended-prefix-sid-label-binding-state
+       |        |  +-- tlvs
+       |        |     +-- tlv* []
+       |        |        +-- state
+       |        |        |  +---u ospfv2-lsdb-extended-prefix-sid-label-binding-tlv-state
+       |        |        +-- sid-label-binding
+       |        |        |  +-- state
+       |        |        |     +---u ospfv2-lsdb-extprefix-sid-label-binding-state
+       |        |        +-- ero-metric
+       |        |        |  +-- state
+       |        |        |     +---u ospfv2-lsdb-extprefix-sid-label-ero-metric-state
+       |        |        +-- ero-path
+       |        |           +-- segments
+       |        |              +-- segment* []
+       |        |                 +-- state
+       |        |                 |  +---u ospfv2-lsdb-extprefix-sid-lbl-ero-path-seg-state
+       |        |                 +-- ipv4-segment
+       |        |                 |  +-- state
+       |        |                 |     +---u ospfv2-lsdb-extprefix-sid-lbl-ero-ipv4-state
+       |        |                 +-- unnumbered-hop
+       |        |                    +-- state
+       |        |                       +---u ospfv2-lsdb-extprefix-sid-lbl-ero-unnum-state
+       |        +---u ospfv2-lsdb-common-unknown-tlv-structure
+       +-- extended-link
+       |  +-- state
+       |  |  +---u ospfv2-lsdb-extended-link-state
+       |  +-- tlvs
+       |     +-- tlv* []
+       |        +-- state
+       |        |  +---u ospfv2-lsdb-extended-link-tlv-state
+       |        +---u ospfv2-lsdb-common-unknown-tlv-structure
+       |        +-- adjacency-sid
+       |           +-- state
+       |              +---u ospfv2-lsdb-extended-link-adj-sid-state
+       +---u ospfv2-lsdb-common-unknown-tlv-structure
+  grouping ospfv2-lsdb-generic-lsa-tos-metric-state:
+    +---u ospfv2-lsdb-common-tos-metric
+  grouping ospfv2-lsdb-router-lsa-state:
+    +-- type?                                    identityref
+    +---u ospfv2-lsdb-common-link-specification
+    +-- metric?                                  oc-ospf-types:ospf-metric
+    +-- number-links?                            uint16
+    +-- number-tos-metrics?                      uint16
+  grouping ospfv2-lsdb-network-lsa-state:
+    +-- network-mask?      uint8
+    +-- attached-router*   yang:dotted-quad
+  grouping ospfv2-lsdb-summary-lsa-state:
+    +-- network-mask?   uint8
+    +-- metric?         oc-ospf-types:ospf-metric
+  grouping ospfv2-lsdb-asexternal-lsa-common-parameters:
+    +-- forwarding-address?   inet:ipv4-address-no-zone
+    +-- external-route-tag?   uint32
+  grouping ospfv2-lsdb-asexternal-lsa-state:
+    +-- mask?                                           uint8
+    +-- metric-type?                                    enumeration
+    +-- metric?                                         oc-ospf-types:ospf-metric
+    +---u ospfv2-lsdb-asexternal-lsa-common-parameters
+  grouping ospfv2-lsdb-asexternal-tos-state:
+    +---u ospfv2-lsdb-asexternal-lsa-common-parameters
+    +---u ospfv2-lsdb-common-tos-metric
+  grouping ospfv2-lsdb-nssa-external-lsa-state:
+    +-- propagate?   boolean
+  grouping ospfv2-lsdb-opaque-lsa-state:
+    +-- scope?   enumeration
+    +-- type?    identityref
+  grouping ospfv2-lsdb-opaque-lsa-te-tlv-state:
+    +-- type?   identityref
+  grouping ospfv2-lsdb-opaque-te-unknown-state:
+    +---u ospfv2-lsdb-common-unknown-tlv
+  grouping ospfv2-lsdb-opaque-te-link-state:
+    +-- type?                           union
+    +-- unknown-type?                   uint16
+    +-- unknown-value?                  binary
+    +-- link-type?                      enumeration
+    +-- link-id?                        yang:dotted-quad
+    +-- local-ip-address*               inet:ipv4-address-no-zone
+    +-- remote-ip-address*              inet:ipv4-address-no-zone
+    +-- metric?                         uint32
+    +-- maximum-bandwidth?              oc-types:ieeefloat32
+    +-- maximum-reservable-bandwidth?   oc-types:ieeefloat32
+  grouping ospfv2-lsdb-opaque-te-link-unreserved-bw-state:
+    +-- priority?               uint8
+    +-- unreserved-bandwidth?   oc-types:ieeefloat32
+  grouping ospfv2-lsdb-opaque-te-link-admin-group-state:
+    +-- bit-index?   uint8
+    +-- set?         boolean
+  grouping ospfv2-lsdb-opaque-te-node-attribute-state:
+    +-- type?                   union
+    +-- local-ipv4-addresses*   inet:ipv4-prefix
+    +-- local-ipv6-addresses*   inet:ipv6-prefix
+  grouping ospfv2-lsdb-opaque-te-router-address-state:
+    +-- address?   inet:ipv4-address-no-zone
+  grouping ospfv2-lsdb-opaque-grace-state:
+    +-- type?                   identityref
+    +-- period?                 uint32
+    +-- reason?                 enumeration
+    +-- ip-interface-address?   inet:ipv4-address-no-zone
+  grouping ospfv2-lsdb-opaque-ri-state:
+    +-- type?   union
+  grouping ospfv2-lsdb-opaque-ri-informational-state:
+    +-- graceful-restart-capable?   boolean
+    +-- graceful-restart-helper?    boolean
+    +-- stub-router?                boolean
+    +-- traffic-engineering?        boolean
+    +-- point-to-point-over-lan?    boolean
+    +-- experimental-te?            boolean
+  grouping ospfv2-lsdb-opaque-ri-admintag-state:
+    +-- administrative-tags*   uint32
+  grouping ospfv2-lsdb-opaque-ri-unknown-state:
+    +---u ospfv2-lsdb-common-unknown-tlv
+  grouping ospfv2-lsdb-opaque-ri-sralgo-state:
+    +-- supported-algorithms*   identityref
+  grouping ospfv2-lsdb-opaque-ri-srrange-tlv-state:
+    +-- type?         union
+    +-- range-size?   uint32
+  grouping ospfv2-lsdb-opaque-ri-srrange-sid-label-tlv-state:
+    +-- entry-type?    oc-ospf-types:sr-sid-type
+    +-- first-value?   uint32
+  grouping ospfv2-lsdb-extended-prefix-state:
+    +-- route-type?                             enumeration
+    +---u ospfv2-lsdb-common-prefix-properties
+    +-- attached?                               boolean
+    +-- node?                                   boolean
+    +-- prefix?                                 inet:ipv4-address-no-zone
+  grouping ospfv2-lsdb-extended-link-state:
+    +-- link-type?                               identityref
+    +---u ospfv2-lsdb-common-link-specification
+  grouping ospfv2-lsdb-extended-link-tlv-state:
+    +-- type?   identityref
+  grouping ospfv2-lsdb-extended-prefix-tlv-state:
+    +-- type?   identityref
+  grouping ospfv2-lsdb-extended-prefix-range-state:
+    +---u ospfv2-lsdb-common-prefix-properties
+    +-- range-size?                             uint16
+    +-- inter-area?                             boolean
+    +-- prefix?                                 inet:ipv4-prefix
+  grouping ospfv2-lsdb-extended-prefix-prefix-sid-state:
+    +-- no-php?                      boolean
+    +-- mapping-server?              boolean
+    +-- explicit-null?               boolean
+    +-- sid-value-type?              enumeration
+    +-- sid-scope?                   enumeration
+    +-- multi-topology-identifier?   uint8
+    +-- algorithm?                   uint8
+    +-- sid-value?                   uint32
+  grouping ospfv2-lsdb-extended-prefix-sid-label-binding-state:
+    +-- mirroring?                   boolean
+    +-- multi-topology-identifier?   uint8
+    +-- weight?                      uint8
+  grouping ospfv2-lsdb-extended-prefix-sid-label-binding-tlv-state:
+    +-- type?   identityref
+  grouping ospfv2-lsdb-extprefix-sid-label-binding-state:
+    +---u ospfv2-lsdb-common-sr-sid-spec
+  grouping ospfv2-lsdb-extprefix-sid-label-ero-metric-state:
+    +-- metric?   uint32
+  grouping ospfv2-lsdb-extprefix-sid-lbl-ero-path-seg-state:
+    +-- type?    identityref
+    +-- loose?   boolean
+  grouping ospfv2-lsdb-extprefix-sid-lbl-ero-ipv4-state:
+    +-- address?   inet:ipv4-address-no-zone
+  grouping ospfv2-lsdb-extprefix-sid-lbl-ero-unnum-state:
+    +-- router-id?      inet:ipv4-address-no-zone
+    +-- interface-id?   uint32
+  grouping ospfv2-lsdb-extended-link-adj-sid-state:
+    +-- backup?                           boolean
+    +-- group?                            boolean
+    +---u ospfv2-lsdb-common-sr-sid-spec
+    +-- weight?                           uint8
+    +-- multi-topology-identifier?        uint8
+  grouping ospfv2-lsdb-structure:
+    +--ro lsdb
+       +--ro state
+       |  +---u ospfv2-lsdb-area-state
+       +--ro lsa-types
+          +--ro lsa-type* [type]
+             +--ro type?    -> ../state/type
+             +--ro state
+             |  +---u ospfv2-lsdb-area-lsa-type-state
+             +--ro lsas
+                +--ro lsa* [link-state-id]
+                   +--ro link-state-id?                             -> ../state/link-state-id
+                   +--ro state
+                   |  +---u ospfv2-lsdb-area-lsa-state
+                   +---u ospfv2-lsdb-router-lsa-structure
+                   +---u ospfv2-lsdb-network-lsa-structure
+                   +---u ospfv2-lsdb-summary-lsa-structure
+                   +---u ospfv2-lsdb-asexternal-lsa-structure
+                   +---u ospfv2-lsdb-nssa-external-lsa-structure
+                   +---u ospfv2-lsdb-opaque-lsa-structure
+  grouping ospfv2-common-mpls-igp-ldp-sync-config:
+    +-- enabled?                 boolean
+    +-- post-session-up-delay?   uint32
+  grouping ospfv2-common-timers:
+    +-- timer-type?   enumeration

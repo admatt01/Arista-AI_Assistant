@@ -1,0 +1,5 @@
+module: openconfig-mpls-sr
+
+  grouping sr-path-attributes-config:
+    +-- sid-selection-mode?        enumeration
+    +-- sid-protection-required?   boolean

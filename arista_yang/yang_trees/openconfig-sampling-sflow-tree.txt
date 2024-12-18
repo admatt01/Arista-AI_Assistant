@@ -1,0 +1,60 @@
+module: openconfig-sampling-sflow
+
+  augment /oc-sampling:sampling:
+    +---u sflow-global-top
+
+  grouping sflow-interfaces-config:
+    +-- name?                            oc-if:base-interface-ref
+    +-- enabled?                         boolean
+    +---u sflow-polling-interval-config
+    +---u sflow-sampling-rate-config
+  grouping sflow-interfaces-state:
+    +-- packets-sampled?   oc-yang:counter64
+  grouping sflow-interfaces-top:
+    +-- interfaces
+       +-- interface* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u sflow-interfaces-config
+          +--ro state
+             +---u sflow-interfaces-config
+             +---u sflow-interfaces-state
+  grouping sflow-collectors-config:
+    +-- address?            oc-inet:ip-address
+    +-- port?               oc-inet:port-number
+    +-- source-address?     oc-inet:ip-address
+    +-- network-instance?   oc-netinst:network-instance-ref
+  grouping sflow-collectors-state:
+    +-- packets-sent?   oc-yang:counter64
+  grouping sflow-collectors-top:
+    +-- collectors
+       +-- collector* [address port]
+          +-- address?   -> ../config/address
+          +-- port?      -> ../config/port
+          +-- config
+          |  +---u sflow-collectors-config
+          +--ro state
+             +---u sflow-collectors-config
+             +---u sflow-collectors-state
+  grouping sflow-sampling-rate-config:
+    +-- ingress-sampling-rate?   uint32
+    +-- egress-sampling-rate?    uint32
+  grouping sflow-polling-interval-config:
+    +-- polling-interval?   uint16
+  grouping sflow-global-config:
+    +-- enabled?                         boolean
+    +-- agent-id-ipv4?                   oc-inet:ipv4-address
+    +-- agent-id-ipv6?                   oc-inet:ipv6-address
+    +-- dscp?                            oc-inet:dscp
+    +-- sample-size?                     uint16
+    +---u sflow-polling-interval-config
+    +---u sflow-sampling-rate-config
+  grouping sflow-global-state:
+  grouping sflow-global-top:
+    +-- sflow
+       +-- config
+       |  +---u sflow-global-config
+       +--ro state
+       |  +---u sflow-global-config
+       +---u sflow-collectors-top
+       +---u sflow-interfaces-top

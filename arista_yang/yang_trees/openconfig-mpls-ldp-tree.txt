@@ -1,0 +1,151 @@
+module: openconfig-mpls-ldp
+
+  grouping ldp-global:
+    +-- ldp
+       +-- global
+       |  +---u mpls-ldp-global
+       |  +---u mpls-ldp-graceful-restart
+       |  +---u mpls-ldp-authentication-top
+       +---u mpls-ldp-interface-attributes-top
+       +---u mpls-ldp-targeted-top
+       +---u mpls-ldp-neighbors-top
+  grouping mpls-ldp-authentication-top:
+    +-- authentication
+       +-- config
+       |  +---u mpls-ldp-authentication-config
+       +--ro state
+          +---u mpls-ldp-authentication-config
+  grouping mpls-ldp-neighbors-top:
+    +-- neighbors
+       +-- neighbor* [lsr-id label-space-id]
+          +-- lsr-id?                        -> ../config/lsr-id
+          +-- label-space-id?                -> ../config/label-space-id
+          +-- config
+          |  +---u mpls-ldp-neighbor-config
+          +--ro state
+          |  +---u mpls-ldp-neighbor-config
+          |  +---u mpls-ldp-neighbor-state
+          +--ro hello-adjacencies
+          |  +--ro hello-adjacency* [remote-address local-address]
+          |     +--ro remote-address?              -> ../state/remote-address
+          |     +--ro local-address?               -> ../state/local-address
+          |     +--ro state
+          |     |  +---u mpls-ldp-adjacency-state
+          |     +---u oc-if:interface-ref-state
+          |     +--ro hello-holdtime
+          |        +--ro state
+          |           +---u mpls-ldp-hello-holdtime-state
+          +---u mpls-ldp-authentication-top
+  grouping mpls-ldp-neighbor-config:
+    +-- lsr-id?                        oc-inet:ip-address
+    +-- label-space-id?                uint16
+    +-- enable-downstream-on-demand?   boolean
+  grouping mpls-ldp-neighbor-state:
+    +-- session-state?                         enumeration
+    +-- peer-label-advertisement-mode?         label-advertisement-mode
+    +-- negotiated-label-advertisement-mode?   label-advertisement-mode
+  grouping mpls-ldp-adjacency-state:
+    +-- remote-address?   oc-inet:ip-address
+    +-- local-address?    oc-inet:ip-address
+    +-- adjacency-type?   oc-ldp:mpls-ldp-adjacency-type
+    +-- last-clear?       oc-types:timeticks64
+    +-- hello-received?   oc-yang:counter64
+    +-- hello-dropped?    oc-yang:counter64
+  grouping mpls-ldp-hello-holdtime-state:
+    +-- adjacent?           uint16
+    +-- negotiated?         uint16
+    +-- hello-expiration?   oc-types:timeticks64
+    +-- next-hello?         oc-types:timeticks64
+  grouping mpls-ldp-global:
+    +-- config
+    |  +---u mpls-ldp-global-config
+    +--ro state
+       +---u mpls-ldp-global-config
+  grouping mpls-ldp-global-config:
+    +-- lsr-id?   oc-inet:ip-address
+  grouping mpls-ldp-interface-attributes-top:
+    +-- interface-attributes
+       +-- config
+       |  +---u mpls-ldp-hello-timers-top-config
+       +--ro state
+       |  +---u mpls-ldp-hello-timers-top-config
+       +-- interfaces
+          +-- interface* [interface-id]
+             +-- interface-id?                        -> ../config/interface-id
+             +-- config
+             |  +---u mpls-ldp-interfaces-config
+             |  +---u mpls-ldp-hello-timers-top-config
+             +--ro state
+             |  +---u mpls-ldp-interfaces-config
+             |  +---u mpls-ldp-hello-timers-top-config
+             |  +--ro counters
+             +---u oc-if:interface-ref
+             +---u mpls-ldp-address-families-ldp-top
+  grouping mpls-ldp-address-families-ldp-top:
+    +-- address-families
+       +-- address-family* [afi-name]
+          +-- afi-name?   -> ../config/afi-name
+          +-- config
+          |  +---u mpls-ldp-address-family-config
+          |  +---u admin-config
+          +--ro state
+             +---u mpls-ldp-address-family-config
+             +---u admin-config
+  grouping mpls-ldp-hello-timers-top-config:
+    +-- hello-holdtime?   uint16
+    +-- hello-interval?   uint16
+  grouping mpls-ldp-targeted-top:
+    +-- targeted
+       +-- config
+       |  +---u mpls-ldp-targeted-attributes-top-config
+       +--ro state
+       |  +---u mpls-ldp-targeted-attributes-top-config
+       +---u mpls-ldp-address-targeted-ldp-top
+  grouping mpls-ldp-address-targeted-ldp-top:
+    +-- address-families
+       +-- address-family* [afi-name]
+          +-- afi-name?   -> ../config/afi-name
+          +-- config
+          |  +---u mpls-ldp-address-family-config
+          +--ro state
+          |  +---u mpls-ldp-address-family-config
+          +-- targets
+             +-- target* [remote-address]
+                +-- remote-address?   -> ../config/remote-address
+                +-- config
+                |  +-- remote-address?                     oc-inet:ip-address
+                |  +-- local-address?                      oc-inet:ip-address
+                |  +---u admin-config
+                |  +---u mpls-ldp-hello-timers-top-config
+                +--ro state
+                   +--ro remote-address?                     oc-inet:ip-address
+                   +--ro local-address?                      oc-inet:ip-address
+                   +---u admin-config
+                   +---u mpls-ldp-hello-timers-top-config
+  grouping mpls-ldp-address-family-config:
+    +-- afi-name?   oc-ldp:mpls-ldp-afi
+  grouping mpls-ldp-targeted-attributes-top-config:
+    +---u mpls-ldp-hello-timers-top-config
+    +-- hello-accept?                       boolean
+  grouping mpls-ldp-interfaces-config:
+    +-- interface-id?   oc-if:interface-id
+  grouping mpls-ldp-graceful-restart:
+    +-- graceful-restart
+       +-- config
+       |  +---u mpls-ldp-graceful-restart-config
+       +--ro state
+          +---u mpls-ldp-graceful-restart-config
+  grouping mpls-ldp-graceful-restart-config:
+    +---u admin-config
+    +-- reconnect-time?        uint16
+    +-- recovery-time?         uint16
+    +-- forwarding-holdtime?   uint16
+    +-- helper-enable?         boolean
+  grouping igp-tunnel-ldp:
+  grouping igp-lsp-ldp-setup:
+    +-- ldp
+  grouping mpls-ldp-authentication-config:
+    +-- enable?               boolean
+    +-- authentication-key?   oc-types:routing-password
+  grouping admin-config:
+    +-- enabled?   boolean

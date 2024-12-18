@@ -1,0 +1,25 @@
+module: openconfig-license
+
+  grouping license-config:
+    +-- license-id?     string
+    +-- license-data?   union
+    +-- active?         boolean
+  grouping license-state:
+    +-- description?       string
+    +-- issue-date?        uint64
+    +-- expiration-date?   uint64
+    +-- in-use?            boolean
+    +-- expired?           boolean
+    +-- valid?             boolean
+  grouping licenses-top:
+    +-- licenses
+       +-- license* [license-id]
+          +-- license-id?   -> ../config/license-id
+          +-- config
+          |  +---u license-config
+          +--ro state
+             +---u license-config
+             +---u license-state
+  grouping license-top:
+    +-- license
+       +---u licenses-top

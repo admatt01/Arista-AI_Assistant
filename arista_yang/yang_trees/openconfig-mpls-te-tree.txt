@@ -1,0 +1,214 @@
+submodule: openconfig-mpls-te (belongs-to openconfig-mpls)
+
+  grouping te-tunnel-reoptimize-config:
+    +-- reoptimize-timer?   uint16
+  grouping te-lsp-auto-bandwidth-config:
+    +-- enabled?            boolean
+    +-- min-bw?             oc-mplst:bandwidth-kbps
+    +-- max-bw?             oc-mplst:bandwidth-kbps
+    +-- adjust-interval?    uint32
+    +-- adjust-threshold?   oc-types:percentage
+  grouping te-lsp-auto-bandwidth-state:
+    +-- interval-high-bw?   oc-mplst:bandwidth-kbps
+  grouping te-lsp-overflow-config:
+    +-- enabled?               boolean
+    +-- overflow-threshold?    oc-types:percentage
+    +-- trigger-event-count?   uint16
+  grouping te-lsp-underflow-config:
+    +-- enabled?               boolean
+    +-- underflow-threshold?   oc-types:percentage
+    +-- trigger-event-count?   uint16
+  grouping te-path-placement-constraints-config:
+    +-- exclude-group*       -> ../../../../../../../../../../te-global-attributes/mpls-admin-groups/admin-group/admin-group-name
+    +-- include-all-group*   -> ../../../../../../../../../../te-global-attributes/mpls-admin-groups/admin-group/admin-group-name
+    +-- include-any-group*   -> ../../../../../../../../../../te-global-attributes/mpls-admin-groups/admin-group/admin-group-name
+  grouping te-path-placement-constraints-state:
+  grouping te-path-placement-constraints-top:
+    +-- admin-groups
+       +-- config
+       |  +---u te-path-placement-constraints-config
+       +--ro state
+          +---u te-path-placement-constraints-config
+  grouping te-tunnel-protection-config:
+    +-- protection-style-requested?   identityref
+  grouping explicit-route-subobject-config:
+    +-- address?    inet:ip-address
+    +-- hop-type?   mpls-hop-type
+    +-- index?      uint8
+  grouping named-explicit-path-config:
+    +-- name?   string
+  grouping explicit-paths-top:
+    +-- named-explicit-paths
+       +-- named-explicit-path* [name]
+          +-- name?                     -> ../config/name
+          +-- config
+          |  +---u named-explicit-path-config
+          |  +---u oc-sr:sr-path-attributes-config
+          +--ro state
+          |  +---u named-explicit-path-config
+          |  +---u oc-sr:sr-path-attributes-config
+          +-- explicit-route-objects
+             +-- explicit-route-object* [index]
+                +-- index?    -> ../config/index
+                +-- config
+                |  +---u explicit-route-subobject-config
+                +--ro state
+                   +---u explicit-route-subobject-config
+  grouping mpls-te-srlg-config:
+    +-- name?            string
+    +-- value?           uint32
+    +-- cost?            uint32
+    +-- flooding-type?   mpls-srlg-flooding-type
+  grouping mpls-te-srlg-members-config:
+    +-- from-address?   inet:ip-address
+    +-- to-address?     inet:ip-address
+  grouping mpls-te-srlg-top:
+    +-- srlgs
+       +-- srlg* [name]
+          +-- name?                  -> ../config/name
+          +-- config
+          |  +---u mpls-te-srlg-config
+          +--ro state
+          |  +---u mpls-te-srlg-config
+          +-- static-srlg-members
+             +-- members-list* [from-address]
+                +-- from-address?   -> ../config/from-address
+                +-- config
+                |  +---u mpls-te-srlg-members-config
+                +--ro state
+                   +---u mpls-te-srlg-members-config
+  grouping te-global-tunnel-config:
+    +-- name?                                        string
+    +-- type?                                        identityref
+    +-- signaling-protocol?                          identityref
+    +-- description?                                 string
+    +-- admin-status?                                identityref
+    +-- preference?                                  uint8
+    +-- metric-type?                                 identityref
+    +-- metric?                                      int32
+    +-- shortcut-eligible?                           boolean
+    +-- protection-style-requested?                  identityref
+    +---u te-tunnel-reoptimize-config
+    +---u oc-rsvp:rsvp-p2p-tunnel-attributes-config
+  grouping tunnel-p2p-attributes-config:
+    +-- destination?            inet:ip-address
+    +-- record-route-enabled?   boolean
+  grouping p2p-path-state:
+    +-- associated-rsvp-sessions*   -> ../../../../../../../../../signaling-protocols/rsvp-te/sessions/session/local-index
+    +-- spf-metric?                 uint64
+    +-- cspf-metric?                uint64
+  grouping p2p-path-config:
+    +-- name?                                      string
+    +-- path-computation-method?                   identityref
+    +-- use-cspf?                                  boolean
+    +-- cspf-tiebreaker?                           cspf-tie-breaking
+    +-- path-computation-server?                   -> ../../../../../../../../../../protocols/protocol/pcep/path-computation-servers/path-computation-server/pce-server-address
+    +-- path-control?                              oc-pcep:lsp-control-type
+    +-- explicit-path-name?                        -> ../../../../../../../named-explicit-paths/named-explicit-path/config/name
+    +-- preference?                                uint8
+    +---u oc-rsvp:rsvp-p2p-path-attributes-config
+  grouping te-tunnel-p2p-top:
+    +-- p2p-tunnel-attributes
+       +-- config
+       |  +---u tunnel-p2p-attributes-config
+       +--ro state
+       |  +---u tunnel-p2p-attributes-config
+       +---u p2p-primary-paths-top
+       +---u p2p-secondary-paths-top
+  grouping te-tunnel-state:
+    +-- oper-status?      identityref
+    +-- role?             identityref
+    +-- auto-generated?   boolean
+    +-- counters
+       +-- bytes?                      yang:counter64
+       +-- packets?                    yang:counter64
+       +-- path-changes?               yang:counter64
+       +-- state-changes?              yang:counter64
+       +-- online-time?                oc-types:timeticks64
+       +-- current-path-time?          oc-types:timeticks64
+       +-- next-reoptimization-time?   oc-types:timeticks64
+  grouping te-tunnel-bandwidth-config:
+    +-- specification-type?   te-bandwidth-type
+    +-- set-bandwidth?        oc-mplst:bandwidth-kbps
+  grouping te-tunnel-bandwidth-state:
+    +-- signaled-bandwidth?   oc-mplst:bandwidth-kbps
+  grouping te-tunnel-bandwidth-top:
+    +-- bandwidth
+       +-- config
+       |  +---u te-tunnel-bandwidth-config
+       +--ro state
+       |  +---u te-tunnel-bandwidth-config
+       |  +---u te-tunnel-bandwidth-state
+       +-- auto-bandwidth
+          +-- config
+          |  +---u te-lsp-auto-bandwidth-config
+          +--ro state
+          |  +---u te-lsp-auto-bandwidth-config
+          |  +---u te-lsp-auto-bandwidth-state
+          +-- overflow
+          |  +-- config
+          |  |  +---u te-lsp-overflow-config
+          |  +--ro state
+          |     +---u te-lsp-overflow-config
+          +-- underflow
+             +-- config
+             |  +---u te-lsp-underflow-config
+             +--ro state
+                +---u te-lsp-underflow-config
+  grouping p2p-path-candidate-secondary-path-config:
+    +-- secondary-path?   -> ../../../../../../p2p-secondary-paths/p2p-secondary-path/config/name
+    +-- priority?         uint16
+  grouping p2p-path-candidate-secondary-path-state:
+    +-- active?   boolean
+  grouping path-constraints-config:
+    +-- type?                 identityref
+    +-- metric-upper-bound?   uint64
+  grouping path-constraints-top:
+    +-- path-metric-bound-constraints
+       +-- path-metric-bound-constraint* [type]
+          +-- type?     -> ../config/type
+          +-- config
+          |  +---u path-constraints-config
+          +--ro state
+             +---u path-constraints-config
+  grouping p2p-primary-paths-top:
+    +-- p2p-primary-path
+       +-- p2p-primary-path* [name]
+          +-- name?                                -> ../config/name
+          +-- config
+          |  +---u p2p-path-config
+          +--ro state
+          |  +---u p2p-path-config
+          |  +---u p2p-path-state
+          +---u path-constraints-top
+          +-- candidate-secondary-paths
+          |  +-- candidate-secondary-path* [secondary-path]
+          |     +-- secondary-path?   -> ../config/secondary-path
+          |     +-- config
+          |     |  +---u p2p-path-candidate-secondary-path-config
+          |     +--ro state
+          |        +---u p2p-path-candidate-secondary-path-config
+          |        +---u p2p-path-candidate-secondary-path-state
+          +---u te-path-placement-constraints-top
+  grouping p2p-secondary-paths-top:
+    +-- p2p-secondary-paths
+       +-- p2p-secondary-path* [name]
+          +-- name?                                -> ../config/name
+          +-- config
+          |  +---u p2p-path-config
+          +--ro state
+          |  +---u p2p-path-config
+          |  +---u p2p-path-state
+          +---u path-constraints-top
+          +---u te-path-placement-constraints-top
+  grouping te-tunnels-top:
+    +-- tunnels
+       +-- tunnel* [name]
+          +-- name?                      -> ../config/name
+          +-- config
+          |  +---u te-global-tunnel-config
+          +--ro state
+          |  +---u te-global-tunnel-config
+          |  +---u te-tunnel-state
+          +---u te-tunnel-bandwidth-top
+          +---u te-tunnel-p2p-top

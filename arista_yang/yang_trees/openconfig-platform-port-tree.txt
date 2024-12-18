@@ -1,0 +1,22 @@
+module: openconfig-platform-port
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:port:
+    +---u port-breakout-top
+  augment /oc-if:interfaces/oc-if:interface/oc-if:state:
+    +--ro hardware-port?   -> /oc-platform:components/component/name
+
+  grouping group-config:
+    +-- index?                   uint8
+    +-- num-breakouts?           uint8
+    +-- breakout-speed?          identityref
+    +-- num-physical-channels?   uint8
+  grouping group-state:
+  grouping port-breakout-top:
+    +-- breakout-mode
+       +-- groups
+          +-- group* [index]
+             +-- index?    -> ../config/index
+             +-- config
+             |  +---u group-config
+             +--ro state
+                +---u group-config

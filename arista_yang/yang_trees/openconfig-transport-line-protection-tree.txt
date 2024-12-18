@@ -1,0 +1,80 @@
+module: openconfig-transport-line-protection
+  +---u transport-line-protection-top
+
+  grouping aps-input-port-config:
+    +-- enabled?              boolean
+    +-- target-attenuation?   decimal64
+  grouping aps-output-port-config:
+    +-- target-attenuation?   decimal64
+  grouping aps-input-port-state:
+    +-- attenuation?     decimal64
+    +-- optical-power
+       +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+  grouping aps-output-port-state:
+    +-- attenuation?     decimal64
+    +-- optical-power
+       +---u oc-types:avg-min-max-instant-stats-precision2-dBm
+  grouping aps-ports:
+    +-- line-primary-in
+    |  +-- config
+    |  |  +---u aps-input-port-config
+    |  +--ro state
+    |     +---u aps-input-port-config
+    |     +---u aps-input-port-state
+    +-- line-primary-out
+    |  +-- config
+    |  |  +---u aps-output-port-config
+    |  +--ro state
+    |     +---u aps-output-port-config
+    |     +---u aps-output-port-state
+    +-- line-secondary-in
+    |  +-- config
+    |  |  +---u aps-input-port-config
+    |  +--ro state
+    |     +---u aps-input-port-config
+    |     +---u aps-input-port-state
+    +-- line-secondary-out
+    |  +-- config
+    |  |  +---u aps-output-port-config
+    |  +--ro state
+    |     +---u aps-output-port-config
+    |     +---u aps-output-port-state
+    +-- common-in
+    |  +-- config
+    |  |  +---u aps-input-port-config
+    |  +--ro state
+    |     +---u aps-input-port-config
+    |     +---u aps-input-port-state
+    +-- common-output
+       +-- config
+       |  +---u aps-output-port-config
+       +--ro state
+          +---u aps-output-port-config
+          +---u aps-output-port-state
+  grouping aps-config:
+    +-- name?                               -> /oc-platform:components/component/name
+    +-- revertive?                          boolean
+    +-- wait-to-restore-time?               uint32
+    +-- hold-off-time?                      uint32
+    +-- primary-switch-threshold?           decimal64
+    +-- primary-switch-hysteresis?          decimal64
+    +-- secondary-switch-threshold?         decimal64
+    +-- relative-switch-threshold?          decimal64
+    +-- relative-switch-threshold-offset?   decimal64
+    +-- force-to-port?                      enumeration
+  grouping aps-state:
+    +-- active-path?   identityref
+  grouping automatic-protection-switch-top:
+    +-- aps-modules
+       +-- aps-module* [name]
+          +-- name?     -> ../config/name
+          +-- config
+          |  +---u aps-config
+          +--ro state
+          |  +---u aps-config
+          |  +---u aps-state
+          +-- ports
+             +---u aps-ports
+  grouping transport-line-protection-top:
+    +-- aps
+       +---u automatic-protection-switch-top

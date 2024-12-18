@@ -1,0 +1,49 @@
+module: openconfig-local-routing
+
+  grouping local-generic-settings:
+    +-- set-tag?       oc-pt:tag-type
+    +-- description?   string
+  grouping local-common-route-attributes:
+    +-- metric?       uint32
+    +-- preference?   uint32
+  grouping local-static-config:
+    +-- prefix?                   inet:ip-prefix
+    +---u local-generic-settings
+  grouping local-static-state:
+  grouping local-static-nexthop-config:
+    +-- index?                           string
+    +-- next-hop?                        union
+    +-- recurse?                         boolean
+    +---u local-common-route-attributes
+  grouping local-static-nexthop-state:
+  grouping local-static-top:
+    +-- static-routes
+       +-- static* [prefix]
+          +-- prefix?      -> ../config/prefix
+          +-- config
+          |  +---u local-static-config
+          +--ro state
+          |  +---u local-static-config
+          +-- next-hops
+             +-- next-hop* [index]
+                +-- index?                 -> ../config/index
+                +-- config
+                |  +---u local-static-nexthop-config
+                +--ro state
+                |  +---u local-static-nexthop-config
+                +---u oc-bfd:bfd-enable
+                +---u oc-if:interface-ref
+  grouping local-aggregate-config:
+    +-- prefix?                          inet:ip-prefix
+    +-- discard?                         boolean
+    +---u local-generic-settings
+    +---u local-common-route-attributes
+  grouping local-aggregate-state:
+  grouping local-aggregate-top:
+    +-- local-aggregates
+       +-- aggregate* [prefix]
+          +-- prefix?   -> ../config/prefix
+          +-- config
+          |  +---u local-aggregate-config
+          +--ro state
+             +---u local-aggregate-config

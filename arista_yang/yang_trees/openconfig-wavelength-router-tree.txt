@@ -1,0 +1,80 @@
+module: openconfig-wavelength-router
+  +---u wavelength-router-top
+
+  grouping port-spectrum-power-profile-state:
+  grouping port-spectrum-power-profile-config:
+    +-- name?   -> /oc-platform:components/component/name
+  grouping port-spectrum-power-profiles-top:
+    +-- port-spectrum-power-profiles
+       +-- port* [name]
+          +-- name?                                 -> ../config/name
+          +-- config
+          |  +---u port-spectrum-power-profile-config
+          +--ro state
+          |  +---u port-spectrum-power-profile-config
+          +---u spectrum-target-power-profiles-top
+  grouping media-channel-port-config:
+    +-- port-name?   -> /oc-platform:components/component/name
+  grouping media-channel-port-state:
+  grouping media-channel-source-port-top:
+    +-- source
+       +-- config
+       |  +---u media-channel-port-config
+       +--ro state
+          +---u media-channel-port-config
+  grouping media-channel-dest-port-top:
+    +-- dest
+       +-- config
+       |  +---u media-channel-port-config
+       +--ro state
+          +---u media-channel-port-config
+  grouping spectrum-target-power-config:
+    +-- lower-frequency?   oc-opt-types:frequency-type
+    +-- upper-frequency?   oc-opt-types:frequency-type
+    +-- target-power?      decimal64
+  grouping spectrum-target-power-state:
+  grouping spectrum-target-power-profiles-top:
+    +-- spectrum-power-profile
+       +-- distribution* [lower-frequency upper-frequency]
+          +-- lower-frequency?   -> ../config/lower-frequency
+          +-- upper-frequency?   -> ../config/upper-frequency
+          +-- config
+          |  +---u spectrum-target-power-config
+          +--ro state
+             +---u spectrum-target-power-config
+  grouping media-channel-config:
+    +-- index?                            uint32
+    +-- name?                             string
+    +-- lower-frequency?                  oc-opt-types:frequency-type
+    +-- upper-frequency?                  oc-opt-types:frequency-type
+    +-- admin-status?                     oc-opt-types:admin-state-type
+    +-- super-channel?                    boolean
+    +-- super-channel-parent?             -> ../../../channel/config/index
+    +-- ase-control-mode?                 identityref
+    +-- ase-injection-mode?               enumeration
+    +-- ase-injection-threshold?          decimal64
+    +-- ase-injection-delta?              decimal64
+    +-- media-channel-injection-offset?   decimal64
+    +-- attenuation-control-mode?         identityref
+    +-- attenuation-control-range?        identityref
+    +-- max-undershoot-compensation?      decimal64
+    +-- max-overshoot-compensation?       decimal64
+  grouping media-channel-state:
+    +-- oper-status?   enumeration
+    +-- ase-status?    enumeration
+  grouping media-channel-top:
+    +-- media-channels
+       +-- channel* [index]
+          +-- index?                                -> ../config/index
+          +-- config
+          |  +---u media-channel-config
+          +--ro state
+          |  +---u media-channel-config
+          |  +---u media-channel-state
+          +---u media-channel-source-port-top
+          +---u media-channel-dest-port-top
+          +---u spectrum-target-power-profiles-top
+  grouping wavelength-router-top:
+    +-- wavelength-router
+       +---u media-channel-top
+       +---u port-spectrum-power-profiles-top

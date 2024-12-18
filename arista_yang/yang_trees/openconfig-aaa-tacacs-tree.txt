@@ -1,0 +1,14 @@
+submodule: openconfig-aaa-tacacs (belongs-to openconfig-aaa)
+
+  grouping aaa-tacacs-server-config:
+    +-- port?                oc-inet:port-number
+    +-- secret-key?          oc-types:routing-password
+    +-- secret-key-hashed?   oc-aaa-types:crypt-password-type
+    +-- source-address?      oc-inet:ip-address
+  grouping aaa-tacacs-server-state:
+  grouping aaa-tacacs-server-top:
+    +-- tacacs
+       +-- config
+       |  +---u aaa-tacacs-server-config
+       +--ro state
+          +---u aaa-tacacs-server-config

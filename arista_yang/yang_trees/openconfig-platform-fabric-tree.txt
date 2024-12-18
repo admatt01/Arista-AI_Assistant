@@ -1,0 +1,9 @@
+module: openconfig-platform-fabric
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:fabric/oc-platform:config:
+    +---u fabric-config
+  augment /oc-platform:components/oc-platform:component/oc-platform:fabric/oc-platform:state:
+    +---u fabric-config
+
+  grouping fabric-config:
+    +---u oc-platform:component-power-management

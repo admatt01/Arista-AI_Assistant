@@ -1,0 +1,47 @@
+module: openconfig-if-ethernet
+
+  augment /oc-if:interfaces/oc-if:interface:
+    +---u ethernet-top
+
+  grouping ethernet-interface-config:
+    +-- mac-address?                oc-yang:mac-address
+    +-- auto-negotiate?             boolean
+    +-- standalone-link-training?   boolean
+    +-- duplex-mode?                enumeration
+    +-- port-speed?                 identityref
+    +-- enable-flow-control?        boolean
+    +-- fec-mode?                   identityref
+  grouping ethernet-interface-state-counters:
+    +-- in-mac-control-frames?    oc-yang:counter64
+    +-- in-mac-pause-frames?      oc-yang:counter64
+    +-- in-oversize-frames?       oc-yang:counter64
+    +-- in-undersize-frames?      oc-yang:counter64
+    +-- in-jabber-frames?         oc-yang:counter64
+    +-- in-fragment-frames?       oc-yang:counter64
+    +-- in-8021q-frames?          oc-yang:counter64
+    +-- in-crc-errors?            oc-yang:counter64
+    +-- in-block-errors?          oc-yang:counter64
+    +-- in-carrier-errors?        oc-yang:counter64
+    +-- in-interrupted-tx?        oc-yang:counter64
+    +-- in-late-collision?        oc-yang:counter64
+    +-- in-mac-errors-rx?         oc-yang:counter64
+    +-- in-single-collision?      oc-yang:counter64
+    +-- in-symbol-error?          oc-yang:counter64
+    +-- in-maxsize-exceeded?      oc-yang:counter64
+    +-- out-mac-control-frames?   oc-yang:counter64
+    +-- out-mac-pause-frames?     oc-yang:counter64
+    +-- out-8021q-frames?         oc-yang:counter64
+    +-- out-mac-errors-tx?        oc-yang:counter64
+  grouping ethernet-interface-state:
+    +-- hw-mac-address?           oc-yang:mac-address
+    +-- negotiated-duplex-mode?   enumeration
+    +-- negotiated-port-speed?    identityref
+    +-- counters
+       +---u ethernet-interface-state-counters
+  grouping ethernet-top:
+    +-- ethernet
+       +-- config
+       |  +---u ethernet-interface-config
+       +--ro state
+          +---u ethernet-interface-config
+          +---u ethernet-interface-state

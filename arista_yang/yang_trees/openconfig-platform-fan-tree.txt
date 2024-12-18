@@ -1,0 +1,7 @@
+module: openconfig-platform-fan
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:fan/oc-platform:state:
+    +---u fan-state
+
+  grouping fan-state:
+    +-- speed?   uint32

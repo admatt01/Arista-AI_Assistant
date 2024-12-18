@@ -1,0 +1,22 @@
+submodule: openconfig-aaa-radius (belongs-to openconfig-aaa)
+
+  grouping aaa-radius-server-config:
+    +-- auth-port?             oc-inet:port-number
+    +-- acct-port?             oc-inet:port-number
+    +-- secret-key?            oc-types:routing-password
+    +-- secret-key-hashed?     oc-aaa-types:crypt-password-type
+    +-- source-address?        oc-inet:ip-address
+    +-- retransmit-attempts?   uint8
+  grouping aaa-radius-server-state:
+    +-- counters
+       +-- retried-access-requests?   oc-yang:counter64
+       +-- access-accepts?            oc-yang:counter64
+       +-- access-rejects?            oc-yang:counter64
+       +-- timeout-access-requests?   oc-yang:counter64
+  grouping aaa-radius-server-top:
+    +-- radius
+       +-- config
+       |  +---u aaa-radius-server-config
+       +--ro state
+          +---u aaa-radius-server-config
+          +---u aaa-radius-server-state

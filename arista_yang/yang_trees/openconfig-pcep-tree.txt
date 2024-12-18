@@ -1,0 +1,46 @@
+module: openconfig-pcep
+
+  grouping pcep-servers-top:
+    +-- path-computation-servers
+       +-- path-computation-server* [pce-server-address]
+          +-- pce-server-address?        -> ../config/pce-server-address
+          +-- config
+          |  +---u pce-server-config
+          +--ro state
+          |  +---u pce-server-config
+          +---u pcep-timers-top
+          +---u pcep-authentication-top
+  grouping pce-server-config:
+    +-- pce-server-address?         oc-inet:ip-address
+    +-- id?                         string
+    +-- port?                       oc-inet:port-number
+    +-- source-address?             oc-inet:ip-address
+    +-- pce-type?                   pce-mode-type
+    +-- preference?                 uint8
+    +-- report-local-lsp?           boolean
+    +-- pce-initiated-capability?   boolean
+    +-- sr-support?                 boolean
+  grouping pcep-timers-top:
+    +-- timers
+       +-- config
+       |  +---u pcep-timers-config
+       +--ro state
+          +---u pcep-timers-config
+  grouping pcep-timers-config:
+    +-- keepalive?                       uint8
+    +-- dead-timer?                      uint8
+    +-- redelegation-timeout-interval?   uint16
+    +-- state-timeout-interval?          uint16
+  grouping pcep-authentication-top:
+    +-- authentication
+       +-- config
+       |  +---u pcep-authentication-config
+       +--ro state
+          +---u pcep-authentication-config
+  grouping pcep-authentication-config:
+    +-- enable?               boolean
+    +-- authentication-key?   oc-types:routing-password
+    +-- keychain?             oc-keychain:keychain-ref
+  grouping pcep-top:
+    +-- pcep
+       +---u pcep-servers-top

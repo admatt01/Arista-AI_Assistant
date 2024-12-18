@@ -1,0 +1,371 @@
+submodule: openconfig-bgp-global (belongs-to openconfig-bgp)
+
+  grouping bgp-global-config:
+    +-- as           oc-inet:as-number
+    +-- router-id?   oc-yang:dotted-quad
+  grouping bgp-global-state:
+    +---u bgp-common-state
+  grouping bgp-global-default-route-distance-config:
+    +-- external-route-distance?   uint8
+    +-- internal-route-distance?   uint8
+  grouping bgp-global-confederation-config:
+    +-- identifier?   oc-inet:as-number
+    +-- member-as*    oc-inet:as-number
+  grouping bgp-global-dynamic-neighbors:
+    +-- dynamic-neighbor-prefixes
+       +-- dynamic-neighbor-prefix* [prefix]
+          +-- prefix?   -> ../config/prefix
+          +-- config
+          |  +---u bgp-global-dynamic-neighbor-config
+          +--ro state
+             +---u bgp-global-dynamic-neighbor-config
+  grouping bgp-global-dynamic-neighbor-config:
+    +-- prefix?       oc-inet:ip-prefix
+    +-- peer-group?   -> ../../../../../peer-groups/peer-group/config/peer-group-name
+  grouping bgp-global-mp-all-afi-safi-list-contents:
+    +---u bgp-common-mp-ipv4-unicast-group
+    +---u bgp-common-mp-ipv6-unicast-group
+    +---u bgp-common-mp-ipv4-labeled-unicast-group
+    +---u bgp-common-mp-ipv6-labeled-unicast-group
+    +---u bgp-common-mp-l3vpn-ipv4-unicast-group
+    +---u bgp-common-mp-l3vpn-ipv6-unicast-group
+    +---u bgp-common-mp-l3vpn-ipv4-multicast-group
+    +---u bgp-common-mp-l3vpn-ipv6-multicast-group
+    +---u bgp-common-mp-l2vpn-vpls-group
+    +---u bgp-common-mp-l2vpn-evpn-group
+    +---u bgp-common-mp-srte-policy-ipv4-group
+    +---u bgp-common-mp-srte-policy-ipv6-group
+  grouping bgp-global-afi-safi-list:
+    +-- afi-safi* [afi-safi-name]
+       +-- afi-safi-name?                                   -> ../config/afi-safi-name
+       +-- config
+       |  +---u bgp-common-mp-global-afi-safi-config
+       +--ro state
+       |  +---u bgp-common-mp-global-afi-safi-config
+       |  +---u bgp-common-state
+       +-- graceful-restart
+       |  +-- config
+       |  |  +---u bgp-common-mp-afi-safi-graceful-restart-config
+       |  +--ro state
+       |     +---u bgp-common-mp-afi-safi-graceful-restart-config
+       +---u bgp-common-route-selection-options
+       +---u bgp-common-global-group-use-multiple-paths
+       +---u bgp-common-structure-neighbor-group-add-paths
+       +---u bgp-global-mp-all-afi-safi-list-contents
+       +---u oc-rpol:default-policy-group
+  grouping bgp-global-base:
+    +-- config
+    |  +---u bgp-global-config
+    +--ro state
+    |  +---u bgp-global-config
+    |  +---u bgp-global-state
+    +-- default-route-distance
+    |  +-- config
+    |  |  +---u bgp-global-default-route-distance-config
+    |  +--ro state
+    |     +---u bgp-global-default-route-distance-config
+    +-- confederation
+    |  +-- config
+    |  |  +---u bgp-global-confederation-config
+    |  +--ro state
+    |     +---u bgp-global-confederation-config
+    +-- graceful-restart
+    |  +-- config
+    |  |  +---u bgp-common-graceful-restart-config
+    |  +--ro state
+    |     +---u bgp-common-graceful-restart-config
+    +---u bgp-common-global-group-use-multiple-paths
+    +---u bgp-common-route-selection-options
+    +-- afi-safis
+    |  +---u bgp-global-afi-safi-list
+    +---u bgp-global-dynamic-neighbors
+    +---u oc-rpol:default-policy-group
+  grouping bgp-common-neighbor-group-timers-config:
+    +-- connect-retry?                    uint16
+    +-- hold-time?                        uint16
+    +-- keepalive-interval?               uint16
+    +-- minimum-advertisement-interval?   uint16
+    +-- restart-time?                     uint16
+  grouping bgp-common-neighbor-group-config:
+    +-- peer-as?               oc-inet:as-number
+    +-- local-as?              oc-inet:as-number
+    +-- peer-type?             oc-bgp-types:peer-type
+    +-- auth-password?         oc-types:routing-password
+    +-- remove-private-as?     oc-bgp-types:remove-private-as-option
+    +-- route-flap-damping?    boolean
+    x-- send-community?        oc-bgp-types:community-type
+    +-- send-community-type*   oc-bgp-types:community-type
+    +-- description?           string
+  grouping bgp-common-neighbor-group-transport-config:
+    +-- tcp-mss?         uint16
+    +-- mtu-discovery?   boolean
+    +-- passive-mode?    boolean
+    +-- local-address?   union
+  grouping bgp-common-neighbor-group-error-handling-config:
+    +-- treat-as-withdraw?   boolean
+  grouping bgp-common-neighbor-group-logging-options-config:
+    +-- log-neighbor-state-changes?   boolean
+  grouping bgp-common-neighbor-group-multihop-config:
+    +-- enabled?        boolean
+    +-- multihop-ttl?   uint8
+  grouping bgp-common-neighbor-group-route-reflector-config:
+    +-- route-reflector-cluster-id?   oc-bgp-types:rr-cluster-id-type
+    +-- route-reflector-client?       boolean
+  grouping bgp-common-neighbor-group-as-path-options-config:
+    +-- allow-own-as?             uint8
+    +-- replace-peer-as?          boolean
+    +-- disable-peer-as-filter?   boolean
+  grouping bgp-common-neighbor-group-add-paths-config:
+    +-- receive?                  boolean
+    +-- send?                     boolean
+    +-- send-max?                 uint8
+    +-- eligible-prefix-policy?   -> /oc-rpol:routing-policy/policy-definitions/policy-definition/name
+  grouping bgp-common-graceful-restart-config:
+    +-- enabled?             boolean
+    +-- restart-time?        uint16
+    +-- stale-routes-time?   uint16
+    +-- helper-only?         boolean
+  grouping bgp-common-use-multiple-paths-config:
+    +-- enabled?   boolean
+  grouping bgp-common-use-multiple-paths-ebgp-as-options-config:
+    +-- allow-multiple-as?   boolean
+  grouping bgp-common-global-group-use-multiple-paths:
+    +-- use-multiple-paths
+       +-- config
+       |  +---u bgp-common-use-multiple-paths-config
+       +--ro state
+       |  +---u bgp-common-use-multiple-paths-config
+       +-- ebgp
+       |  +-- link-bandwidth-ext-community
+       |  |  +-- config
+       |  |  |  +---u bgp-common-use-multiple-paths-link-bandwidth-config
+       |  |  +--ro state
+       |  |     +---u bgp-common-use-multiple-paths-link-bandwidth-config
+       |  +-- config
+       |  |  +---u bgp-common-use-multiple-paths-ebgp-config
+       |  +--ro state
+       |     +---u bgp-common-use-multiple-paths-ebgp-config
+       +-- ibgp
+          +-- link-bandwidth-ext-community
+          |  +-- config
+          |  |  +---u bgp-common-use-multiple-paths-link-bandwidth-config
+          |  +--ro state
+          |     +---u bgp-common-use-multiple-paths-link-bandwidth-config
+          +-- config
+          |  +---u bgp-common-use-multiple-paths-ibgp-config
+          +--ro state
+             +---u bgp-common-use-multiple-paths-ibgp-config
+  grouping bgp-common-use-multiple-paths-link-bandwidth-config:
+    +-- enabled?   boolean
+  grouping bgp-common-use-multiple-paths-ebgp-config:
+    +-- allow-multiple-as?   boolean
+    +-- maximum-paths?       uint32
+  grouping bgp-common-use-multiple-paths-ibgp-config:
+    +-- maximum-paths?   uint32
+  grouping bgp-common-route-selection-options-config:
+    +-- always-compare-med?           boolean
+    +-- ignore-as-path-length?        boolean
+    +-- external-compare-router-id?   boolean
+    +-- advertise-inactive-routes?    boolean
+    +-- enable-aigp?                  boolean
+    +-- ignore-next-hop-igp-metric?   boolean
+  grouping bgp-common-route-selection-options:
+    +-- route-selection-options
+       +-- config
+       |  +---u bgp-common-route-selection-options-config
+       +--ro state
+          +---u bgp-common-route-selection-options-config
+  grouping bgp-common-state:
+    +-- total-paths?      uint32
+    +-- total-prefixes?   uint32
+  grouping bgp-common-mp-afi-safi-graceful-restart-config:
+    +-- enabled?   boolean
+  grouping bgp-common-mp-afi-safi-extended-next-hop-encoding-config:
+    +-- extended-next-hop-encoding?   boolean
+  grouping bgp-common-mp-global-afi-safi-config:
+    +-- afi-safi-name?         identityref
+    +-- enabled?               boolean
+    +-- send-community-type*   oc-bgp-types:community-type
+  grouping bgp-common-mp-afi-safi-config:
+    +-- afi-safi-name?         identityref
+    +-- enabled?               boolean
+    +-- send-community-type*   oc-bgp-types:community-type
+  grouping bgp-common-mp-all-afi-safi-list-contents:
+    +---u oc-rpol:apply-policy-group
+    +---u bgp-common-mp-ipv4-unicast-group
+    +---u bgp-common-mp-ipv6-unicast-group
+    +---u bgp-common-mp-ipv4-labeled-unicast-group
+    +---u bgp-common-mp-ipv6-labeled-unicast-group
+    +---u bgp-common-mp-l3vpn-ipv4-unicast-group
+    +---u bgp-common-mp-l3vpn-ipv6-unicast-group
+    +---u bgp-common-mp-l3vpn-ipv4-multicast-group
+    +---u bgp-common-mp-l3vpn-ipv6-multicast-group
+    +---u bgp-common-mp-l2vpn-vpls-group
+    +---u bgp-common-mp-l2vpn-evpn-group
+    +---u bgp-common-mp-srte-policy-ipv4-group
+    +---u bgp-common-mp-srte-policy-ipv6-group
+  grouping bgp-common-mp-ipv4-unicast-group:
+    +-- ipv4-unicast
+       +---u bgp-common-mp-ipv4-unicast-common
+  grouping bgp-common-mp-ipv6-unicast-group:
+    +-- ipv6-unicast
+       +---u bgp-common-mp-ipv6-unicast-common
+  grouping bgp-common-mp-ipv4-labeled-unicast-group:
+    +-- ipv4-labeled-unicast
+       +---u bgp-common-mp-all-afi-safi-common
+  grouping bgp-common-mp-ipv6-labeled-unicast-group:
+    +-- ipv6-labeled-unicast
+       +---u bgp-common-mp-all-afi-safi-common
+  grouping bgp-common-mp-l3vpn-ipv4-unicast-group:
+    +-- l3vpn-ipv4-unicast
+       +---u bgp-common-mp-l3vpn-ipv4-ipv6-unicast-common
+  grouping bgp-common-mp-l3vpn-ipv6-unicast-group:
+    +-- l3vpn-ipv6-unicast
+       +---u bgp-common-mp-l3vpn-ipv4-ipv6-unicast-common
+  grouping bgp-common-mp-l3vpn-ipv4-multicast-group:
+    +-- l3vpn-ipv4-multicast
+       +---u bgp-common-mp-l3vpn-ipv4-ipv6-multicast-common
+  grouping bgp-common-mp-l3vpn-ipv6-multicast-group:
+    +-- l3vpn-ipv6-multicast
+       +---u bgp-common-mp-l3vpn-ipv4-ipv6-multicast-common
+  grouping bgp-common-mp-l2vpn-vpls-group:
+    +-- l2vpn-vpls
+       +---u bgp-common-mp-l2vpn-common
+  grouping bgp-common-mp-l2vpn-evpn-group:
+    +-- l2vpn-evpn
+       +---u bgp-common-mp-l2vpn-common
+  grouping bgp-common-mp-all-afi-safi-common:
+    +-- prefix-limit
+    |  +-- config
+    |  |  +---u bgp-common-mp-all-afi-safi-common-prefix-limit-config
+    |  +--ro state
+    |     +---u bgp-common-mp-all-afi-safi-common-prefix-limit-config
+    |     +---u bgp-common-mp-all-afi-safi-common-prefix-limit-state
+    +-- prefix-limit-received
+       +-- config
+       |  +---u bgp-common-mp-all-afi-safi-common-prefix-limit-config
+       +--ro state
+          +---u bgp-common-mp-all-afi-safi-common-prefix-limit-config
+          +---u bgp-common-mp-all-afi-safi-common-prefix-limit-state
+  grouping bgp-common-mp-ipv4-unicast-common:
+    +---u bgp-common-mp-all-afi-safi-common
+    +-- config
+    |  +---u bgp-common-mp-ipv4-ipv6-unicast-common-config
+    |  +---u bgp-common-mp-afi-safi-extended-next-hop-encoding-config
+    +--ro state
+       +---u bgp-common-mp-ipv4-ipv6-unicast-common-config
+       +---u bgp-common-mp-afi-safi-extended-next-hop-encoding-config
+  grouping bgp-common-mp-ipv6-unicast-common:
+    +---u bgp-common-mp-all-afi-safi-common
+    +-- config
+    |  +---u bgp-common-mp-ipv4-ipv6-unicast-common-config
+    +--ro state
+       +---u bgp-common-mp-ipv4-ipv6-unicast-common-config
+  grouping bgp-common-mp-l3vpn-ipv4-ipv6-unicast-common:
+    +---u bgp-common-mp-all-afi-safi-common
+  grouping bgp-common-mp-l3vpn-ipv4-ipv6-multicast-common:
+    +---u bgp-common-mp-all-afi-safi-common
+  grouping bgp-common-mp-l2vpn-common:
+    +---u bgp-common-mp-all-afi-safi-common
+  grouping bgp-common-mp-srte-policy-ipv4-group:
+    +-- srte-policy-ipv4
+       +---u bgp-common-mp-all-afi-safi-common
+  grouping bgp-common-mp-srte-policy-ipv6-group:
+    +-- srte-policy-ipv6
+       +---u bgp-common-mp-all-afi-safi-common
+  grouping bgp-common-mp-all-afi-safi-common-prefix-limit-config:
+    +-- max-prefixes?            uint32
+    +-- prevent-teardown?        boolean
+    +-- warning-threshold-pct?   oc-types:percentage
+  grouping bgp-common-mp-all-afi-safi-common-prefix-limit-state:
+    +-- prefix-limit-exceeded?   boolean
+  grouping bgp-common-mp-ipv4-ipv6-unicast-common-config:
+    +-- send-default-route?   boolean
+  grouping bgp-peer-group-config:
+    +-- peer-group-name?   string
+  grouping bgp-peer-group-afi-safi-list:
+    +-- afi-safi* [afi-safi-name]
+       +-- afi-safi-name?                                   -> ../config/afi-safi-name
+       +-- config
+       |  +---u bgp-common-mp-afi-safi-config
+       +--ro state
+       |  +---u bgp-common-mp-afi-safi-config
+       +-- graceful-restart
+       |  +-- config
+       |  |  +---u bgp-common-mp-afi-safi-graceful-restart-config
+       |  +--ro state
+       |     +---u bgp-common-mp-afi-safi-graceful-restart-config
+       +---u bgp-common-structure-neighbor-group-add-paths
+       +---u bgp-common-global-group-use-multiple-paths
+       +---u bgp-common-mp-all-afi-safi-list-contents
+  grouping bgp-peer-group-base:
+    +-- config
+    |  +---u bgp-peer-group-config
+    |  +---u bgp-common-neighbor-group-config
+    +--ro state
+    |  +---u bgp-peer-group-config
+    |  +---u bgp-common-neighbor-group-config
+    |  +---u bgp-common-state
+    +-- timers
+    |  +-- config
+    |  |  +---u bgp-common-neighbor-group-timers-config
+    |  +--ro state
+    |     +---u bgp-common-neighbor-group-timers-config
+    +-- transport
+    |  +-- config
+    |  |  +---u bgp-common-neighbor-group-transport-config
+    |  +--ro state
+    |     +---u bgp-common-neighbor-group-transport-config
+    +-- error-handling
+    |  +-- config
+    |  |  +---u bgp-common-neighbor-group-error-handling-config
+    |  +--ro state
+    |     +---u bgp-common-neighbor-group-error-handling-config
+    +-- graceful-restart
+    |  +-- config
+    |  |  +---u bgp-common-graceful-restart-config
+    |  +--ro state
+    |     +---u bgp-common-graceful-restart-config
+    +---u bgp-common-structure-neighbor-group-logging-options
+    +---u bgp-common-structure-neighbor-group-ebgp-multihop
+    +---u bgp-common-structure-neighbor-group-route-reflector
+    +---u bgp-common-structure-neighbor-group-as-path-options
+    +---u bgp-common-global-group-use-multiple-paths
+    +---u oc-rpol:apply-policy-group
+    +-- afi-safis
+       +---u bgp-peer-group-afi-safi-list
+  grouping bgp-peer-group-list:
+    +-- peer-group* [peer-group-name]
+       +-- peer-group-name?       -> ../config/peer-group-name
+       +---u bgp-peer-group-base
+       +---u oc-bfd:bfd-enable
+  grouping bgp-common-structure-neighbor-group-logging-options:
+    +-- logging-options
+       +-- config
+       |  +---u bgp-common-neighbor-group-logging-options-config
+       +--ro state
+          +---u bgp-common-neighbor-group-logging-options-config
+  grouping bgp-common-structure-neighbor-group-ebgp-multihop:
+    +-- ebgp-multihop
+       +-- config
+       |  +---u bgp-common-neighbor-group-multihop-config
+       +--ro state
+          +---u bgp-common-neighbor-group-multihop-config
+  grouping bgp-common-structure-neighbor-group-route-reflector:
+    +-- route-reflector
+       +-- config
+       |  +---u bgp-common-neighbor-group-route-reflector-config
+       +--ro state
+          +---u bgp-common-neighbor-group-route-reflector-config
+  grouping bgp-common-structure-neighbor-group-as-path-options:
+    +-- as-path-options
+       +-- config
+       |  +---u bgp-common-neighbor-group-as-path-options-config
+       +--ro state
+          +---u bgp-common-neighbor-group-as-path-options-config
+  grouping bgp-common-structure-neighbor-group-add-paths:
+    +-- add-paths
+       +-- config
+       |  +---u bgp-common-neighbor-group-add-paths-config
+       +--ro state
+          +---u bgp-common-neighbor-group-add-paths-config

@@ -1,0 +1,24 @@
+module: openconfig-aft-network-instance
+
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:afts/oc-ni:next-hops/oc-ni:next-hop/oc-ni:state:
+    +---u aft-nexthop-ni-state
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:afts/oc-ni:ipv4-unicast/oc-ni:ipv4-entry/oc-ni:state:
+    +---u aft-entry-nexthop-group-state
+    +---u aft-entry-ni-state
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:afts/oc-ni:ipv6-unicast/oc-ni:ipv6-entry/oc-ni:state:
+    +---u aft-entry-nexthop-group-state
+    +---u aft-entry-ni-state
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:afts/oc-ni:policy-forwarding/oc-ni:policy-forwarding-entry/oc-ni:state:
+    +---u aft-entry-nexthop-group-state
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:afts/oc-ni:mpls/oc-ni:label-entry/oc-ni:state:
+    +---u aft-entry-nexthop-group-state
+  augment /oc-ni:network-instances/oc-ni:network-instance/oc-ni:afts/oc-ni:ethernet/oc-ni:mac-entry/oc-ni:state:
+    +---u aft-entry-nexthop-group-state
+
+  grouping aft-nexthop-ni-state:
+    +-- network-instance?   oc-ni:network-instance-ref
+  grouping aft-entry-ni-state:
+    +-- origin-network-instance?   oc-ni:network-instance-ref
+  grouping aft-entry-nexthop-group-state:
+    +-- next-hop-group?                    -> /oc-ni:network-instances/network-instance/afts/next-hop-groups/next-hop-group/state/id
+    +-- next-hop-group-network-instance?   oc-ni:network-instance-ref

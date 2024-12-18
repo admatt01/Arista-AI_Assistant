@@ -1,0 +1,53 @@
+module: openconfig-openflow
+
+  augment /oc-sys:system:
+    +---u openflow-top
+
+  grouping openflow-controller-config:
+    +-- name?   string
+  grouping openflow-controller-state:
+  grouping openflow-controllers-top:
+    +-- controllers
+       +-- controller* [name]
+          +-- name?                       -> ../config/name
+          +-- config
+          |  +---u openflow-controller-config
+          +--ro state
+          |  +---u openflow-controller-config
+          +---u openflow-connections-top
+  grouping openflow-connections-config:
+    +-- aux-id?             of-types:auxiliary-id
+    +-- priority?           uint8
+    +-- address?            oc-inet:ip-address
+    +-- port?               oc-inet:port-number
+    +-- transport?          of-types:transport
+    +-- certificate-id?     string
+    +-- source-interface?   oc-if:base-interface-ref
+  grouping openflow-connections-state:
+    +-- connected?   boolean
+  grouping openflow-connections-top:
+    +-- connections
+       +-- connection* [aux-id]
+          +-- aux-id?   -> ../config/aux-id
+          +-- config
+          |  +---u openflow-connections-config
+          +--ro state
+             +---u openflow-connections-config
+             +---u openflow-connections-state
+  grouping openflow-agent-config:
+    +-- datapath-id?        of-types:datapath-id
+    +-- failure-mode?       of-types:failure-mode
+    +-- backoff-interval?   uint32
+    +-- max-backoff?        uint32
+    +-- inactivity-probe?   uint32
+  grouping openflow-agent-state:
+  grouping openflow-agent-top:
+    +-- agent
+       +-- config
+       |  +---u openflow-agent-config
+       +--ro state
+          +---u openflow-agent-config
+  grouping openflow-top:
+    +-- openflow
+       +---u openflow-controllers-top
+       +---u openflow-agent-top

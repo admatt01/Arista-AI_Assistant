@@ -1,0 +1,26 @@
+module: openconfig-gnsi-acctz
+
+  augment /oc-sys:system/oc-sys-grpc:grpc-servers/oc-sys-grpc:grpc-server:
+    +---u grpc-server-acctz-counters
+
+  grouping client-counters:
+    +-- client-counters
+       +-- history-istruncated?   oc-yang:counter64
+       +-- idle-timeouts?         oc-yang:counter64
+       +-- record-requests?       oc-yang:counter64
+       +-- record-responses?      oc-yang:counter64
+  grouping source-counters:
+    +-- source-counters
+       +-- source-records* [service type]
+          +-- service?   -> ../state/service
+          +-- type?      -> ../state/type
+          +-- state
+             +-- service?   service-request
+             +-- type?      service-type
+             +-- records?   oc-yang:counter64
+  grouping grpc-server-acctz-counters:
+    +--ro acctz-counters
+       +--ro state
+       |  +--ro counters-last-cleared?   oc-types:timeticks64
+       |  +---u client-counters
+       +---u source-counters

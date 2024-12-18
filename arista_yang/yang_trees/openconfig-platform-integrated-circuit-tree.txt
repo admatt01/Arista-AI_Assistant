@@ -1,0 +1,23 @@
+module: openconfig-platform-integrated-circuit
+
+  augment /oc-platform:components/oc-platform:component/oc-platform:integrated-circuit:
+    +---u backplane-facing-capacity-structural
+    +---u integrated-circuit-memory
+
+  grouping backplane-facing-capacity-structural:
+    +-- backplane-facing-capacity
+       +--ro state
+          +---u backplane-capacity-state
+  grouping backplane-capacity-state:
+    +-- total?                        uint64
+    +-- total-operational-capacity?   uint64
+    +-- consumed-capacity?            uint64
+    +-- available-pct?                uint16
+  grouping integrated-circuit-memory:
+    +-- memory
+       +--ro state
+          +---u integrated-circuit-memory-state
+  grouping integrated-circuit-memory-state:
+    +-- corrected-parity-errors?     uint64
+    +-- uncorrected-parity-errors?   uint64
+    +-- total-parity-errors?         uint64

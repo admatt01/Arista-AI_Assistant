@@ -1,0 +1,13 @@
+submodule: openconfig-pf-path-groups (belongs-to openconfig-policy-forwarding)
+
+  grouping pf-path-groups-structural:
+    +-- path-selection-groups
+       +-- path-selection-group* [group-id]
+          +-- group-id?   -> ../config/group-id
+          +-- config
+          |  +---u pf-path-selection-group-config
+          +--ro state
+             +---u pf-path-selection-group-config
+  grouping pf-path-selection-group-config:
+    +-- group-id?   string
+    +-- mpls-lsp*   -> ../../../../../mpls/lsps/constrained-path/tunnels/tunnel/config/name

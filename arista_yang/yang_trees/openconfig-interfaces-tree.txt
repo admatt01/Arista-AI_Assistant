@@ -1,0 +1,128 @@
+module: openconfig-interfaces
+  +---u interfaces-top
+
+  grouping interface-ref-common:
+    +-- interface?      -> /interfaces/interface/name
+    +-- subinterface?   -> /interfaces/interface[oc-if:name=current()/../interface]/subinterfaces/subinterface/index
+  grouping interface-ref-state-container:
+    +--ro state
+       +---u interface-ref-common
+  grouping interface-ref:
+    +-- interface-ref
+       +-- config
+       |  +---u interface-ref-common
+       +---u interface-ref-state-container
+  grouping interface-ref-state:
+    +-- interface-ref
+       +---u interface-ref-state-container
+  grouping base-interface-ref-state:
+    +--ro state
+       +--ro interface?   base-interface-ref
+  grouping interface-common-config:
+    +-- description?   string
+    +-- enabled?       boolean
+  grouping interface-phys-config:
+    +-- name?                      string
+    +-- type                       identityref
+    +-- mtu?                       uint16
+    +-- loopback-mode?             oc-opt-types:loopback-mode-type
+    +---u interface-common-config
+  grouping interface-phys-holdtime-config:
+    +-- up?     uint32
+    +-- down?   uint32
+  grouping interface-phys-holdtime-state:
+  grouping interface-phys-holdtime-top:
+    +-- hold-time
+       +-- config
+       |  +---u interface-phys-holdtime-config
+       +--ro state
+          +---u interface-phys-holdtime-config
+  grouping interface-link-damping-config:
+    +-- max-suppress-time?    uint32
+    +-- decay-half-life?      uint32
+    +-- suppress-threshold?   uint32
+    +-- reuse-threshold?      uint32
+    +-- flap-penalty?         uint32
+  grouping interface-link-damping-state:
+  grouping link-damping-top:
+    +-- penalty-based-aied
+       +-- config
+       |  +---u interface-link-damping-config
+       +--ro state
+          +---u interface-link-damping-config
+  grouping interface-common-state:
+    +-- ifindex?        uint32
+    +-- admin-status    enumeration
+    +-- oper-status     enumeration
+    +-- last-change?    oc-types:timeticks64
+    +-- logical?        boolean
+    +-- management?     boolean
+    +-- cpu?            boolean
+  grouping interface-common-counters-state:
+    +-- in-octets?            oc-yang:counter64
+    +-- in-pkts?              oc-yang:counter64
+    +-- in-unicast-pkts?      oc-yang:counter64
+    +-- in-broadcast-pkts?    oc-yang:counter64
+    +-- in-multicast-pkts?    oc-yang:counter64
+    +-- in-errors?            oc-yang:counter64
+    +-- in-discards?          oc-yang:counter64
+    +-- out-octets?           oc-yang:counter64
+    +-- out-pkts?             oc-yang:counter64
+    +-- out-unicast-pkts?     oc-yang:counter64
+    +-- out-broadcast-pkts?   oc-yang:counter64
+    +-- out-multicast-pkts?   oc-yang:counter64
+    +-- out-discards?         oc-yang:counter64
+    +-- out-errors?           oc-yang:counter64
+    +-- last-clear?           oc-types:timeticks64
+  grouping interface-counters-state:
+    +-- in-unknown-protos?     oc-yang:counter64
+    +-- in-fcs-errors?         oc-yang:counter64
+    +-- carrier-transitions?   oc-yang:counter64
+    +-- resets?                oc-yang:counter64
+  grouping subinterfaces-counters-state:
+    x-- in-unknown-protos?     oc-yang:counter64
+    x-- in-fcs-errors?         oc-yang:counter64
+    x-- carrier-transitions?   oc-yang:counter64
+  grouping sub-unnumbered-config:
+    +-- enabled?   boolean
+  grouping sub-unnumbered-state:
+  grouping sub-unnumbered-top:
+    +-- unnumbered
+       +-- config
+       |  +---u sub-unnumbered-config
+       +--ro state
+       |  +---u sub-unnumbered-config
+       +---u oc-if:interface-ref
+  grouping subinterfaces-config:
+    +-- index?                     uint32
+    +---u interface-common-config
+  grouping subinterfaces-state:
+    +-- name?                     string
+    +---u interface-common-state
+    +-- counters
+       +---u interface-common-counters-state
+       +---u subinterfaces-counters-state
+  grouping subinterfaces-top:
+    +-- subinterfaces
+       +-- subinterface* [index]
+          +-- index?    -> ../config/index
+          +-- config
+          |  +---u subinterfaces-config
+          +--ro state
+             +---u subinterfaces-config
+             +---u subinterfaces-state
+  grouping interfaces-top:
+    +-- interfaces
+       +-- interface* [name]
+          +-- name?                          -> ../config/name
+          +-- config
+          |  +---u interface-phys-config
+          +--ro state
+          |  +---u interface-phys-config
+          |  +---u interface-common-state
+          |  +--ro counters
+          |     +---u interface-common-counters-state
+          |     +---u interface-counters-state
+          +---u interface-phys-holdtime-top
+          +---u link-damping-top
+          +---u subinterfaces-top
