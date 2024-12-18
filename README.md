@@ -238,7 +238,7 @@ streamlit run Arista_EOS_Assistant.py
 
 The application will be available at http://localhost:8501 by default.
 
-## Usage Examples
+## Usage Examples - Examples of code the Assistant will invoke to carry out your instructions
 
 ### Basic Configuration
 
