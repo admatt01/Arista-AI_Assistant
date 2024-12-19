@@ -36,8 +36,6 @@ class GNMIConnectionPool:
                 'username': username,
                 'password': password,
                 'insecure': True,
-                'override': 'ascii',
-                'encoding': 'ascii',
                 'timeout': 30  # 30 second timeout
             }
             
@@ -138,14 +136,17 @@ async def set_gnmi_config(target: str, path: str, value: str, username: str, pas
         
         try:
             if path.startswith("cli:"):
+                # For CLI commands, path must be exactly "cli:" with no additional path elements
                 response = client.set(
                     encoding='ascii',
                     update=[
-                        (path, value, 'ascii')
+                        ('cli:', value, 'ascii')
                     ]
                 )
             else:
+                # For non-CLI paths, use JSON encoding
                 response = client.set(
+                    encoding='json_ietf',
                     update=[
                         (path, value)
                     ]
@@ -252,6 +253,7 @@ async def apply_cli_commands(params: dict):
                 client = connection_pool.get_connection(target, username, password)
                 
                 try:
+                    # Use ASCII encoding for CLI commands with empty path
                     response = client.set(
                         encoding='ascii',
                         update=[
