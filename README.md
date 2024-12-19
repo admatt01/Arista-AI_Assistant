@@ -8,6 +8,20 @@ A Streamlit-based application for managing Arista network devices using gNMI (gR
 - Real-time state synchronization
 - Reduced operational overhead
 
+## Features
+
+- Natural language interface for network configuration, troubleshooting and administration
+- Support for gNMI operations (GET, SET)
+- Supports CLI path command execution and OpenConfig paths through gNMI
+- Supports Arista EOS native paths through gNMI
+- Interrogate and configure multiple devices simultaneously using concurrent sessions
+- Real-time feedback and status updates
+- Secure credential management
+- Automatic timestamp conversion to AEDT
+- Human-readable uptime formatting
+- YANG model discovery
+- Jinja2 Template-based configuration
+
 ## Azure OpenAI Setup
 
 This project requires an Azure Account and proper setup in Azure AI Foundry:
@@ -38,24 +52,11 @@ This project requires an Azure Account and proper setup in Azure AI Foundry:
 
 ## Setup your .env file
 
-- Refer to the screenshot "Azure_OpenAI_Resource.png" to help you navigate to your project variables. These can be revealed by clicking the downward facing arrow at the top righ of the Playground window next to your Project Name.
+- Refer to the screenshot "Azure_OpenAI_Resource.png" to help you navigate to your project variables. These can be revealed by clicking the downward facing arrow at the top right of the Playground window next to your Project Name.
 - Copy the endpoint and use it for the AZURE_OPENAI_ENDPOINT environment variable
 - Copy the key and use it for the AZURE_OPENAI_API_KEY environment variable
 - Copy your Assistant ID from the Assistants Setup window and use it for the AZURE_OPENAI_ASSISTANT_ID environment variable
 
-## Features
-
-- Natural language interface for network configuration, troubleshooting and administration
-- Support for gNMI operations (GET, SET)
-- Supports CLI path command execution and OpenConfig paths through gNMI
-- Supports Arista EOS native paths through gNMI
-- Interrogate and configure multiple devices simultaneously using concurrent sessions
-- Real-time feedback and status updates
-- Secure credential management
-- Automatic timestamp conversion to AEDT
-- Human-readable uptime formatting
-- YANG model discovery
-- Jinja2 Template-based configuration
 
 ## Network Environment Requirements
 
@@ -553,19 +554,19 @@ pip install -r requirements.txt
 
 ## Security Notes
 
-- Never commit .env or hosts.json files to the repository
+- Never commit your .env or hosts.json files to a GitHub repository
 - Use environment variables for sensitive credentials
 - Consider using a secrets manager in production
 - Review device credentials and access periodically
 - On Linux, ensure proper file permissions for sensitive files
-- The --insecure flag should only be used in development/testing; use TLS in production
+- The --insecure flag should only be used in development/testing; use TLS in production. Refer to Arista's gNMI documentation for using certificates in a production environment. **The code would need to be updated accordingly**
 - Azure OpenAI provides enterprise-grade security and privacy:
   - Data is not shared with OpenAI
   - Data is not used to train models
-  - All data remains within your Azure tenant
-- The LLM itself has no direct network connectivity
+  - All data remains within your Azure tenant and is subject to Azure's Privacy and Security Policies
+  - The gpt-4o-mini LLM itself has no direct network connectivity
   - All device communication is handled via Python gNMI functions
-  - Network operations are strictly controlled through defined functions
+  - All network operations are strictly controlled through defined functions
 
 ## Contributing
 
