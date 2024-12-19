@@ -1,3 +1,4 @@
+hostname,ceos-leaf-1
 eth1_ip,10.0.0.2
 eth2_ip,10.0.0.10
 loopback_ip,3.3.3.3
