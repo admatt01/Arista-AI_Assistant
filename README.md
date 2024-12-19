@@ -20,7 +20,7 @@ A Streamlit-based application for managing Arista network devices using gNMI (gR
 - Automatic timestamp conversion to AEDT
 - Human-readable uptime formatting
 - YANG model discovery
-- Jinja2 Template-based configuration
+- Jinja2 Template-based configuration using CSV format parameters
 
 ## Azure OpenAI Setup
 
@@ -202,7 +202,7 @@ AZURE_OPENAI_ASSISTANT_ID=your_Azure_OpenAI_assistant_id
 
 ## Working with Jinja2 Templates
 
-The Assistant can help automate your Arista network configuration using Jinja2 templates and CSV parameter files:
+The Assistant can help automate your Arista network configuration using Jinja2 templates and CSV formatted template parameters:
 
 1. Create a Jinja2 Template:
    - Request a template from the Assistant based on your target device's running configuration
@@ -220,8 +220,8 @@ The Assistant can help automate your Arista network configuration using Jinja2 t
    - You can ask the Assistant to display any of the templates and their variables requirements for any template visible in the "Available Templates" section on the Streamlit sidebar
 
 4. Render a Configuration:
-   - Upload your template parameters CSV to the Assistant's code-interpreter using "Upload Parameters CSV" in the Parameters File Upload section on the Streamlit sidebar.
-   - Request the Assistant to render the configuration using your template and variables
+   - Upload the CSV file containing the parameters for your template to the Assistant's code-interpreter using "Upload Parameters CSV" in the Parameters File Upload section on the Streamlit sidebar
+   - Request the Assistant to render the configuration using your template and variables from the uploaded paramters file
 
 5. Push configurations to the devices:
    - Once rendered you can instruct the Assistant to push the configuration to the device
