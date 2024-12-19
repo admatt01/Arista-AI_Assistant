@@ -1,0 +1,58 @@
+! device: ceos-leaf-2 (cEOSLab, EOS-4.33.0F-39050855.4330F (engineering build))
+hostname ceos-leaf-2
+interface Ethernet1
+  description Link to Spine1
+  ip address 10.0.0.6/30
+  no switchport
+interface Ethernet2
+  description Link to Spine2
+  ip address 10.0.0.14/30
+  no switchport
+interface Ethernet3
+  switchport access vlan 102
+interface Loopback0
+  ip address 4.4.4.4/32
+interface Management0
+  description Management Interface
+  ip address 172.20.20.5/24
+  ipv6 address 3fff:172:20:20::4/64
+interface Vlan102
+  ip address 10.0.102.1/24
+  no autostate
+ip route 0.0.0.0/0 172.20.20.1
+ip routing
+ipv6 route ::/0 3fff:172:20:20::1
+management api gnmi
+  operation set persistence
+  provider eos-native
+  transport grpc default
+management api http-commands
+  no shutdown
+management api models
+  provider aft
+    ipv4-unicast
+  provider configuration
+    history limit 10
+    updates
+management api netconf
+  transport ssh default
+no aaa root
+no service interface inactive port-id allocation disabled
+router bgp 65002
+  neighbor 10.0.0.13 remote-as 65006
+  neighbor 10.0.0.5 remote-as 65005
+  network 10.0.102.0/24
+  router-id 4.4.4.4
+router multicast
+  ipv4
+    software-forwarding kernel
+  ipv6
+    software-forwarding kernel
+service routing protocols model multi-agent
+spanning-tree mode mstp
+system l1
+  unsupported error-correction action error
+  unsupported speed action error
+transceiver qsfp default-mode 4x10G
+username admin privilege 15 role network-admin secret sha512 $6$Lt7vV6P5lvVP4XdY$rsaS6XfHixPsiZw6dtD2oLXk2q/scaLoNvlbYm9iTUpO9eWzJeVXq1.HESqKT3TbQ19zYy/cW.gymNpeZhsL0/
+vlan 102

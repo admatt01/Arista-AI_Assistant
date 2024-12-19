@@ -1,0 +1,37 @@
+graph TB
+    %% Spine Layer
+    subgraph Spine
+        S1[ceos-spine-1<br/>172.20.20.2]
+        S2[ceos-spine-2<br/>172.20.20.3]
+    end
+
+    %% Leaf Layer
+    subgraph Leaf
+        L1[ceos-leaf-1<br/>172.20.20.4]
+        L2[ceos-leaf-2<br/>172.20.20.5]
+    end
+
+    %% Host Layer
+    subgraph Hosts
+        H1[alpine-1<br/>10.0.101.10]
+        H2[alpine-2<br/>10.0.102.10]
+    end
+
+    %% Connections between spine and leaf
+    S1 ---|eth1:eth1| L1
+    S1 ---|eth2:eth1| L2
+    S2 ---|eth1:eth2| L1
+    S2 ---|eth2:eth2| L2
+
+    %% Connections to hosts
+    L1 --- |eth3:eth1| H1
+    L2 --- |eth3:eth1| H2
+
+    %% Styling
+    classDef spine fill:#f96,stroke:#333,color:#000
+    classDef leaf fill:#9cf,stroke:#333,color:#000
+    classDef host fill:#9f9,stroke:#333,color:#000
+
+    class S1,S2 spine
+    class L1,L2 leaf
+    class H1,H2 host

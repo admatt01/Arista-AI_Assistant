@@ -1,0 +1,39 @@
+name: ceos-leaf-spine_alpine
+
+topology:
+  nodes:
+    ceos-spine-1:
+      kind: ceos
+      image: ceos:4.33.0F
+      mgmt-ipv4: 172.20.20.2
+      startup-config: /home/matt/ceos/configs/leaf-spine/ceos-spine-1.txt
+    ceos-spine-2:
+      kind: ceos
+      image: ceos:4.33.0F
+      mgmt-ipv4: 172.20.20.3
+      startup-config: /home/matt/ceos/configs/leaf-spine/ceos-spine-2.txt
+    ceos-leaf-1:
+      kind: ceos
+      image: ceos:4.33.0F
+      mgmt-ipv4: 172.20.20.4
+      startup-config: /home/matt/ceos/configs/leaf-spine/ceos-leaf-1.txt
+    ceos-leaf-2:
+      kind: ceos
+      image: ceos:4.33.0F
+      mgmt-ipv4: 172.20.20.5
+      startup-config: /home/matt/ceos/configs/leaf-spine/ceos-leaf-2.txt
+    alpine-1:
+      kind: linux
+      image: alpine:latest
+      mgmt-ipv4: 10.0.101.10
+    alpine-2:
+      kind: linux
+      image: alpine:latest
+      mgmt-ipv4: 10.0.102.10
+  links:
+    - endpoints: ["ceos-spine-1:eth1", "ceos-leaf-1:eth1"]
+    - endpoints: ["ceos-spine-1:eth2", "ceos-leaf-2:eth1"]
+    - endpoints: ["ceos-spine-2:eth1", "ceos-leaf-1:eth2"]
+    - endpoints: ["ceos-spine-2:eth2", "ceos-leaf-2:eth2"]
+    - endpoints: ["ceos-leaf-1:eth3", "alpine-1:eth1"]
+    - endpoints: ["ceos-leaf-2:eth3", "alpine-2:eth1"]

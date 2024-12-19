@@ -1,0 +1,53 @@
+! device: ceos-spine-1 (cEOSLab, EOS-4.33.0F-39050855.4330F (engineering build))
+hostname ceos-spine-1
+interface Ethernet1
+  description Link to Leaf-1
+  ip address 10.0.0.1/30
+  no switchport
+interface Ethernet2
+  description Link to Leaf-2
+  ip address 10.0.0.5/30
+  no switchport
+interface Ethernet3
+interface Loopback0
+  ip address 1.1.1.1/32
+interface Management0
+  description ceos-spine-1 Management Interface
+  ip address 172.20.20.2/24
+  ipv6 address 3fff:172:20:20::5/64
+ip route 0.0.0.0/0 172.20.20.1
+ip routing
+ipv6 route ::/0 3fff:172:20:20::1
+management api gnmi
+  operation set persistence
+  provider eos-native
+  transport grpc default
+management api http-commands
+  no shutdown
+management api models
+  provider aft
+    ipv4-unicast
+  provider configuration
+    history limit 10
+    updates
+management api netconf
+  transport ssh default
+no aaa root
+no service interface inactive port-id allocation disabled
+router bgp 65005
+  maximum-paths 2
+  neighbor 10.0.0.2 remote-as 65001
+  neighbor 10.0.0.6 remote-as 65002
+  router-id 1.1.1.1
+router multicast
+  ipv4
+    software-forwarding kernel
+  ipv6
+    software-forwarding kernel
+service routing protocols model multi-agent
+spanning-tree mode mstp
+system l1
+  unsupported error-correction action error
+  unsupported speed action error
+transceiver qsfp default-mode 4x10G
+username admin privilege 15 role network-admin secret sha512 $6$VMMJp9kkeyVbxgAF$DkFS5zMH4cOyOVHLG2geMP7n6TsgZJtvPEZbDgKZtxXqw4A8NKBR.md1bvo5zfowXLfTR6UjJDbhHtnTqMeR/0

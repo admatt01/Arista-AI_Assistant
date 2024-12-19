@@ -49,7 +49,7 @@ This project requires an Azure Account and proper setup in Azure AI Foundry:
 - Support for gNMI operations (GET, SET)
 - Supports CLI path command execution and OpenConfig paths through gNMI
 - Supports Arista EOS native paths through gNMI
-- Multi-device configuration and administration through concurrent sessions
+- Interrogate and configure multiple devices simultaneously using concurrent sessions
 - Real-time feedback and status updates
 - Secure credential management
 - Automatic timestamp conversion to AEDT
@@ -60,7 +60,7 @@ This project requires an Azure Account and proper setup in Azure AI Foundry:
 ## Network Environment Requirements
 
 - The host running this application must have network reachability to the network management VRF
-- Port 6030 (gNMI) must be accessible and not blocked by firewalls/ACLs
+- Port 6030 on Arista devices (gNMI) must be accessible and not blocked by firewalls/ACLs
 - All testing has been done with Arista cEOS Lab 4.33.0F (downloadable for free by registering on arista.com)
 - Recommended test environment: cEOS 4.33.0F running in Containerlab
 
@@ -207,20 +207,26 @@ The Assistant can help automate your Arista network configuration using Jinja2 t
    - Request a template from the Assistant based on your target device's running configuration
    - Copy the template to /device_config_templates/[template_name].jinja2
 
-2. Save Template Variables:
-   - Copy the Assistant-provided CSV format variables
+2. Produce and Save Template Variables:
+   - Copy the Assistant-provided CSV format variables/parameters
    - Save as /device_config_templates/[device_hostname]-template_values.csv
+   - Create parameters CSV files for additional devices as required for use with the templates when you need to add new devices to your network
 
 3. Access Available Templates:
    - Templates appear in the "Available Templates" section on the Streamlit sidebar
    - The Assistant can use these for rendering configurations
    - Restart your Streamlit session if the templates don't appear in the "Available Templates" section after uploading
+   - You can ask the Assistant to display any of the templates and their variables requirements for any template visible in the "Available Templates" section on the Streamlit sidebar
 
 4. Render a Configuration:
-   - Upload your template values CSV to the Assistant's code-interpreter using "Upload Parameters CSV"
+   - Upload your template parameters CSV to the Assistant's code-interpreter using "Upload Parameters CSV" in the Parameters File Upload section on the Streamlit sidebar.
    - Request the Assistant to render the configuration using your template and variables
 
-Note: Templates are only available during the current session.
+5. Push configurations to the devices:
+   - Once rendered you can instruct the Assistant to push the configuration to the device
+   - You can render multiple configurations by uploading mutiple parameters CSV files to the Assistant using the File Uploader in the Streamlit sidebar and instructing the Assistant to render multiple configurations and bulk push them to the associated Arista devices
+
+Note: Templates are available to the Assistant's code-interpreter during the current session.
 
 ### Running the Application
 
@@ -238,7 +244,137 @@ streamlit run Arista_EOS_Assistant.py
 
 The application will be available at http://localhost:8501 by default.
 
-## Usage Examples - Examples of code the Assistant will invoke to carry out your instructions
+## Screenshots and examples
+
+A far from exhaustive list of prompts with examples of the Assistant's capabilities can be found in the screenshots folder. The Assistant is particulary powerful when used to query multiple devices concurrently, e.g:
+ - "show me the BGP routes on all four devices" 
+ - "show me Tx packets for ethernet1 on ceos-leaf-1 and Rx packets for ethernet1 on ceos-spine-1"
+ - "add a static route for 172.27.1.0/24 next-hop 10.0.0.1 on ceos-leaf-1. For ceos-leaf-2 add the same route with next-hop 10.0.0.5. Please confirm the task before proceeding."
+
+There are thousands of possibilities. Be imaginative and explore the Assistant's capabilities!
+
+## Containerlab
+
+[Containerlab](https://containerlab.dev/) is a CLI driven package for orchestrating and managing container based networking labs. It starts the containers and creates virtual wiring between them to create lab toplogies derived from simple YAML topology files. Containlerlab has a one line installer and is the easiest and most resource efficient way to produce networking labs for testing the Arista AI Assistant.
+
+### Getting Started with Containerlab
+
+1. Install Containerlab (one-line installer):
+```bash
+bash -c "$(curl -sL https://get.containerlab.dev)"
+```
+
+2. Download Arista cEOS:
+   - Register for a free account at [arista.com](https://www.arista.com)
+   - Navigate to Software Downloads > cEOS-lab
+   - Download cEOS-lab-4.33.0F.tar
+   - Import the image:
+   ```bash
+   docker import cEOS-lab-4.33.0F.tar ceos:4.33.0F
+   ```
+
+3. Clone this repository to get the lab files:
+   - The containerlab directory contains all necessary files for a complete test environment
+   - Configuration files are provided for all devices in the topology
+
+To help get up to speed quickly with the Assistant using Arista cEOS, I have included the following files in the containerlab directory:
+- topology.yaml - This will produce the same topology that was used to develop and test the Assistant
+- ceos-leaf-1.txt - The configuration file for ceos-leaf-1
+- ceos-leaf-2.txt - The configuration file for ceos-leaf-2
+- ceos-spine-1.txt - The configuration file for ceos-spine-1
+- ceos-spine-2.txt - The configuration file for ceos-spine-2
+
+The topology.yaml file defines the lab environment and references the startup configurations for each device. Here's an example with detailed comments:
+
+```yaml
+# Lab name - used as a prefix for container names
+name: ceos-leaf-spine_alpine
+
+topology:
+  nodes:
+    # Spine layer switches
+    ceos-spine-1:
+      kind: ceos                    # Specifies this is a cEOS container
+      image: ceos:4.33.0F          # Docker image to use
+      mgmt-ipv4: 172.20.20.2       # Management IP address
+      startup-config: /path/to/your/device/configs/ceos-spine-1.txt  # Initial config file
+      
+    ceos-spine-2:
+      kind: ceos
+      image: ceos:4.33.0F
+      mgmt-ipv4: 172.20.20.3
+      startup-config: /path/to/your/device/configs/ceos-spine-2.txt
+
+    # Leaf layer switches
+    ceos-leaf-1:
+      kind: ceos
+      image: ceos:4.33.0F
+      mgmt-ipv4: 172.20.20.4
+      startup-config: /path/to/your/device/configs/ceos-leaf-1.txt
+
+    ceos-leaf-2:
+      kind: ceos
+      image: ceos:4.33.0F
+      mgmt-ipv4: 172.20.20.5
+      startup-config: /path/to/your/device/configs/ceos-leaf-2.txt
+
+    # Optional Alpine Linux hosts for testing
+    alpine-1:
+      kind: linux
+      image: alpine:latest
+      mgmt-ipv4: 10.0.101.10
+
+    alpine-2:
+      kind: linux
+      image: alpine:latest
+      mgmt-ipv4: 10.0.102.10
+```
+
+Note: Edit the startup-config paths in the topology.yaml file to match the actual location of your configuration files on your system.
+
+## Containerlab Test Topology
+
+```mermaid
+graph TB
+    %% Spine Layer
+    subgraph Spine
+        S1[ceos-spine-1<br/>172.20.20.2]
+        S2[ceos-spine-2<br/>172.20.20.3]
+    end
+
+    %% Leaf Layer
+    subgraph Leaf
+        L1[ceos-leaf-1<br/>172.20.20.4]
+        L2[ceos-leaf-2<br/>172.20.20.5]
+    end
+
+    %% Host Layer
+    subgraph Hosts
+        H1[alpine-1<br/>10.0.101.10]
+        H2[alpine-2<br/>10.0.102.10]
+    end
+
+    %% Connections between spine and leaf
+    S1 ---|eth1:eth1| L1
+    S1 ---|eth2:eth1| L2
+    S2 ---|eth1:eth2| L1
+    S2 ---|eth2:eth2| L2
+
+    %% Connections to hosts
+    L1 --- |eth3:eth1| H1
+    L2 --- |eth3:eth1| H2
+
+    %% Styling
+    classDef spine fill:#f96,stroke:#333,color:#000
+    classDef leaf fill:#9cf,stroke:#333,color:#000
+    classDef host fill:#9f9,stroke:#333,color:#000
+
+    class S1,S2 spine
+    class L1,L2 leaf
+    class H1,H2 host
+```
+
+## Examples of code the Assistant will invoke to carry out various operations
 
 ### Basic Configuration
 

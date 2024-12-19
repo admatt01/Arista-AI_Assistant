@@ -5,28 +5,28 @@
       "target": "172.20.20.2:6030",
       "username": "admin",
       "password": "admin",
-      "description": "Arista EOS Spine Switch 1"
+      "description": "Spine Switch 1"
     },
     "ceos-spine-2": {
       "hostname": "ceos-spine-2", 
       "target": "172.20.20.3:6030",
       "username": "admin",
       "password": "admin",
-      "description": "Arista EOS Spine Switch 2"
+      "description": "Spine Switch 2"
     },
     "ceos-leaf-1": {
       "hostname": "ceos-leaf-1",
       "target": "172.20.20.4:6030",
       "username": "admin",
       "password": "admin",
-      "description": "Arista EOS Leaf Switch 1"
+      "description": "Leaf Switch 1"
     },
     "ceos-leaf-2": {
       "hostname": "ceos-leaf-2", 
       "target": "172.20.20.5:6030",
       "username": "admin",
       "password": "admin",
-      "description": "Arista EOS Leaf Switch 2"
+      "description": "Leaf Switch 2"
     }
   }
 }

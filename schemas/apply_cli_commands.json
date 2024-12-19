@@ -29,14 +29,11 @@
         "description": "List of CLI commands to execute. Supports configuration contexts (interface, router, etc.).",
         "examples": [
           [
-            "configure terminal",
             "interface Ethernet1",
             "description Test Interface",
             "no shutdown",
-            "exit",
             "router bgp 65001",
-            "neighbor 192.168.1.1 remote-as 65002",
-            "end"
+            "neighbor 192.168.1.1 remote-as 65002"
           ]
         ]
       },
