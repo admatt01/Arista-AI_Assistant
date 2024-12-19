@@ -253,14 +253,10 @@ uploaded_file = st.sidebar.file_uploader("Upload Parameters CSV", type=['csv'])
 if uploaded_file:
     try:
         # Read CSV content
-        df = pd.read_csv(uploaded_file)
+        df = pd.read_csv(uploaded_file, header=None, names=['Parameter', 'Value'])
         
-        # Convert DataFrame to a more readable format
-        parameters = {}
-        for _, row in df.iterrows():
-            param_name = row.iloc[0]  # First column is parameter name
-            param_value = row.iloc[1]  # Second column is parameter value
-            parameters[param_name] = param_value
+        # Convert DataFrame to dictionary
+        parameters = dict(zip(df['Parameter'], df['Value']))
         
         # Store as JSON
         st.session_state.csv_content = json.dumps(parameters, indent=2)
