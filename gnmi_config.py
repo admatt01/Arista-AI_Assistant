@@ -310,7 +310,7 @@ async def apply_cli_commands(params: dict):
         }
 
     # Execute configuration tasks concurrently with semaphore to limit concurrent connections
-    sem = asyncio.Semaphore(5)  # Limit to 5 concurrent connections
+    sem = asyncio.Semaphore(6)  # Limit to 6 concurrent connections
     
     async def wrapped_configure(target):
         async with sem:
