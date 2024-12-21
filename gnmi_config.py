@@ -4,7 +4,6 @@ import json
 import yaml
 import asyncio
 import threading
-import dictdiffer
 from typing import List, Dict, Any, Union
 from pygnmi.client import gNMIclient
 from datetime import datetime, timezone
