@@ -43,8 +43,7 @@ This project requires an Azure Account and proper setup in Azure AI Foundry:
 5. Return to Assistants:
    - Enable File Search under Tools and select your vector store
    - Enable Code Interpreter
-   - Click Add Function and paste the contents of each schema file:
-     - /schemas/apply_cli_commands.json
+   - Click Add Function and paste the contents of /schemas/apply_cli_commands.json and save. Repeat the process for the remaining three function schemas:
      - /schemas/read_template.json
      - /schemas/gnmi_get.json
      - /schemas/gnmi_configure.json
@@ -247,7 +246,7 @@ The application will be available at http://localhost:8501 by default.
 
 ## Screenshots and examples
 
-A far from exhaustive list of prompts with examples of the Assistant's capabilities can be found in the screenshots folder. The Assistant is particulary powerful when used to query multiple devices concurrently, e.g:
+A number of screenshots with examples of the Assistant's capabilities can be found in the screenshots folder. The Assistant is particulary powerful when used to query multiple devices concurrently, e.g:
  - "show me the BGP routes on all four devices" 
  - "show me Tx packets for ethernet1 on ceos-leaf-1 and Rx packets for ethernet1 on ceos-spine-1"
  - "add a static route for 172.27.1.0/24 next-hop 10.0.0.1 on ceos-leaf-1. For ceos-leaf-2 add the same route with next-hop 10.0.0.5. Please confirm the task before proceeding."
